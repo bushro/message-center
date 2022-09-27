@@ -17,7 +17,7 @@ public interface IWechatService {
      * @param configId : 配置id
      * @param fileType : 文件类型，请看{@link me.chanjar.weixin.common.api.WxConsts.MediaFileType}
      * @param media :
-     * @return : ssa.web.common.entity.R
+     * @return : com.bushro.common.entity.R
      */
 
     R upload(String configId, String fileType, MultipartFile media);

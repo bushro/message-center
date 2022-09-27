@@ -15,7 +15,7 @@ public interface IDingTalkService {
      * @param configId : 配置id
      * @param fileType : 文件类型，媒体文件类型：image：图片、voice：语音、file：普通文件、video：视频
      * @param media :
-     * @return : ssa.web.common.entity.R
+     * @return : com.bushro.common.entity.R
      */
 
     R upload(String configId, String fileType, MultipartFile media);

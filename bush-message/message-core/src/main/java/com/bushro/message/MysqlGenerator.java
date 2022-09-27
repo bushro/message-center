@@ -121,10 +121,10 @@
 //        StrategyConfig strategy = new StrategyConfig();
 //        strategy.setNaming(NamingStrategy.underline_to_camel);
 //        strategy.setColumnNaming(NamingStrategy.underline_to_camel);
-//        // strategy.setSuperEntityClass("ssa.web.mybatis.ssa.web.message.entity.BaseEntity");
+//        // strategy.setSuperEntityClass("com.bushro.mybatis.com.bushro.message.entity.BaseEntity");
 //        strategy.setEntityLombokModel(false);
 //        strategy.setSuperServiceClass(BaseService.class.getName());
-//        strategy.setSuperEntityClass("ssa.web.common.entity.BaseEntity");
+//        strategy.setSuperEntityClass("com.bushro.common.entity.BaseEntity");
 //        strategy.setSuperMapperClass(MybatisMapper.class.getName());
 //        strategy.setSuperServiceImplClass(BaseServiceImpl.class.getName());
 //        // strategy.setSuperControllerClass("com.baomidou.mybatisplus.samples.generator.common.BaseController");
