@@ -2,6 +2,7 @@ package com.bushro.message.handle;
 
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.json.JSONObject;
+import com.bushro.message.consumer.ConsumerService;
 import com.bushro.message.service.IMessageRequestService;
 import com.bushro.message.utils.MessageHandlerUtils;
 import com.lmax.disruptor.EventHandler;
@@ -17,14 +18,17 @@ import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.Map;
 
+
 /**
- * 消息处理器基类
+ * 抽象消息处理程序
  *
- **/
-public abstract class MessageHandler<T extends BaseMessage> implements EventHandler<MessagePushDTO> {
+ * @author bushro
+ * @date 2022/09/27
+ */
+public abstract class AbstractMessageHandler<T extends BaseMessage> implements EventHandler<MessagePushDTO> {
 
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(MessageHandler.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(AbstractMessageHandler.class);
 
     @Resource
     private IMessageRequestService messageRequestService;
@@ -58,15 +62,7 @@ public abstract class MessageHandler<T extends BaseMessage> implements EventHand
             BaseMessage baseMessage = param == null ? (BaseMessage) ReflectUtil.newInstance(actualTypeArgument) : (BaseMessage) param.toBean(actualTypeArgument);
             baseMessage.setRequestNo(event.getRequestNo());
             baseMessage.setConfigIds(typeMessageDTO.getConfigIds());
-
-            // 记录请求参数信息
-            MessageRequest request = new MessageRequest();
-            request.setMessageType(messageType().name());
-            request.setPlatform(messageType().getPlatform().name());
-            request.setParam(event.getParam());
-            request.setCreateTime(LocalDateTime.now());
-            request.setRequestNo(event.getRequestNo());
-            messageRequestService.log(request);
+            log(event);
             // 最后调用实际消息处理的方法
             handle((T) baseMessage);
         } catch (Exception e) {
@@ -81,7 +77,24 @@ public abstract class MessageHandler<T extends BaseMessage> implements EventHand
 
     /**
      * 实现这个接口来处理消息，再正式调用这个方法之前会处理好需要的参数和需要的配置
+     *
+     * @param param 参数
      */
     public abstract void handle(T param);
+    /**
+     * 日志
+     *
+     * @param event 事件
+     */
+    public void log (MessagePushDTO event) {
+        // 记录请求参数信息
+        MessageRequest request = new MessageRequest();
+        request.setMessageType(messageType().name());
+        request.setPlatform(messageType().getPlatform().name());
+        request.setParam(event.getParam());
+        request.setCreateTime(LocalDateTime.now());
+        request.setRequestNo(event.getRequestNo());
+        messageRequestService.log(request);
+    }
 
 }

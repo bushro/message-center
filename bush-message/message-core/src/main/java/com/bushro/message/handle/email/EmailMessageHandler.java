@@ -14,20 +14,18 @@ import com.bushro.message.dto.email.EmailMessageDTO;
 import com.bushro.message.entity.MessageRequestDetail;
 import com.bushro.message.enums.MessageTypeEnum;
 import com.bushro.message.enums.SendStatusEnum;
-import com.bushro.message.handle.MessageHandler;
+import com.bushro.message.handle.AbstractMessageHandler;
 import com.bushro.message.properties.EmailConfig;
 import com.bushro.message.service.IMessageConfigService;
 import com.bushro.message.service.IMessageRequestDetailService;
 
-import javax.annotation.Resource;
-import java.io.File;
 import java.util.*;
 
 /**
  * 邮件消息处理器
  **/
 @Component
-public class EmailMessageHandler extends MessageHandler<EmailMessageDTO> {
+public class EmailMessageHandler extends AbstractMessageHandler<EmailMessageDTO> {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(EmailMessageHandler.class);
 

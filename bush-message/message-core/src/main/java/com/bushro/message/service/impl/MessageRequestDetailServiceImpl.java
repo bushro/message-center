@@ -23,15 +23,10 @@ import java.util.Arrays;
 @Service
 public class MessageRequestDetailServiceImpl extends ServiceImpl<MessageRequestDetailMapper, MessageRequestDetail> implements IMessageRequestDetailService {
 
-    @Resource
-    private MessageRequestDetailHandler messageRequestDetailHandler;
 
     @Override
     public void logDetail(MessageRequestDetail messageRequestDetail) {
-
-        DisruptorFactory<MessageRequestDetail> disruptorFactory = new DisruptorFactory<>();
-        disruptorFactory.push(messageRequestDetail, MessageRequestDetail::new,
-            Arrays.asList(messageRequestDetailHandler).toArray(new EventHandler[0]));
+        this.save(messageRequestDetail);
     }
 
 }

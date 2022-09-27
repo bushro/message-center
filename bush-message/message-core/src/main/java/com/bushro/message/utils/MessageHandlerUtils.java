@@ -3,9 +3,7 @@ package com.bushro.message.utils;
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.ReflectUtil;
 import com.bushro.message.base.Config;
-import com.bushro.message.enums.ConfigValueType;
-import com.bushro.message.handle.MessageHandler;
-import com.bushro.message.vo.ConfigFieldVO;
+import com.bushro.message.handle.AbstractMessageHandler;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
@@ -23,7 +21,7 @@ public final class MessageHandlerUtils {
     /**
      * 获取消息处理器的参数类型
      */
-    public static Class<?> getParamType(MessageHandler<?> messageHandler) {
+    public static Class<?> getParamType(AbstractMessageHandler<?> messageHandler) {
         // 缓存单例，避免每次都执行反射去获取参数类型
         return SingletonUtil.get("param-type-" + messageHandler.getClass().getName(), () -> {
             ParameterizedType superclass = (ParameterizedType) messageHandler.getClass().getGenericSuperclass();

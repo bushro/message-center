@@ -16,7 +16,7 @@ import com.bushro.message.entity.MessageRequestDetail;
 import com.bushro.message.enums.MessageTypeEnum;
 import com.bushro.message.enums.MsgTypeEnum;
 import com.bushro.message.enums.SendStatusEnum;
-import com.bushro.message.handle.MessageHandler;
+import com.bushro.message.handle.AbstractMessageHandler;
 import com.bushro.message.properties.DingTalkCorpConfig;
 import com.bushro.message.service.IMessageConfigService;
 import com.bushro.message.service.IMessageRequestDetailService;
@@ -32,7 +32,7 @@ import java.util.Set;
  *
  **/
 @Component
-public class CorpActionCardSingleMessageHandler extends MessageHandler<ActionCardSingleMessageDTO> {
+public class CorpActionCardSingleMessageHandler extends AbstractMessageHandler<ActionCardSingleMessageDTO> {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(CorpActionCardSingleMessageHandler.class);
 

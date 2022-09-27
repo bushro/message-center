@@ -12,7 +12,7 @@ import com.bushro.message.dto.TypeMessageDTO;
 import com.bushro.message.enums.MessageErrorEnum;
 import com.bushro.message.enums.MessageTypeEnum;
 import com.bushro.message.factory.DisruptorFactory;
-import com.bushro.message.handle.MessageHandler;
+import com.bushro.message.handle.AbstractMessageHandler;
 import com.bushro.message.handle.MessageHandlerHolder;
 import com.bushro.message.service.IMessagePushService;
 import java.util.Collections;
@@ -61,7 +61,7 @@ public class IMessagePushServiceImpl implements IMessagePushService {
         }
         DisruptorFactory<MessagePushDTO> disruptorFactory = new DisruptorFactory<>();
         disruptorFactory.push(messagePushDTO, MessagePushDTO::new,
-            MessageHandlerHolder.values().toArray(new MessageHandler[0]));
+            MessageHandlerHolder.values().toArray(new AbstractMessageHandler[0]));
         return R.ok(requestNo, MessageErrorEnum.PUSH_SUCCESS.message());
     }
 

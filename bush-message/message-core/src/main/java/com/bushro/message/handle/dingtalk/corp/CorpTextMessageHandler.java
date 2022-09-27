@@ -2,7 +2,7 @@ package com.bushro.message.handle.dingtalk.corp;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
-import com.bushro.message.handle.MessageHandler;
+import com.bushro.message.handle.AbstractMessageHandler;
 import com.bushro.message.service.IMessageConfigService;
 import com.bushro.message.service.IMessageRequestDetailService;
 import com.bushro.message.utils.AccessTokenUtils;
@@ -32,7 +32,7 @@ import java.util.Set;
  *
  **/
 @Component
-public class CorpTextMessageHandler extends MessageHandler<TextMessageDTO> {
+public class CorpTextMessageHandler extends AbstractMessageHandler<TextMessageDTO> {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(CorpTextMessageHandler.class);
 

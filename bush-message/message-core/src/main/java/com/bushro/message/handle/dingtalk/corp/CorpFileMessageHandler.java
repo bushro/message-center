@@ -2,7 +2,7 @@ package com.bushro.message.handle.dingtalk.corp;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
-import com.bushro.message.handle.MessageHandler;
+import com.bushro.message.handle.AbstractMessageHandler;
 import com.bushro.message.service.IMessageConfigService;
 import com.bushro.message.service.IMessageRequestDetailService;
 import com.bushro.message.utils.AccessTokenUtils;
@@ -17,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.bushro.message.dto.dingtalk.corp.FileMessageDTO;
-import com.bushro.message.dto.dingtalk.corp.ImageMessageDTO;
 import com.bushro.message.entity.MessageRequestDetail;
 import com.bushro.message.enums.MessageTypeEnum;
 import com.bushro.message.enums.MsgTypeEnum;
@@ -33,7 +32,7 @@ import java.util.Set;
  *
  **/
 @Component
-public class CorpFileMessageHandler extends MessageHandler<FileMessageDTO> {
+public class CorpFileMessageHandler extends AbstractMessageHandler<FileMessageDTO> {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(CorpFileMessageHandler.class);
 

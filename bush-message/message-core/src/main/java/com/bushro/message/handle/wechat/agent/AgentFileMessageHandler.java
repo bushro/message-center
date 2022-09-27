@@ -14,7 +14,7 @@ import com.bushro.message.dto.wechat.agent.MediaMessageDTO;
 import com.bushro.message.entity.MessageRequestDetail;
 import com.bushro.message.enums.MessageTypeEnum;
 import com.bushro.message.enums.SendStatusEnum;
-import com.bushro.message.handle.MessageHandler;
+import com.bushro.message.handle.AbstractMessageHandler;
 import com.bushro.message.properties.WechatWorkAgentConfig;
 import com.bushro.message.service.IMessageConfigService;
 import com.bushro.message.service.IMessageRequestDetailService;
@@ -28,7 +28,7 @@ import java.util.Set;
  * 企业微信-文件
  **/
 @Component
-public class AgentFileMessageHandler extends MessageHandler<MediaMessageDTO> {
+public class AgentFileMessageHandler extends AbstractMessageHandler<MediaMessageDTO> {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(AgentFileMessageHandler.class);
 

@@ -21,6 +21,27 @@
             <groupId>com.bushro</groupId>
             <artifactId>message-api</artifactId>
         </dependency>
+        <!-- mysql -->
+        <dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+		</dependency>
+        <!--mybatis-->
+        <dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-boot-starter</artifactId>
+		</dependency>
+        <!-- druid 连接池 -->
+        <dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<optional>true</optional>
+		</dependency>
+        <!-- druid 连接池 -->
+        <dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid-spring-boot-starter</artifactId>
+		</dependency>
         <!-- 内存队列 -->
         <dependency>
             <groupId>com.lmax</groupId>
