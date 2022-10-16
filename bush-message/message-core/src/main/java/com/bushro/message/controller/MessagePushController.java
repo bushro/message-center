@@ -11,7 +11,7 @@ import javax.annotation.Resource;
  * 统一发送消息接口
  */
 @RestController
-@RequestMapping("/news")
+@RequestMapping("/message")
 public class MessagePushController {
 
 
@@ -28,10 +28,4 @@ public class MessagePushController {
     public String push() {
         return "success";
     }
-
-//    @PostMapping("/_upload")
-//    public R<SysFile> upload(@RequestParam("media") MultipartFile file) {
-//        SysFile upload = messagePushService.upload(file);
-//        return R.ok(upload);
-//    }
 }

@@ -83,6 +83,12 @@
             <scope>system</scope>
             <systemPath>${pom.basedir}/src/lib/taobao-sdk-java-auto_1479188381469-20211011.jar</systemPath>
         </dependency>
+        <!-- oss -->
+        <dependency>
+            <groupId>com.bushro</groupId>
+            <artifactId>oss-spring-boot-start</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

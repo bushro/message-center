@@ -3,6 +3,7 @@ package com.bushro.message.service.impl;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.bushro.service.OssTemplate;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,8 @@ import com.bushro.message.factory.DisruptorFactory;
 import com.bushro.message.handle.AbstractMessageHandler;
 import com.bushro.message.handle.MessageHandlerHolder;
 import com.bushro.message.service.IMessagePushService;
+
+import javax.annotation.Resource;
 import java.util.Collections;
 
 /**
@@ -23,6 +26,7 @@ import java.util.Collections;
 @Service
 @Slf4j
 public class IMessagePushServiceImpl implements IMessagePushService {
+
 
 
 
@@ -64,15 +68,4 @@ public class IMessagePushServiceImpl implements IMessagePushService {
             MessageHandlerHolder.values().toArray(new AbstractMessageHandler[0]));
         return R.ok(requestNo, MessageErrorEnum.PUSH_SUCCESS.message());
     }
-
-//    @Override
-//    public SysFile upload(MultipartFile file) {
-//        SysFile sysFile = null;
-//        try {
-//            sysFile = fileUploadClient.upload(file, "emailFile");
-//        } catch (IOException e) {
-//            log.info("上传文件失败", e);
-//        }
-//        return sysFile;
-//    }
 }

@@ -19,6 +19,7 @@ import com.bushro.message.properties.EmailConfig;
 import com.bushro.message.service.IMessageConfigService;
 import com.bushro.message.service.IMessageRequestDetailService;
 
+import java.io.File;
 import java.util.*;
 
 /**
