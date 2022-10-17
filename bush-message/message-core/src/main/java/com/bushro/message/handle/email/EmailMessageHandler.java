@@ -26,7 +26,7 @@ import java.util.*;
  * 邮件消息处理器
  **/
 @Component
-public class EmailMessageHandler extends AbstractMessageHandler<EmailMessageDTO> {
+public class EmailMessageHandler extends AbstractMessageHandler<EmailMessageDTO> implements Runnable {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(EmailMessageHandler.class);
 
@@ -35,7 +35,6 @@ public class EmailMessageHandler extends AbstractMessageHandler<EmailMessageDTO>
 
     @Autowired
     private IMessageRequestDetailService messageRequestDetailService;
-
 
 
     @Override
@@ -67,12 +66,12 @@ public class EmailMessageHandler extends AbstractMessageHandler<EmailMessageDTO>
             account.setSslEnable(Optional.ofNullable(config.getSslEnable()).orElse(false));
 
             MessageRequestDetail requestDetail = MessageRequestDetail.builder()
-                .platform(messageType().getPlatform().name())
-                .messageType(messageType().name())
-                .receiverId(String.join(",", receiverUsers))
-                .requestNo(param.getRequestNo())
-                .configId(config.getConfigId())
-                .build();
+                    .platform(messageType().getPlatform().name())
+                    .messageType(messageType().name())
+                    .receiverId(String.join(",", receiverUsers))
+                    .requestNo(param.getRequestNo())
+                    .configId(config.getConfigId())
+                    .build();
 
             Mail mail = Mail.create(account);
             mail.setTitle(title);
@@ -102,23 +101,8 @@ public class EmailMessageHandler extends AbstractMessageHandler<EmailMessageDTO>
         }
     }
 
-    /**
-     * 获取文件列表
-     */
-//    public List<File> getFiles(List<String> fileIds) {
-//        if (CollectionUtils.isEmpty(fileIds)) {
-//            return null;
-//        }
-//        List<File> listFile = new ArrayList<>();
-//        for (String fileId : fileIds) {
-//            SysFile oneSysFile = sysFileRpcClient.getSysFileByFileId(Long.valueOf(fileId));
-//            String rootPath = fileUploadClient.getFileRootPath(oneSysFile);
-//            File file = new File(rootPath + oneSysFile.getFileName());
-//            if (!file.exists()) {
-//                LOGGER.error("文件{}不存在", rootPath + oneSysFile.getFileName());
-//            }
-//            listFile.add(file);
-//        }
-//        return listFile;
-//    }
+    @Override
+    public void run() {
+
+    }
 }

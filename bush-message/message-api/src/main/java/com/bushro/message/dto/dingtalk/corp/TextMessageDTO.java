@@ -18,29 +18,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TextMessageDTO extends BaseMessage {
+public class TextMessageDTO extends CommonDTO {
     private static final long serialVersionUID = -3289428483627765265L;
-
-    /**
-     * 接收人分组列表
-     */
-    private List<Long> receiverGroupIds;
-
-    /**
-     * 是否发送给企业全部用户，注意钉钉限制只能发3次全员消息
-     */
-    private boolean toAllUser;
-
-    /**
-     * 接收人列表
-     */
-    private List<String> receiverIds;
-
-    /**
-     * 接收者的部门id列表，最大列表长度20。接收者是部门ID时，包括子部门下的所有用户。多个用,隔开
-     *
-     */
-    private String deptIdList;
 
     /**
      * 请输入内容...

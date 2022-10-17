@@ -2,8 +2,12 @@ package com.bushro.message.handle.dingtalk.corp;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
-import com.bushro.message.base.BaseMessage;
-import com.bushro.message.dto.dingtalk.corp.CommonDTO;
+import com.bushro.message.handle.AbstractMessageHandler;
+import com.bushro.message.handle.IMessageHandler;
+import com.bushro.message.service.IMessageConfigService;
+import com.bushro.message.service.IMessageRequestDetailService;
+import com.bushro.message.utils.AccessTokenUtils;
+import com.bushro.message.utils.SingletonUtil;
 import com.dingtalk.api.DefaultDingTalkClient;
 import com.dingtalk.api.DingTalkClient;
 import com.dingtalk.api.request.OapiMessageCorpconversationAsyncsendV2Request;
@@ -13,30 +17,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import com.bushro.message.dto.dingtalk.corp.ActionCardSingleMessageDTO;
+import com.bushro.message.dto.dingtalk.corp.LinkMessageDTO;
 import com.bushro.message.entity.MessageRequestDetail;
 import com.bushro.message.enums.MessageTypeEnum;
 import com.bushro.message.enums.MsgTypeEnum;
 import com.bushro.message.enums.SendStatusEnum;
-import com.bushro.message.handle.AbstractMessageHandler;
 import com.bushro.message.properties.DingTalkCorpConfig;
-import com.bushro.message.service.IMessageConfigService;
-import com.bushro.message.service.IMessageRequestDetailService;
-import com.bushro.message.utils.AccessTokenUtils;
-import com.bushro.message.utils.SingletonUtil;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 /**
- * 钉钉工作通知-整体跳转ActionCard样式，支持一个点击Action
+ * 钉钉工作通知文本类型消息处理器
  *
  **/
 @Component
-public class CorpActionCardSingleMessageHandler extends AbstractMessageHandler<ActionCardSingleMessageDTO> {
+public class CorpLinkMessageHandlerxx extends AbstractMessageHandler<LinkMessageDTO> implements IMessageHandler {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(CorpActionCardSingleMessageHandler.class);
+    private final static Logger LOGGER = LoggerFactory.getLogger(CorpLinkMessageHandlerxx.class);
 
     @Autowired
     private IMessageConfigService messageConfigService;
@@ -46,16 +45,16 @@ public class CorpActionCardSingleMessageHandler extends AbstractMessageHandler<A
 
     @Override
     public MessageTypeEnum messageType() {
-        return MessageTypeEnum.DING_TALK_COPR_ACTION_CARD_SINGLE;
+        return MessageTypeEnum.DING_TALK_COPR_LINK;
     }
 
     @Override
-    public void handle(ActionCardSingleMessageDTO param) {
+    public void handle(LinkMessageDTO param) {
         List<DingTalkCorpConfig> configs = messageConfigService.queryConfigOrDefault(param, DingTalkCorpConfig.class);
         for (DingTalkCorpConfig config : configs) {
             Set<String> receiverUsers = new HashSet<>();
             if (CollUtil.isNotEmpty(param.getReceiverIds())) {
-                receiverUsers.addAll(param.getReceiverIds());
+                 receiverUsers.addAll(param.getReceiverIds());
             }
 
             if (receiverUsers.size() <= 0) {
@@ -72,12 +71,12 @@ public class CorpActionCardSingleMessageHandler extends AbstractMessageHandler<A
             request.setToAllUser(param.isToAllUser());
 
             OapiMessageCorpconversationAsyncsendV2Request.Msg msg = new OapiMessageCorpconversationAsyncsendV2Request.Msg();
-            msg.setActionCard(new OapiMessageCorpconversationAsyncsendV2Request.ActionCard());
-            msg.getActionCard().setTitle(param.getTitle());
-            msg.getActionCard().setMarkdown(param.getMarkdown());
-            msg.getActionCard().setSingleTitle(param.getSingleTitle());
-            msg.getActionCard().setSingleUrl(param.getSingleUrl());
-            msg.setMsgtype(MsgTypeEnum.ACTION_CARD.getValue());
+            msg.setMsgtype(MsgTypeEnum.LINK.getValue());
+            msg.setLink(new OapiMessageCorpconversationAsyncsendV2Request.Link());
+            msg.getLink().setTitle(param.getTitle());
+            msg.getLink().setText(param.getText());
+            msg.getLink().setMessageUrl(param.getMessageUrl());
+            msg.getLink().setPicUrl(param.getPicUrl());
             request.setMsg(msg);
 
             MessageRequestDetail requestDetail = MessageRequestDetail.builder()
@@ -88,15 +87,16 @@ public class CorpActionCardSingleMessageHandler extends AbstractMessageHandler<A
                 .configId(config.getConfigId())
                 .build();
             try {
-                OapiMessageCorpconversationAsyncsendV2Response rsp = client.execute(request, AccessTokenUtils.getAccessToken(config.getAppKey(), config.getAppSecret()));
+                OapiMessageCorpconversationAsyncsendV2Response rsp = client.execute(request
+                        , AccessTokenUtils.getAccessToken(config.getAppKey(), config.getAppSecret()));
                 if (!rsp.isSuccess()) {
                     throw new IllegalStateException(rsp.getBody());
                 }
                 requestDetail.setSendStatus(SendStatusEnum.SEND_STATUS_SUCCESS.getCode());
                 requestDetail.setMsgTest(SendStatusEnum.SEND_STATUS_SUCCESS.getDescription());
-                LOGGER.info("钉钉卡片发送消息响应数据:{}",rsp.getBody());
+                LOGGER.info("钉钉链接发送消息响应数据:{}",rsp.getBody());
             } catch (Exception e) {
-                LOGGER.error("钉钉卡片发送消息失败",e);
+                LOGGER.error("钉钉链接发送消息失败",e);
                 String eMessage = ExceptionUtil.getMessage(e);
                 eMessage = StringUtils.isBlank(eMessage) ? "未知错误" : eMessage;
                 requestDetail.setSendStatus(SendStatusEnum.SEND_STATUS_FAIL.getCode());

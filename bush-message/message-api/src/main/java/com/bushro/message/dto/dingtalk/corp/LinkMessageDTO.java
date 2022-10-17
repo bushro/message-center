@@ -18,28 +18,8 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LinkMessageDTO extends BaseMessage {
+public class LinkMessageDTO extends CommonDTO {
     private static final long serialVersionUID = 6529460286674167742L;
-
-    /**
-     * 接收人分组列表
-     */
-    private List<Long> receiverGroupIds;
-
-    /**
-     * 是否发送给企业全部用户，注意钉钉限制只能发3次全员消息
-     */
-    private boolean toAllUser;
-
-    /**
-     * 接收人列表
-     */
-    private List<String> receiverIds;
-
-    /**
-     * 接收人的部门id列表，接收者的部门id列表，多个用,隔开
-     */
-    private String deptIdList;
 
     /**
      * 消息点击链接地址，当发送消息为小程序时支持小程序跳转链接。

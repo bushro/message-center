@@ -13,7 +13,7 @@ import com.bushro.message.base.Config;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class    DingTalkCorpConfig extends Config {
+public class DingTalkCorpConfig extends Config {
     private static final long serialVersionUID = -9206902816158196669L;
 
     /**

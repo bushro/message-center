@@ -1,6 +1,12 @@
 package com.bushro.message.consumer;
 
 import com.bushro.message.base.BaseMessage;
+import com.bushro.message.dto.MessagePushDTO;
+import com.bushro.message.dto.TypeMessageDTO;
+import com.bushro.message.enums.MessageTypeEnum;
+import com.bushro.message.enums.MqTypeEnum;
+
+import java.util.Map;
 
 /**
  * @description: DOTO
@@ -9,10 +15,16 @@ import com.bushro.message.base.BaseMessage;
  */
 public interface ConsumerService {
 
+
     /**
-     * 接收消息
+     * 处理消息
      *
-     * @return {@link BaseMessage}
+     * @param messageParam 消息参数
      */
-    BaseMessage receiveMessage();
+    void handleMessage(MessagePushDTO messagePushDTO);
+
+    /**
+     * mq类型
+     */
+    MqTypeEnum mqType();
 }
