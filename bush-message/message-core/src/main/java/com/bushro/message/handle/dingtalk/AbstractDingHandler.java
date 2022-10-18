@@ -27,7 +27,7 @@ import java.util.Set;
  * @date 2022/10/17
  */
 @Slf4j
-public abstract class AbstractDingHandler<T extends BaseMessage> {
+public abstract class AbstractDingHandler {
 
     public Set<String> receiverUsers;
 

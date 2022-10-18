@@ -1,11 +1,13 @@
 package com.bushro.message.handle;
 
-import com.bushro.message.enums.MessageTypeEnum;
+import com.bushro.message.base.BaseMessage;
 
-public interface IMessageHandler {
+public interface IMessageHandler<T extends BaseMessage> {
 
     /**
-     * 所有消息处理器必须实现这个接口，标识自己处理的是哪个消息类型
+     * 设置消息参数
+     *
+     * @param t t
      */
-    MessageTypeEnum messageType();
+    void setBaseMessage(T t);
 }
