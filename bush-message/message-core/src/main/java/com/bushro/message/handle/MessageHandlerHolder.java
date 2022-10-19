@@ -11,6 +11,9 @@ import java.util.Map;
 
 /**
  * 加载所有的消息处理器
+ *
+ * @author bushro
+ * @date 2022/10/19
  */
 @Component
 public class MessageHandlerHolder implements CommandLineRunner {
@@ -19,22 +22,18 @@ public class MessageHandlerHolder implements CommandLineRunner {
     /**
      * 系统所有的消息处理器
      */
-    private static final Map<MessageTypeEnum, AbstractMessageHandler<?>> HANDLER_MAP = new LinkedHashMap<>();
+    private static final Map<MessageTypeEnum, IMessageHandler<?>> HANDLER_MAP = new LinkedHashMap<>();
 
-    public static AbstractMessageHandler<?> get(MessageTypeEnum messageType) {
+    public static IMessageHandler<?> get(MessageTypeEnum messageType) {
         return HANDLER_MAP.get(messageType);
-    }
-
-    public static Collection<AbstractMessageHandler<?>> values() {
-        return HANDLER_MAP.values();
     }
 
     @SuppressWarnings("rawtypes")
     @Override
     public void run(String... args) {
-        Map<String, AbstractMessageHandler> springMap = SpringContextHolder.getBeansOfType(AbstractMessageHandler.class);
-        for (AbstractMessageHandler messageHandler : springMap.values()) {
-            MessageTypeEnum messageType = messageHandler.messageType();
+        Map<String, IMessageHandler> HandlerMap = SpringContextHolder.getBeansOfType(IMessageHandler.class);
+        for (IMessageHandler messageHandler : HandlerMap.values()) {
+            MessageTypeEnum messageType = null;
             if (HANDLER_MAP.containsKey(messageType)) {
                 // 一种消息平台只接受一个消息处理器（如果接受多个会有处理器执行的顺序问题，会变复杂，暂时不处理这种情况）
                 throw new IllegalStateException("存在重复消息处理器");

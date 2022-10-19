@@ -5,19 +5,16 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import com.bushro.message.base.BaseMessage;
-
-import java.util.List;
 
 /**
- * 钉钉文件消息
+ * 钉钉图片消息
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FileMessageDTO extends CommonDTO {
+public class ImageMessageDTODing extends DingCommonDTO {
 
 
     private static final long serialVersionUID = -8709896456192012662L;

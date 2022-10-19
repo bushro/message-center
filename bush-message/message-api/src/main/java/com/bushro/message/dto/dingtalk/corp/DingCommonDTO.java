@@ -15,7 +15,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommonDTO extends BaseMessage {
+public class DingCommonDTO extends BaseMessage {
     private static final long serialVersionUID = -8709896456192017842L;
 
     /**

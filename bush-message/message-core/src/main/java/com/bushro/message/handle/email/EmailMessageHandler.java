@@ -1,70 +1,74 @@
 package com.bushro.message.handle.email;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
+import cn.hutool.core.io.IoUtil;
 import cn.hutool.extra.mail.Mail;
 import cn.hutool.extra.mail.MailAccount;
+import com.amazonaws.services.s3.model.S3Object;
+import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.bushro.message.entity.SysFile;
+import com.bushro.message.handle.IMessageHandler;
+import com.bushro.message.service.SysFileService;
+import com.bushro.service.OssTemplate;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import com.bushro.message.dto.email.EmailMessageDTO;
 import com.bushro.message.entity.MessageRequestDetail;
 import com.bushro.message.enums.MessageTypeEnum;
 import com.bushro.message.enums.SendStatusEnum;
-import com.bushro.message.handle.AbstractMessageHandler;
 import com.bushro.message.properties.EmailConfig;
 import com.bushro.message.service.IMessageConfigService;
 import com.bushro.message.service.IMessageRequestDetailService;
 
+import javax.annotation.Resource;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.*;
 
 /**
  * 邮件消息处理器
  **/
 @Component
-public class EmailMessageHandler extends AbstractMessageHandler<EmailMessageDTO> implements Runnable {
+@Slf4j
+public class EmailMessageHandler extends AbstractEmailHandler implements IMessageHandler<EmailMessageDTO>, Runnable {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(EmailMessageHandler.class);
 
-    @Autowired
+    private EmailMessageDTO param;
+
+    @Resource
     private IMessageConfigService messageConfigService;
 
-    @Autowired
+    @Resource
     private IMessageRequestDetailService messageRequestDetailService;
+
+    @Resource
+    private SysFileService sysFileService;
+
+    @Resource
+    private OssTemplate ossTemplate;
 
 
     @Override
     public MessageTypeEnum messageType() {
         return MessageTypeEnum.EMAIL;
     }
-
     @Override
-    public void handle(EmailMessageDTO param) {
+    public void run() {
         List<EmailConfig> configs = messageConfigService.queryConfigOrDefault(param, EmailConfig.class);
         String content = param.getContent();
         String title = param.getTitle();
         for (EmailConfig config : configs) {
-            Set<String> receiverUsers = new HashSet<>();
-            if (CollUtil.isNotEmpty(param.getReceiverIds())) {
-                receiverUsers.addAll(param.getReceiverIds());
-            }
-            if (receiverUsers.size() <= 0) {
-                LOGGER.warn("请求号：{}，消息配置：{}。没有检测到接收邮箱", param.getRequestNo(), config.getConfigName());
-                return;
-            }
-            MailAccount account = new MailAccount();
-            account.setHost(config.getHost());
-            account.setPort(config.getPort());
-            account.setAuth(true);
-            account.setFrom(config.getFrom());
-            account.setUser(config.getUser());
-            account.setPass(config.getPassword());
-            account.setSslEnable(Optional.ofNullable(config.getSslEnable()).orElse(false));
-
+            this.config = config;
+            this.setReceiverUsers(param);
+            MailAccount account = this.getClient(config);
             MessageRequestDetail requestDetail = MessageRequestDetail.builder()
                     .platform(messageType().getPlatform().name())
                     .messageType(messageType().name())
@@ -77,10 +81,30 @@ public class EmailMessageHandler extends AbstractMessageHandler<EmailMessageDTO>
             mail.setTitle(title);
             mail.setContent(content);
             mail.setHtml(true);
-//            List<File> files = getFiles(param.getFileIds());
-//            if (!CollectionUtils.isEmpty(files)) {
-//                mail.setFiles(files.toArray(new File[0]));
-//            }
+            List<File> files = new ArrayList<>();
+            //文件处理
+            if (CollectionUtil.isEmpty(param.getFileIds())) {
+                for (Long fileId : param.getFileIds()) {
+                    SysFile sysFile = sysFileService.getById(fileId);
+                    S3Object s3Object = ossTemplate.getObject(sysFile.getBucketName(), sysFile.getFileName());
+                    String[] split = sysFile.getFileName().split(".");
+                    File tempFile = null;
+                    try {
+                        tempFile = File.createTempFile(split[0], split[1]);
+                        FileOutputStream stream = new FileOutputStream(tempFile);
+                        S3ObjectInputStream objectContent = s3Object.getObjectContent();
+                        IoUtil.copy(objectContent, stream);
+                        files.add(tempFile);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (null != tempFile) {
+                            tempFile.delete();
+                        }
+                    }
+                }
+            }
+            mail.setFiles(files.toArray(new File[0]));
             mail.setTos(param.getReceiverIds().toArray(new String[0]));
             if (!CollectionUtils.isEmpty(param.getCcs())) {
                 mail.setCcs(param.getCcs().toArray(new String[0]));
@@ -102,7 +126,7 @@ public class EmailMessageHandler extends AbstractMessageHandler<EmailMessageDTO>
     }
 
     @Override
-    public void run() {
-
+    public void setBaseMessage(EmailMessageDTO emailMessageDTO) {
+        this.param = emailMessageDTO;
     }
 }

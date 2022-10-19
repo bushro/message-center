@@ -2,8 +2,7 @@ package com.bushro.message.handle.dingtalk;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
-import com.bushro.message.base.BaseMessage;
-import com.bushro.message.dto.dingtalk.corp.CommonDTO;
+import com.bushro.message.dto.dingtalk.corp.DingCommonDTO;
 import com.bushro.message.entity.MessageRequestDetail;
 import com.bushro.message.enums.MessageTypeEnum;
 import com.bushro.message.enums.SendStatusEnum;
@@ -38,7 +37,7 @@ public abstract class AbstractDingHandler {
      */
     public abstract MessageTypeEnum messageType();
 
-    public void setReceiverUsers(CommonDTO param) {
+    public void setReceiverUsers(DingCommonDTO param) {
         Set<String> receiverUsers = new HashSet<>();
         if (CollUtil.isNotEmpty(param.getReceiverIds())) {
             receiverUsers.addAll(param.getReceiverIds());
@@ -57,7 +56,7 @@ public abstract class AbstractDingHandler {
      * @param param 参数
      * @return {@link OapiMessageCorpconversationAsyncsendV2Request}
      */
-    public OapiMessageCorpconversationAsyncsendV2Request getRequest(CommonDTO param) {
+    public OapiMessageCorpconversationAsyncsendV2Request getRequest(DingCommonDTO param) {
         OapiMessageCorpconversationAsyncsendV2Request request = new OapiMessageCorpconversationAsyncsendV2Request();
         request.setAgentId(Long.valueOf(config.getAgentId()));
         request.setUseridList(String.join(",", receiverUsers));
@@ -84,7 +83,7 @@ public abstract class AbstractDingHandler {
      * @param param   参数
      * @param request 请求
      */
-    public void execute (CommonDTO param, OapiMessageCorpconversationAsyncsendV2Request request) {
+    public MessageRequestDetail execute (DingCommonDTO param, OapiMessageCorpconversationAsyncsendV2Request request) {
         MessageRequestDetail requestDetail = MessageRequestDetail.builder()
                 .platform(messageType().getPlatform().name())
                 .messageType(messageType().name())
@@ -109,5 +108,6 @@ public abstract class AbstractDingHandler {
             requestDetail.setSendStatus(SendStatusEnum.SEND_STATUS_FAIL.getCode());
             requestDetail.setMsgTest(eMessage);
         }
+        return requestDetail;
     }
 }

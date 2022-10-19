@@ -5,9 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import com.bushro.message.base.BaseMessage;
-
-import java.util.List;
 
 /**
  * 钉钉卡片消息-支持一个点击Action，必须传入参数 single_title和 single_url。
@@ -18,7 +15,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ActionCardSingleMessageDTO extends CommonDTO {
+public class ActionCardSingleMessageDTODing extends DingCommonDTO {
     private static final long serialVersionUID = -3289428483627765265L;
 
     /**

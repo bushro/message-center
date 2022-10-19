@@ -60,5 +60,6 @@ public class DisruptorConsumerService implements EventHandler<MessagePushDTO>, C
         baseMessage.setRequestNo(messagePushDTO.getRequestNo());
         baseMessage.setConfigIds(messagePushDTO.getMessageDTO().getConfigIds());
 
+
     }
 }

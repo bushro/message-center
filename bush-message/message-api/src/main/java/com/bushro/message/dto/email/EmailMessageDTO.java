@@ -18,21 +18,13 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class EmailMessageDTO extends BaseMessage {
+public class EmailMessageDTO extends EmailCommonDTO {
     private static final long serialVersionUID = 2692273549631779696L;
 
     /**
-     * 接收人分组列表
-     */
-    private List<Long> receiverGroupIds;
-    /**
-     * 接收人列表
-     */
-    private List<String> receiverIds;
-    /**
      * 文件id列表
      */
-    private List<String> fileIds;
+    private List<Long> fileIds;
     /**
      * 抄送人列表
      */

@@ -5,9 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import com.bushro.message.base.BaseMessage;
-
-import java.util.List;
 
 /**
  * 钉钉链接消息
@@ -18,7 +15,7 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LinkMessageDTO extends CommonDTO {
+public class LinkMessageDTODing extends DingCommonDTO {
     private static final long serialVersionUID = 6529460286674167742L;
 
     /**

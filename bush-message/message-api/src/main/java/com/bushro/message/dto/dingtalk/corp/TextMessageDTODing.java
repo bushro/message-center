@@ -5,10 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
-import com.bushro.message.base.BaseMessage;
-
-import java.util.List;
 
 /**
  * 钉钉工作通知发送-文本信息
@@ -18,7 +14,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TextMessageDTO extends CommonDTO {
+public class TextMessageDTODing extends DingCommonDTO {
     private static final long serialVersionUID = -3289428483627765265L;
 
     /**
