@@ -2,6 +2,7 @@ package com.bushro.message.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.bushro.message.entity.MessageConfig;
+import org.apache.ibatis.annotations.Mapper;
 
 /**
  * <p>
@@ -11,6 +12,7 @@ import com.bushro.message.entity.MessageConfig;
  * @author bushro
  * @since 2021-10-09
  */
+@Mapper
 public interface MessageConfigMapper extends BaseMapper<MessageConfig> {
 
 }

@@ -3,6 +3,7 @@ package com.bushro.message.service.impl;
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.bushro.message.consumer.DisruptorConsumerService;
 import com.bushro.service.OssTemplate;
 import com.lmax.disruptor.YieldingWaitStrategy;
 import com.lmax.disruptor.dsl.Disruptor;
@@ -32,7 +33,8 @@ import java.util.concurrent.Executors;
 public class IMessagePushServiceImpl implements IMessagePushService {
 
 
-
+    @Resource
+    private DisruptorConsumerService consumerService;
 
     @Override
     public R<String> push(String param) {
@@ -71,7 +73,7 @@ public class IMessagePushServiceImpl implements IMessagePushService {
         }
         DisruptorFactory<MessagePushDTO> disruptorFactory = new DisruptorFactory<>();
         disruptorFactory.push(messagePushDTO, MessagePushDTO::new,
-            MessageHandlerHolder.values().toArray(new AbstractMessageHandler[0]));
+                consumerService);
         return R.ok(requestNo, MessageErrorEnum.PUSH_SUCCESS.message());
     }
 }

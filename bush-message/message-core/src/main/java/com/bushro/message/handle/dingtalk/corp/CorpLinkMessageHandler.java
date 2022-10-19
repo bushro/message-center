@@ -1,7 +1,7 @@
 package com.bushro.message.handle.dingtalk.corp;
 
 import cn.hutool.json.JSONUtil;
-import com.bushro.message.dto.dingtalk.corp.LinkMessageDTODing;
+import com.bushro.message.dto.dingtalk.corp.LinkMessageDTO;
 import com.bushro.message.entity.MessageRequestDetail;
 import com.bushro.message.enums.MessageTypeEnum;
 import com.bushro.message.enums.MsgTypeEnum;
@@ -22,9 +22,9 @@ import java.util.List;
  **/
 @Component
 @Slf4j
-public class CorpLinkMessageHandler extends AbstractDingHandler implements IMessageHandler<LinkMessageDTODing>, Runnable {
+public class CorpLinkMessageHandler extends AbstractDingHandler<LinkMessageDTO> implements IMessageHandler, Runnable {
 
-    private LinkMessageDTODing param;
+    private LinkMessageDTO param;
 
     @Resource
     private IMessageConfigService messageConfigService;
@@ -34,12 +34,18 @@ public class CorpLinkMessageHandler extends AbstractDingHandler implements IMess
 
     @Override
     public MessageTypeEnum messageType() {
+        this.messageTypeEnum = MessageTypeEnum.DING_TALK_COPR_LINK;
         return MessageTypeEnum.DING_TALK_COPR_LINK;
     }
 
     @Override
-    public void setBaseMessage(LinkMessageDTODing linkMessageDTO) {
-        this.param = linkMessageDTO;
+    public Runnable getRunnable() {
+        return this;
+    }
+
+    @Override
+    public void setBaseMessage(Object object) {
+        this.param = (LinkMessageDTO) object;
     }
 
     @Override

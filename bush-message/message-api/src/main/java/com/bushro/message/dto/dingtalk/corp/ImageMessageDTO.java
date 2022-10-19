@@ -7,14 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 /**
- * 钉钉文件消息
+ * 钉钉图片消息
  */
 @EqualsAndHashCode(callSuper = true)
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class FileMessageDTODing extends DingCommonDTO {
+public class ImageMessageDTO extends DingCommonDTO {
 
 
     private static final long serialVersionUID = -8709896456192012662L;

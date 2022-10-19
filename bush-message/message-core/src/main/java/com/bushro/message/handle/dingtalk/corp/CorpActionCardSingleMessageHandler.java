@@ -1,7 +1,8 @@
 package com.bushro.message.handle.dingtalk.corp;
 
 import cn.hutool.json.JSONUtil;
-import com.bushro.message.dto.dingtalk.corp.ActionCardSingleMessageDTODing;
+import com.bushro.message.dto.dingtalk.corp.ActionCardSingleMessageDTO;
+import com.bushro.message.dto.dingtalk.corp.LinkMessageDTO;
 import com.bushro.message.entity.MessageRequestDetail;
 import com.bushro.message.enums.MessageTypeEnum;
 import com.bushro.message.enums.MsgTypeEnum;
@@ -25,11 +26,11 @@ import java.util.List;
  **/
 @Component
 @Slf4j
-public class CorpActionCardSingleMessageHandler extends AbstractDingHandler implements IMessageHandler<ActionCardSingleMessageDTODing>, Runnable {
+public class CorpActionCardSingleMessageHandler extends AbstractDingHandler<ActionCardSingleMessageDTO> implements  Runnable {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(CorpActionCardSingleMessageHandler.class);
 
-    private ActionCardSingleMessageDTODing param;
+    private ActionCardSingleMessageDTO param;
 
     @Autowired
     private IMessageConfigService messageConfigService;
@@ -42,9 +43,15 @@ public class CorpActionCardSingleMessageHandler extends AbstractDingHandler impl
         return MessageTypeEnum.DING_TALK_COPR_ACTION_CARD_SINGLE;
     }
 
+
     @Override
-    public void setBaseMessage(ActionCardSingleMessageDTODing actionCardSingleMessageDTO) {
-        this.param = actionCardSingleMessageDTO;
+    public void setBaseMessage(Object object) {
+        this.param = (ActionCardSingleMessageDTO) object;
+    }
+
+    @Override
+    public Runnable getRunnable() {
+        return this;
     }
 
     @Override

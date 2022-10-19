@@ -2,10 +2,12 @@ package com.bushro.message.handle.dingtalk;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
+import com.bushro.message.base.BaseMessage;
 import com.bushro.message.dto.dingtalk.corp.DingCommonDTO;
 import com.bushro.message.entity.MessageRequestDetail;
 import com.bushro.message.enums.MessageTypeEnum;
 import com.bushro.message.enums.SendStatusEnum;
+import com.bushro.message.handle.IMessageHandler;
 import com.bushro.message.properties.DingTalkCorpConfig;
 import com.bushro.message.utils.AccessTokenUtils;
 import com.bushro.message.utils.SingletonUtil;
@@ -26,16 +28,14 @@ import java.util.Set;
  * @date 2022/10/17
  */
 @Slf4j
-public abstract class AbstractDingHandler {
+public abstract class AbstractDingHandler<T extends BaseMessage> implements IMessageHandler {
 
     public Set<String> receiverUsers;
 
     public DingTalkCorpConfig config;
 
-    /**
-     * 所有消息处理器必须实现这个接口，标识自己处理的是哪个消息类型
-     */
-    public abstract MessageTypeEnum messageType();
+    public MessageTypeEnum messageTypeEnum;
+
 
     public void setReceiverUsers(DingCommonDTO param) {
         Set<String> receiverUsers = new HashSet<>();
@@ -85,8 +85,8 @@ public abstract class AbstractDingHandler {
      */
     public MessageRequestDetail execute (DingCommonDTO param, OapiMessageCorpconversationAsyncsendV2Request request) {
         MessageRequestDetail requestDetail = MessageRequestDetail.builder()
-                .platform(messageType().getPlatform().name())
-                .messageType(messageType().name())
+                .platform(messageTypeEnum.getPlatform().name())
+                .messageType(messageTypeEnum.name())
                 .receiverId(param.isToAllUser() ? "所有人" : request.getUseridList())
                 .requestNo(param.getRequestNo())
                 .configId(config.getConfigId())
@@ -100,9 +100,9 @@ public abstract class AbstractDingHandler {
             }
             requestDetail.setSendStatus(SendStatusEnum.SEND_STATUS_SUCCESS.getCode());
             requestDetail.setMsgTest(SendStatusEnum.SEND_STATUS_SUCCESS.getDescription());
-            log.info("{}发送消息响应数据:{}", messageType().getName(), rsp.getBody());
+            log.info("{}发送消息响应数据:{}", messageTypeEnum.getName(), rsp.getBody());
         } catch (Exception e) {
-            log.error(messageType().getName() + "发送消息失败",e);
+            log.error(messageTypeEnum.getName() + "发送消息失败",e);
             String eMessage = ExceptionUtil.getMessage(e);
             eMessage = StringUtils.isBlank(eMessage) ? "未知错误" : eMessage;
             requestDetail.setSendStatus(SendStatusEnum.SEND_STATUS_FAIL.getCode());

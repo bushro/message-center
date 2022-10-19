@@ -2,9 +2,11 @@ package com.bushro.message.handle.email;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.mail.MailAccount;
+import com.bushro.message.base.BaseMessage;
 import com.bushro.message.dto.email.EmailCommonDTO;
 import com.bushro.message.entity.MessageRequestDetail;
 import com.bushro.message.enums.MessageTypeEnum;
+import com.bushro.message.handle.IMessageHandler;
 import com.bushro.message.properties.EmailConfig;
 import com.dingtalk.api.DingTalkClient;
 import com.dingtalk.api.request.OapiMessageCorpconversationAsyncsendV2Request;
@@ -21,16 +23,14 @@ import java.util.Set;
  * @date 2022/10/17
  */
 @Slf4j
-public abstract class AbstractEmailHandler {
+public abstract class AbstractEmailHandler<T extends BaseMessage> implements IMessageHandler {
 
     public Set<String> receiverUsers;
 
     public EmailConfig config;
 
-    /**
-     * 所有消息处理器必须实现这个接口，标识自己处理的是哪个消息类型
-     */
-    public abstract MessageTypeEnum messageType();
+    public MessageTypeEnum messageTypeEnum;
+
 
     public void setReceiverUsers(EmailCommonDTO param) {
         Set<String> receiverUsers = new HashSet<>();

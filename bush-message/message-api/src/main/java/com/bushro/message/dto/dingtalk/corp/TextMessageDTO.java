@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TextMessageDTODing extends DingCommonDTO {
+public class TextMessageDTO extends DingCommonDTO {
     private static final long serialVersionUID = -3289428483627765265L;
 
     /**

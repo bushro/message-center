@@ -1,7 +1,7 @@
 package com.bushro.message.controller;
 
 import com.bushro.common.core.util.SpringContextHolder;
-import com.bushro.message.dto.dingtalk.corp.LinkMessageDTODing;
+import com.bushro.message.dto.dingtalk.corp.LinkMessageDTO;
 import com.bushro.message.handle.dingtalk.corp.CorpLinkMessageHandler;
 import com.bushro.message.utils.ThreadPoolUtil;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +30,7 @@ public class MessagePushController {
     @GetMapping("/get")
     public String push() {
         CorpLinkMessageHandler bean = SpringContextHolder.getBean(CorpLinkMessageHandler.class);
-        LinkMessageDTODing messageDTO = new LinkMessageDTODing();
+        LinkMessageDTO messageDTO = new LinkMessageDTO();
         messageDTO.setTitle("测试");
         bean.setBaseMessage(messageDTO);
         ThreadPoolUtil.getThreadPool().submit(bean);

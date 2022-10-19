@@ -1,6 +1,7 @@
 package com.bushro.message.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import com.bushro.message.entity.MessageConfigValue;
 
@@ -14,6 +15,7 @@ import java.util.List;
  * @author bushro
  * @since 2021-10-09
  */
+@Mapper
 public interface MessageConfigValueMapper extends BaseMapper<MessageConfigValue> {
 
     List<MessageConfigValue> listByConfidIds(@Param("configIds") List<Long> configIds);

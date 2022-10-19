@@ -16,7 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import com.bushro.message.dto.dingtalk.corp.FileMessageDTODing;
+import com.bushro.message.dto.dingtalk.corp.FileMessageDTO;
 import com.bushro.message.entity.MessageRequestDetail;
 import com.bushro.message.enums.MessageTypeEnum;
 import com.bushro.message.enums.MsgTypeEnum;
@@ -32,7 +32,7 @@ import java.util.Set;
  *
  **/
 @Component
-public class CorpFileMessageHandler extends AbstractMessageHandler<FileMessageDTODing> {
+public class CorpFileMessageHandler extends AbstractMessageHandler<FileMessageDTO> {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(CorpFileMessageHandler.class);
 
@@ -48,7 +48,7 @@ public class CorpFileMessageHandler extends AbstractMessageHandler<FileMessageDT
     }
 
     @Override
-    public void handle(FileMessageDTODing param) {
+    public void handle(FileMessageDTO param) {
         List<DingTalkCorpConfig> configs = messageConfigService.queryConfigOrDefault(param, DingTalkCorpConfig.class);
         for (DingTalkCorpConfig config : configs) {
             Set<String> receiverUsers = new HashSet<>();

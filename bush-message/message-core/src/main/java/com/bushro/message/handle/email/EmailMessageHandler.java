@@ -1,6 +1,5 @@
 package com.bushro.message.handle.email;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.io.IoUtil;
@@ -8,6 +7,7 @@ import cn.hutool.extra.mail.Mail;
 import cn.hutool.extra.mail.MailAccount;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.bushro.message.base.BaseMessage;
 import com.bushro.message.entity.SysFile;
 import com.bushro.message.handle.IMessageHandler;
 import com.bushro.message.service.SysFileService;
@@ -37,7 +37,7 @@ import java.util.*;
  **/
 @Component
 @Slf4j
-public class EmailMessageHandler extends AbstractEmailHandler implements IMessageHandler<EmailMessageDTO>, Runnable {
+public class EmailMessageHandler extends AbstractEmailHandler<EmailMessageDTO> implements Runnable {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(EmailMessageHandler.class);
 
@@ -58,8 +58,11 @@ public class EmailMessageHandler extends AbstractEmailHandler implements IMessag
 
     @Override
     public MessageTypeEnum messageType() {
+        this.messageTypeEnum = MessageTypeEnum.EMAIL;
         return MessageTypeEnum.EMAIL;
     }
+
+
     @Override
     public void run() {
         List<EmailConfig> configs = messageConfigService.queryConfigOrDefault(param, EmailConfig.class);
@@ -125,8 +128,14 @@ public class EmailMessageHandler extends AbstractEmailHandler implements IMessag
         }
     }
 
+
     @Override
-    public void setBaseMessage(EmailMessageDTO emailMessageDTO) {
-        this.param = emailMessageDTO;
+    public void setBaseMessage(Object object) {
+        this.param = (EmailMessageDTO) object;
+    }
+
+    @Override
+    public Runnable getRunnable() {
+        return this;
     }
 }

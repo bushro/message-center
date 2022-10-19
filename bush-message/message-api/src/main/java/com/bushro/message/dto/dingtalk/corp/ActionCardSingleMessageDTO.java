@@ -15,7 +15,7 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ActionCardSingleMessageDTODing extends DingCommonDTO {
+public class ActionCardSingleMessageDTO extends DingCommonDTO {
     private static final long serialVersionUID = -3289428483627765265L;
 
     /**
