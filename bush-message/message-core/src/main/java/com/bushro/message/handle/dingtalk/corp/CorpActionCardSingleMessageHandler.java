@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -28,14 +29,12 @@ import java.util.List;
 @Slf4j
 public class CorpActionCardSingleMessageHandler extends AbstractDingHandler<ActionCardSingleMessageDTO> implements  Runnable {
 
-    private final static Logger LOGGER = LoggerFactory.getLogger(CorpActionCardSingleMessageHandler.class);
-
     private ActionCardSingleMessageDTO param;
 
-    @Autowired
+    @Resource
     private IMessageConfigService messageConfigService;
 
-    @Autowired
+    @Resource
     private IMessageRequestDetailService messageRequestDetailService;
 
     @Override
