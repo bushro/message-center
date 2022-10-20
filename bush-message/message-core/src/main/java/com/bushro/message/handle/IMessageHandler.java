@@ -1,6 +1,5 @@
 package com.bushro.message.handle;
 
-import com.bushro.message.base.BaseMessage;
 import com.bushro.message.enums.MessageTypeEnum;
 
 /**
@@ -12,7 +11,7 @@ import com.bushro.message.enums.MessageTypeEnum;
 public interface IMessageHandler {
 
     /**
-     * 设置基本信息
+     * 消息处理器需要使用的参数
      *
      * @param object 对象
      */
@@ -28,6 +27,8 @@ public interface IMessageHandler {
 
     /**
      * 所有消息处理器必须实现这个接口，标识自己处理的是哪个消息类型
+     *
+     * @return {@link MessageTypeEnum}
      */
     MessageTypeEnum messageType();
 }

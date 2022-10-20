@@ -5,20 +5,19 @@ import cn.hutool.json.JSONObject;
 import com.bushro.message.base.BaseMessage;
 import com.bushro.message.dto.MessagePushDTO;
 import com.bushro.message.dto.TypeMessageDTO;
-import com.bushro.message.enums.MessageTypeEnum;
+import com.bushro.message.entity.MessageRequest;
 import com.bushro.message.enums.MqTypeEnum;
 import com.bushro.message.handle.IMessageHandler;
 import com.bushro.message.handle.MessageHandlerHolder;
-import com.bushro.message.handle.email.EmailMessageHandler;
-import com.bushro.message.utils.MessageHandlerUtils;
+import com.bushro.message.service.IMessageRequestService;
 import com.bushro.message.utils.ThreadPoolUtil;
 import com.lmax.disruptor.EventHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.Map;
+import java.time.LocalDateTime;
 
 
 /**
@@ -30,6 +29,9 @@ import java.util.Map;
 @Service
 @Slf4j
 public class DisruptorConsumerService implements EventHandler<MessagePushDTO>, ConsumerService {
+
+    @Resource
+    private IMessageRequestService messageRequestService;
 
 
     @Override
@@ -47,6 +49,8 @@ public class DisruptorConsumerService implements EventHandler<MessagePushDTO>, C
             baseMessage.setConfigIds(typeMessageDTO.getConfigIds());
             handler.setBaseMessage(baseMessage);
             ThreadPoolUtil.getThreadPool().execute(handler.getRunnable());
+            //记录请求日志
+            log(event);
         } catch (Exception e) {
             log.error("消息处理异常", e);
         }
@@ -63,19 +67,19 @@ public class DisruptorConsumerService implements EventHandler<MessagePushDTO>, C
 
     }
 
-    public static void main(String[] args) {
-        EmailMessageHandler handler = new EmailMessageHandler();
-//        ParameterizedType superclass = (ParameterizedType) handler.getClass().getGenericSuperclass();
-//        Class<?> argument = (Class<?>) superclass.getActualTypeArguments()[0];
-//        System.out.println("asf");
-        Class clazz = handler.getClass();
-        Type type = clazz.getGenericSuperclass();
-        System.out.println(type);
-        //ParameterizedType参数化类型，即泛型
-        ParameterizedType p = (ParameterizedType) type;
-        //getActualTypeArguments获取参数化类型的数组，泛型可能有多个
-        Class c1 = (Class) p.getActualTypeArguments()[0];
-        //c1: class java.lang.Integer
-        System.out.println("c1: "+c1);
+    /**
+     * 日志
+     *
+     * @param event 事件
+     */
+    public void log (MessagePushDTO event) {
+        // 记录请求参数信息
+        MessageRequest request = new MessageRequest();
+        request.setMessageType(event.getMessageTypeEnum().getName());
+        request.setPlatform(event.getMessageTypeEnum().getPlatform().name());
+        request.setParam(event.getParam());
+        request.setCreateTime(LocalDateTime.now());
+        request.setRequestNo(event.getRequestNo());
+        messageRequestService.log(request);
     }
 }

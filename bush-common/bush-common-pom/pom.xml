@@ -40,6 +40,7 @@
         <docker.plugin.version>0.33.0</docker.plugin.version>
         <cloud.plugin.version>1.0.0</cloud.plugin.version>
         <disruptor.version>3.4.2</disruptor.version>
+        <commons.email.version>1.4</commons.email.version>
     </properties>
 
     <dependencyManagement>
@@ -193,6 +194,12 @@
                 <groupId>com.lmax</groupId>
                 <artifactId>disruptor</artifactId>
                 <version>${disruptor.version}</version>
+            </dependency>
+            <!--发送邮件需要的包-->
+            <dependency>
+               <groupId>org.apache.commons</groupId>
+               <artifactId>commons-email</artifactId>
+               <version>${commons.email.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

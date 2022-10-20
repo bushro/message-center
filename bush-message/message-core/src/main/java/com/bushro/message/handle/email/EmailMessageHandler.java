@@ -3,13 +3,20 @@ package com.bushro.message.handle.email;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.extra.mail.Mail;
 import cn.hutool.extra.mail.MailAccount;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
-import com.bushro.message.base.BaseMessage;
+import com.bushro.common.core.exception.BusinessException;
+import com.bushro.message.dto.email.EmailMessageDTO;
+import com.bushro.message.entity.MessageRequestDetail;
 import com.bushro.message.entity.SysFile;
-import com.bushro.message.handle.IMessageHandler;
+import com.bushro.message.enums.MessageTypeEnum;
+import com.bushro.message.enums.SendStatusEnum;
+import com.bushro.message.properties.EmailConfig;
+import com.bushro.message.service.IMessageConfigService;
+import com.bushro.message.service.IMessageRequestDetailService;
 import com.bushro.message.service.SysFileService;
 import com.bushro.service.OssTemplate;
 import lombok.extern.slf4j.Slf4j;
@@ -18,19 +25,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import com.bushro.message.dto.email.EmailMessageDTO;
-import com.bushro.message.entity.MessageRequestDetail;
-import com.bushro.message.enums.MessageTypeEnum;
-import com.bushro.message.enums.SendStatusEnum;
-import com.bushro.message.properties.EmailConfig;
-import com.bushro.message.service.IMessageConfigService;
-import com.bushro.message.service.IMessageRequestDetailService;
 
 import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 邮件消息处理器
@@ -84,16 +85,23 @@ public class EmailMessageHandler extends AbstractEmailHandler<EmailMessageDTO> i
             mail.setTitle(title);
             mail.setContent(content);
             mail.setHtml(true);
+            mail.setTos(param.getReceiverIds().toArray(new String[0]));
+            if (!CollectionUtils.isEmpty(param.getCcs())) {
+                mail.setCcs(param.getCcs().toArray(new String[0]));
+            }
             List<File> files = new ArrayList<>();
             //文件处理
-            if (CollectionUtil.isEmpty(param.getFileIds())) {
+            if (!CollectionUtil.isEmpty(param.getFileIds())) {
                 for (Long fileId : param.getFileIds()) {
                     SysFile sysFile = sysFileService.getById(fileId);
+                    if (ObjectUtil.isEmpty(sysFile)) {
+                        log.error("找不到文件-{}", fileId);
+                        throw new BusinessException("文件不存在！");
+                    }
                     S3Object s3Object = ossTemplate.getObject(sysFile.getBucketName(), sysFile.getFileName());
-                    String[] split = sysFile.getFileName().split(".");
                     File tempFile = null;
                     try {
-                        tempFile = File.createTempFile(split[0], split[1]);
+                        tempFile = File.createTempFile(String.valueOf(sysFile.getId()), sysFile.getOriginal());
                         FileOutputStream stream = new FileOutputStream(tempFile);
                         S3ObjectInputStream objectContent = s3Object.getObjectContent();
                         IoUtil.copy(objectContent, stream);
@@ -108,10 +116,6 @@ public class EmailMessageHandler extends AbstractEmailHandler<EmailMessageDTO> i
                 }
             }
             mail.setFiles(files.toArray(new File[0]));
-            mail.setTos(param.getReceiverIds().toArray(new String[0]));
-            if (!CollectionUtils.isEmpty(param.getCcs())) {
-                mail.setCcs(param.getCcs().toArray(new String[0]));
-            }
             try {
                 requestDetail.setSendStatus(SendStatusEnum.SEND_STATUS_SUCCESS.getCode());
                 requestDetail.setMsgTest(SendStatusEnum.SEND_STATUS_SUCCESS.getDescription());
