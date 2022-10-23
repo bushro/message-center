@@ -27,6 +27,6 @@ public class DingTalkCorpConfig extends Config {
     /**
      * 应用agentId
      */
-    private Integer agentId;
+    private Long agentId;
 
 }

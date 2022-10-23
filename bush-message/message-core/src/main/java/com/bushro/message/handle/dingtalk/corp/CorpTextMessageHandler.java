@@ -14,7 +14,6 @@ import com.dingtalk.api.request.OapiMessageCorpconversationAsyncsendV2Request;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -22,7 +21,6 @@ import java.util.List;
 
 /**
  * 钉钉工作通知-文本类型消息处理器
- *
  **/
 @Component
 @Slf4j
@@ -60,7 +58,7 @@ public class CorpTextMessageHandler extends AbstractDingHandler<TextMessageDTO> 
         List<DingTalkCorpConfig> configs = messageConfigService.queryConfigOrDefault(param, DingTalkCorpConfig.class);
         for (DingTalkCorpConfig config : configs) {
             this.config = config;
-            this.setReceiverUsers(param);
+            this.checkAndSetUsers(param);
             OapiMessageCorpconversationAsyncsendV2Request request = this.getRequest(param);
             OapiMessageCorpconversationAsyncsendV2Request.Msg msg = new OapiMessageCorpconversationAsyncsendV2Request.Msg();
 

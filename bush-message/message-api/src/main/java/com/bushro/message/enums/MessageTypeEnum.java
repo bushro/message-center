@@ -14,11 +14,14 @@ public enum MessageTypeEnum {
     // ================================邮件====================================
     EMAIL("邮件 ", MessagePlatformEnum.EMAIL),
     // ================================企业微信-应用====================================
-    WECHAT_WORK_AGENT_TEXT("企业微信文本", MessagePlatformEnum.WECHAT_WORK_AGENT),
-    WECHAT_WORK_AGENT_IMAGE("企业微信图片", MessagePlatformEnum.WECHAT_WORK_AGENT),
-    WECHAT_WORK_AGENT_VIDEO("企业微信视频", MessagePlatformEnum.WECHAT_WORK_AGENT),
-    WECHAT_WORK_AGENT_FILE("企业微信文件", MessagePlatformEnum.WECHAT_WORK_AGENT),
-    WECHAT_WORK_AGENT_TEXTCARD("企业微信文本卡片", MessagePlatformEnum.WECHAT_WORK_AGENT),
+    /**
+     * https://developer.work.weixin.qq.com/document/path/90236
+     */
+    WECHAT_WORK_AGENT_TEXT("企业微信应用文本", MessagePlatformEnum.WECHAT_WORK_AGENT),
+    WECHAT_WORK_AGENT_IMAGE("企业微信应用图片", MessagePlatformEnum.WECHAT_WORK_AGENT),
+    WECHAT_WORK_AGENT_VIDEO("企业微信应用视频", MessagePlatformEnum.WECHAT_WORK_AGENT),
+    WECHAT_WORK_AGENT_FILE("企业微信应用文件", MessagePlatformEnum.WECHAT_WORK_AGENT),
+    WECHAT_WORK_AGENT_TEXTCARD("企业微信应用文本卡片", MessagePlatformEnum.WECHAT_WORK_AGENT),
 
     // ================================微信公众号====================================
     WECHAT_OFFICIAL_ACCOUNT_TEXT("微信公众号文本", MessagePlatformEnum.WECHAT_OFFICIAL_ACCOUNT),

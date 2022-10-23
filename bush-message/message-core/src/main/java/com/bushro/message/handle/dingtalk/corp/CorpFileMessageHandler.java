@@ -19,7 +19,6 @@ import java.util.List;
 
 /**
  * 钉钉工作通知文件消息处理器
- *
  **/
 @Component
 @Slf4j
@@ -55,7 +54,7 @@ public class CorpFileMessageHandler extends AbstractDingHandler<FileMessageDTO> 
         List<DingTalkCorpConfig> configs = messageConfigService.queryConfigOrDefault(param, DingTalkCorpConfig.class);
         for (DingTalkCorpConfig config : configs) {
             this.config = config;
-            this.setReceiverUsers(param);
+            this.checkAndSetUsers(param);
             OapiMessageCorpconversationAsyncsendV2Request request = this.getRequest(param);
             OapiMessageCorpconversationAsyncsendV2Request.Msg msg = new OapiMessageCorpconversationAsyncsendV2Request.Msg();
 

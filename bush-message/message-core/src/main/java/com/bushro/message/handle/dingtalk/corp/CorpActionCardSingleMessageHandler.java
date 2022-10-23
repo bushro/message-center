@@ -2,20 +2,15 @@ package com.bushro.message.handle.dingtalk.corp;
 
 import cn.hutool.json.JSONUtil;
 import com.bushro.message.dto.dingtalk.corp.ActionCardSingleMessageDTO;
-import com.bushro.message.dto.dingtalk.corp.LinkMessageDTO;
 import com.bushro.message.entity.MessageRequestDetail;
 import com.bushro.message.enums.MessageTypeEnum;
 import com.bushro.message.enums.MsgTypeEnum;
-import com.bushro.message.handle.IMessageHandler;
 import com.bushro.message.handle.dingtalk.AbstractDingHandler;
 import com.bushro.message.properties.DingTalkCorpConfig;
 import com.bushro.message.service.IMessageConfigService;
 import com.bushro.message.service.IMessageRequestDetailService;
 import com.dingtalk.api.request.OapiMessageCorpconversationAsyncsendV2Request;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -23,11 +18,10 @@ import java.util.List;
 
 /**
  * 钉钉工作通知-整体跳转ActionCard样式，支持一个点击Action
- *
  **/
 @Component
 @Slf4j
-public class CorpActionCardSingleMessageHandler extends AbstractDingHandler<ActionCardSingleMessageDTO> implements  Runnable {
+public class CorpActionCardSingleMessageHandler extends AbstractDingHandler<ActionCardSingleMessageDTO> implements Runnable {
 
     private ActionCardSingleMessageDTO param;
 
@@ -59,7 +53,7 @@ public class CorpActionCardSingleMessageHandler extends AbstractDingHandler<Acti
         List<DingTalkCorpConfig> configs = messageConfigService.queryConfigOrDefault(param, DingTalkCorpConfig.class);
         for (DingTalkCorpConfig config : configs) {
             this.config = config;
-            this.setReceiverUsers(param);
+            this.checkAndSetUsers(param);
             OapiMessageCorpconversationAsyncsendV2Request request = this.getRequest(param);
             OapiMessageCorpconversationAsyncsendV2Request.Msg msg = new OapiMessageCorpconversationAsyncsendV2Request.Msg();
 

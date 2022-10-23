@@ -25,16 +25,20 @@ public class DingCommonDTO extends BaseMessage {
 
     /**
      * 是否发送给企业全部用户，注意钉钉限制只能发3次全员消息
+     * 当设置为false时必须指定userid_list或dept_id_list其中一个参数的值。
+     *
      */
     private boolean toAllUser;
 
     /**
-     * 接收人列表
+     * 接收者的用户userid列表, user123,user456 接收者的userid列表，最大用户列表长度100。
      */
-    private List<String> receiverIds;
+    private String useridList;
 
     /**
-     * 接收人的部门id列表，接收者的部门id列表，多个用,隔开
+     * 接收者的部门id列表，最大列表长度20。多个用,隔开
+     * 接收者是部门ID时，包括子部门下的所有用户。
+     *
      */
     private String deptIdList;
 }

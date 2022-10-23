@@ -18,28 +18,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-public class TextCardMessageDTO extends BaseMessage {
+public class TextCardMessageDTO extends AgentCommonDTO {
     private static final long serialVersionUID = -5830938694539681793L;
-
-    /**
-     * 接收人分组列表
-     */
-    private List<Long> receiverGroupIds;
-
-    /**
-     * 接收人列表
-     */
-    private List<String> receiverIds;
-
-    /**
-     * PartyID列表，非必填，多个接受者用‘|’分隔。当touser为@all时忽略本参数
-     */
-    private String toParty;
-
-    /**
-     * TagID列表，非必填，多个接受者用‘|’分隔。当touser为@all时忽略本参数
-     */
-    private String toTag;
 
     /**
      * 点击后跳转的链接。最长2048字节，请确保包含了协议头(http/https)

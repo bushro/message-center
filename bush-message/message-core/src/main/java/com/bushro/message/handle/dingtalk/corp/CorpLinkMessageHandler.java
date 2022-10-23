@@ -54,7 +54,7 @@ public class CorpLinkMessageHandler extends AbstractDingHandler<LinkMessageDTO> 
         List<DingTalkCorpConfig> configs = messageConfigService.queryConfigOrDefault(param, DingTalkCorpConfig.class);
         for (DingTalkCorpConfig config : configs) {
             this.config = config;
-            this.setReceiverUsers(param);
+            this.checkAndSetUsers(param);
             OapiMessageCorpconversationAsyncsendV2Request request = this.getRequest(param);
             OapiMessageCorpconversationAsyncsendV2Request.Msg msg = new OapiMessageCorpconversationAsyncsendV2Request.Msg();
             msg.setMsgtype(MsgTypeEnum.LINK.getValue());

@@ -74,15 +74,18 @@
             <groupId>com.github.binarywang</groupId>
             <artifactId>weixin-java-mp</artifactId>
         </dependency>
-        <!-- 钉钉 -->
+        <!-- 钉钉旧版服务器API -->
         <dependency>
-            <groupId>com.taobao.top</groupId>
-            <artifactId>top-api-sdk-dev</artifactId>
-            <version>ding-open-mc-SNAPSHOT</version>
-            <!--system 依赖本地的jar包-->
-            <scope>system</scope>
-            <systemPath>${pom.basedir}/src/lib/taobao-sdk-java-auto_1479188381469-20211011.jar</systemPath>
+            <groupId>com.aliyun</groupId>
+            <artifactId>alibaba-dingtalk-service-sdk</artifactId>
+            <version>2.0.0</version>
         </dependency>
+        <!-- 钉钉新版服务API -->
+<!--        <dependency>-->
+<!--            <groupId>com.aliyun</groupId>-->
+<!--            <artifactId>dingtalk</artifactId>-->
+<!--            <version>1.2.15</version>-->
+<!--        </dependency>-->
         <!-- oss -->
         <dependency>
             <groupId>com.bushro</groupId>
@@ -102,15 +105,5 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
-        <!-- 重新指明资源文件位置 -->
-        <resources>
-            <resource>
-                <directory>src/lib</directory>
-                <targetPath>BOOT-INF/lib/</targetPath>
-            </resource>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>
     </build>
 </project>

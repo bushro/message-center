@@ -4,12 +4,10 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.extra.mail.MailAccount;
 import com.bushro.message.base.BaseMessage;
 import com.bushro.message.dto.email.EmailCommonDTO;
-import com.bushro.message.entity.MessageRequestDetail;
 import com.bushro.message.enums.MessageTypeEnum;
 import com.bushro.message.handle.IMessageHandler;
 import com.bushro.message.properties.EmailConfig;
 import com.dingtalk.api.DingTalkClient;
-import com.dingtalk.api.request.OapiMessageCorpconversationAsyncsendV2Request;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashSet;
@@ -25,10 +23,19 @@ import java.util.Set;
 @Slf4j
 public abstract class AbstractEmailHandler<T extends BaseMessage> implements IMessageHandler {
 
+    /**
+     * 接收人
+     */
     public Set<String> receiverUsers;
 
+    /**
+     * 配置
+     */
     public EmailConfig config;
 
+    /**
+     * 消息类型
+     */
     public MessageTypeEnum messageTypeEnum;
 
 

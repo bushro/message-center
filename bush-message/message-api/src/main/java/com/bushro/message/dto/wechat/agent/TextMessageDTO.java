@@ -18,28 +18,8 @@ import java.util.List;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TextMessageDTO extends BaseMessage {
+public class TextMessageDTO extends AgentCommonDTO {
     private static final long serialVersionUID = -3289428483627765265L;
-
-    /**
-     * 接收人分组列表
-     */
-    private List<Long> receiverGroupIds;
-
-    /**
-     * 接收人列表
-     */
-    private List<String> receiverIds;
-
-    /**
-     * PartyID列表，非必填，多个接受者用‘|’分隔。当touser为@all时忽略本参数
-     */
-    private String toParty;
-
-    /**
-     * TagID列表，非必填，多个接受者用‘|’分隔。当touser为@all时忽略本参数
-     */
-    private String toTag;
 
     /**
      * 请输入内容...
