@@ -33,6 +33,7 @@ public class CorpActionCardSingleMessageHandler extends AbstractDingHandler<Acti
 
     @Override
     public MessageTypeEnum messageType() {
+        this.messageTypeEnum = MessageTypeEnum.DING_TALK_COPR_ACTION_CARD_SINGLE;
         return MessageTypeEnum.DING_TALK_COPR_ACTION_CARD_SINGLE;
     }
 
