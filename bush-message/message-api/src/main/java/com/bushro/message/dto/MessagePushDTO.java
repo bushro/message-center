@@ -35,9 +35,4 @@ public class MessagePushDTO extends BaseParam {
      * 消息参数
      */
     private TypeMessageDTO messageDTO;
-
-    /**
-     * 消息参数，键为需要发送的消息类型，值为对应消息类型需要的参数（不同平台可能会需要不同的参数，所以这里不表达具体类型，由不同的实现决定具体结构）
-     */
-    private Map<MessageTypeEnum, TypeMessageDTO> messageParam = new LinkedHashMap<>();
 }

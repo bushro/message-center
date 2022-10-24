@@ -1,11 +1,9 @@
 package com.bushro.message.utils;
 
-import cn.hutool.core.map.MapUtil;
-import cn.hutool.core.util.ReflectUtil;
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
 import com.bushro.message.base.Config;
-import com.bushro.message.handle.AbstractMessageHandler;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,17 +17,6 @@ public final class MessageHandlerUtils {
 
 
     /**
-     * 获取消息处理器的参数类型
-     */
-    public static Class<?> getParamType(AbstractMessageHandler<?> messageHandler) {
-        // 缓存单例，避免每次都执行反射去获取参数类型
-        return SingletonUtil.get("param-type-" + messageHandler.getClass().getName(), () -> {
-            ParameterizedType superclass = (ParameterizedType) messageHandler.getClass().getGenericSuperclass();
-            return (Class<?>) superclass.getActualTypeArguments()[0];
-        });
-    }
-
-    /**
      * 把数据库里的配置数据转成具体的配置类
      *
      * @param configType 配置类型
@@ -39,21 +26,9 @@ public final class MessageHandlerUtils {
         try {
             List<Config> configs = new ArrayList<>();
             for (Map.Entry<Long, Map<String, Object>> entry : configMap.entrySet()) {
-                Long configId = entry.getKey();
                 Map<String, Object> valueMap = entry.getValue();
-
-                Config configObj = (Config) configType.newInstance();
-                configObj.setConfigId(configId);
-                configObj.setConfigName((String) valueMap.get("configName"));
-                for (String key : valueMap.keySet()) {
-                    if (!ReflectUtil.hasField(configType, key) || "configName".equals(key)) {
-                        continue;
-                    }
-                    Field declaredField = configType.getDeclaredField(key);
-                    Class<?> fieldType = declaredField.getType();
-                    ReflectUtil.setFieldValue(configObj, key, MapUtil.get(valueMap, key, fieldType));
-                }
-                configs.add(configObj);
+                Config config = (Config) BeanUtil.mapToBean(valueMap, configType, true, CopyOptions.create());
+                configs.add(config);
             }
             return configs;
         } catch (Exception e) {

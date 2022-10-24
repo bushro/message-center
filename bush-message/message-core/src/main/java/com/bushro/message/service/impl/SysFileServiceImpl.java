@@ -110,6 +110,7 @@ public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> impl
 		sysFile.setBucketName(ossProperties.getBucketName());
 		sysFile.setCreateBy("admin");
 		sysFile.setUpdateBy("admin");
+		sysFile.setDelFlag("0");
 		sysFile.setCreateTime(LocalDateTime.now());
 		this.save(sysFile);
 	}

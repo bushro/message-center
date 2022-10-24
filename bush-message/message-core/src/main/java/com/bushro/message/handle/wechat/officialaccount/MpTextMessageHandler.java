@@ -1,7 +1,14 @@
 package com.bushro.message.handle.wechat.officialaccount;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
-
+import com.bushro.message.dto.wechat.officialaccount.TextMessageDTO;
+import com.bushro.message.entity.MessageRequestDetail;
+import com.bushro.message.enums.MessageTypeEnum;
+import com.bushro.message.enums.SendStatusEnum;
+import com.bushro.message.properties.WechatOfficialAccountConfig;
+import com.bushro.message.service.IMessageConfigService;
+import com.bushro.message.service.IMessageRequestDetailService;
+import com.bushro.message.utils.SingletonUtil;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.api.impl.WxMpServiceImpl;
 import me.chanjar.weixin.mp.bean.kefu.WxMpKefuMessage;
@@ -9,18 +16,9 @@ import me.chanjar.weixin.mp.config.impl.WxMpDefaultConfigImpl;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import com.bushro.message.dto.wechat.officialaccount.TextMessageDTO;
-import com.bushro.message.entity.MessageRequestDetail;
-import com.bushro.message.enums.MessageTypeEnum;
-import com.bushro.message.enums.SendStatusEnum;
-import com.bushro.message.handle.AbstractMessageHandler;
-import com.bushro.message.properties.WechatOfficialAccountConfig;
-import com.bushro.message.service.IMessageConfigService;
-import com.bushro.message.service.IMessageRequestDetailService;
-import com.bushro.message.utils.SingletonUtil;
 
+import javax.annotation.Resource;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,22 +28,23 @@ import java.util.Set;
  *
  **/
 @Component
-public class MpTextMessageHandler extends AbstractMessageHandler<TextMessageDTO> {
+public class MpTextMessageHandler {
+
 
     private final static Logger LOGGER = LoggerFactory.getLogger(MpTextMessageHandler.class);
 
-    @Autowired
+    @Resource
     private IMessageConfigService messageConfigService;
 
-    @Autowired
+    @Resource
     private IMessageRequestDetailService messageRequestDetailService;
 
-    @Override
+
     public MessageTypeEnum messageType() {
         return MessageTypeEnum.WECHAT_OFFICIAL_ACCOUNT_TEXT;
     }
 
-    @Override
+
     public void handle(TextMessageDTO param) {
         List<WechatOfficialAccountConfig> configs = messageConfigService.queryConfigOrDefault(param, WechatOfficialAccountConfig.class);
         for (WechatOfficialAccountConfig config : configs) {
