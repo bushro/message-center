@@ -78,7 +78,6 @@
         <dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>alibaba-dingtalk-service-sdk</artifactId>
-            <version>2.0.0</version>
         </dependency>
         <!-- 钉钉新版服务API -->
 <!--        <dependency>-->
@@ -86,7 +85,7 @@
 <!--            <artifactId>dingtalk</artifactId>-->
 <!--            <version>1.2.15</version>-->
 <!--        </dependency>-->
-        <!-- oss -->
+        <!-- oss https://gitee.com/bushro/oss-spring-boot-start 需要install到本地-->
         <dependency>
             <groupId>com.bushro</groupId>
             <artifactId>oss-spring-boot-start</artifactId>

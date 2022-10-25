@@ -41,6 +41,7 @@
         <cloud.plugin.version>1.0.0</cloud.plugin.version>
         <disruptor.version>3.4.2</disruptor.version>
         <commons.email.version>1.4</commons.email.version>
+        <dingtalk.version>2.0.0</dingtalk.version>
     </properties>
 
     <dependencyManagement>
@@ -149,6 +150,12 @@
                 <groupId>com.github.javen205</groupId>
                 <artifactId>IJPay-AliPay</artifactId>
                 <version>${ijpay.version}</version>
+            </dependency>
+            <!-- 钉钉旧版服务器API -->
+            <dependency>
+                <groupId>com.aliyun</groupId>
+                <artifactId>alibaba-dingtalk-service-sdk</artifactId>
+                <version>${dingtalk.version}</version>
             </dependency>
             <!--定义groovy 版本-->
             <dependency>
