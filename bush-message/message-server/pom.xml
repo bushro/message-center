@@ -14,6 +14,7 @@
     <packaging>jar</packaging>
 
     <dependencies>
+        <!--消息中心核心类-->
         <dependency>
             <groupId>com.bushro</groupId>
             <artifactId>message-core</artifactId>

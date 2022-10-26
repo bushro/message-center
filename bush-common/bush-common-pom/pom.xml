@@ -52,6 +52,12 @@
                 <artifactId>bush-common-core</artifactId>
                 <version>${bush.version}</version>
             </dependency>
+            <!--幂等工具类-->
+            <dependency>
+                <groupId>com.bushro</groupId>
+                <artifactId>bush-common-idempotent</artifactId>
+                <version>${bush.version}</version>
+            </dependency>
             <!--消息api-->
             <dependency>
                 <groupId>com.bushro</groupId>

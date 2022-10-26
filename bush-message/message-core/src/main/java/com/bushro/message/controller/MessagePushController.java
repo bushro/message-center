@@ -1,6 +1,8 @@
 package com.bushro.message.controller;
 
 import com.bushro.common.core.util.SpringContextHolder;
+import com.bushro.common.idempotent.annotation.Idempotent;
+import com.bushro.message.dto.MessagePushDTO;
 import com.bushro.message.dto.dingtalk.corp.LinkMessageDTO;
 import com.bushro.message.handle.dingtalk.corp.CorpLinkMessageHandler;
 import com.bushro.message.utils.ThreadPoolUtil;
@@ -27,13 +29,25 @@ public class MessagePushController {
         return messagePushService.push(param);
     }
 
+
     @GetMapping("/get")
     public String push() {
-        CorpLinkMessageHandler bean = SpringContextHolder.getBean(CorpLinkMessageHandler.class);
-        LinkMessageDTO messageDTO = new LinkMessageDTO();
-        messageDTO.setTitle("测试");
-        bean.setBaseMessage(messageDTO);
-        ThreadPoolUtil.getThreadPool().submit(bean);
+//        CorpLinkMessageHandler bean = SpringContextHolder.getBean(CorpLinkMessageHandler.class);
+//        LinkMessageDTO messageDTO = new LinkMessageDTO();
+//        messageDTO.setTitle("测试");
+//        bean.setBaseMessage(messageDTO);
+//        ThreadPoolUtil.getThreadPool().submit(bean);
+        return "success";
+    }
+
+    @Idempotent(key = "#test.requestNo",expireTime = 1000, info = "请勿重复查询")
+    @PostMapping("/test")
+    public String test(@RequestBody MessagePushDTO test) {
+//        CorpLinkMessageHandler bean = SpringContextHolder.getBean(CorpLinkMessageHandler.class);
+//        LinkMessageDTO messageDTO = new LinkMessageDTO();
+//        messageDTO.setTitle("测试");
+//        bean.setBaseMessage(messageDTO);
+//        ThreadPoolUtil.getThreadPool().submit(bean);
         return "success";
     }
 }
