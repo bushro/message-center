@@ -5,9 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import com.bushro.message.base.BaseMessage;
-
-import java.util.List;
 
 /**
  * 企业微信视频消息类型DTO

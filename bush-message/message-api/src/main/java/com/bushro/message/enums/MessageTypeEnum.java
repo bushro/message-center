@@ -23,6 +23,12 @@ public enum MessageTypeEnum {
     WECHAT_WORK_AGENT_FILE("企业微信应用文件", MessagePlatformEnum.WECHAT_WORK_AGENT),
     WECHAT_WORK_AGENT_TEXTCARD("企业微信应用文本卡片", MessagePlatformEnum.WECHAT_WORK_AGENT),
 
+    // ================================企业微信-群机器人====================================
+    WECHAT_WORK_ROBOT_TEXT("文本", MessagePlatformEnum.WECHAT_WORK_ROBOT),
+    WECHAT_WORK_ROBOT_IMAGE("图片", MessagePlatformEnum.WECHAT_WORK_ROBOT),
+    WECHAT_WORK_ROBOT_NEWS("图文消息", MessagePlatformEnum.WECHAT_WORK_ROBOT),
+    WECHAT_WORK_ROBOT_MARKDOWN("Markdown", MessagePlatformEnum.WECHAT_WORK_ROBOT),
+
     // ================================微信公众号====================================
     WECHAT_OFFICIAL_ACCOUNT_TEXT("微信公众号文本", MessagePlatformEnum.WECHAT_OFFICIAL_ACCOUNT),
     WECHAT_OFFICIAL_ACCOUNT_NEWS("微信公众号图文消息", MessagePlatformEnum.WECHAT_OFFICIAL_ACCOUNT),

@@ -62,9 +62,9 @@ public abstract class AbstractWechatAgentHandler<T extends BaseMessage> implemen
             cpConfig.setCorpId(config.getCorpId());
             cpConfig.setCorpSecret(config.getSecret());
             cpConfig.setAgentId(config.getAgentId());
-            WxCpServiceImpl wxCpService1 = new WxCpServiceImpl();
-            wxCpService1.setWxCpConfigStorage(cpConfig);
-            return wxCpService1;
+            WxCpServiceImpl service = new WxCpServiceImpl();
+            service.setWxCpConfigStorage(cpConfig);
+            return service;
         });
         return wxCpService;
     }

@@ -1,10 +1,7 @@
 package com.bushro.message.enums;
 
 
-import com.bushro.message.properties.DingTalkCorpConfig;
-import com.bushro.message.properties.EmailConfig;
-import com.bushro.message.properties.WechatOfficialAccountConfig;
-import com.bushro.message.properties.WechatWorkAgentConfig;
+import com.bushro.message.properties.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import com.bushro.message.base.Config;
@@ -19,6 +16,7 @@ import com.bushro.message.base.Config;
 public enum MessagePlatformEnum {
     EMAIL(EmailConfig.class, "邮箱"),
     WECHAT_WORK_AGENT(WechatWorkAgentConfig.class, "企业微信-应用消息"),
+    WECHAT_WORK_ROBOT(WechatWorkRobotConfig.class, "企业微信-群机器人"),
     WECHAT_OFFICIAL_ACCOUNT(WechatOfficialAccountConfig.class, "微信公众号"),
     DING_TALK_CORP(DingTalkCorpConfig.class, "钉钉-工作通知");
 

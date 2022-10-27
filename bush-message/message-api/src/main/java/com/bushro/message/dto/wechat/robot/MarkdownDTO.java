@@ -1,4 +1,4 @@
-package com.bushro.message.dto.wechat.agent;
+package com.bushro.message.dto.wechat.robot;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,21 +6,15 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-/**
- * 企业微信文本消息发送DTO
- *
- **/
 @EqualsAndHashCode(callSuper = true)
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-public class TextMessageDTO extends AgentCommonDTO {
-    private static final long serialVersionUID = -3289428483627765265L;
+public class MarkdownDTO extends RobotCommonDTO {
 
     /**
-     * 请输入内容...
+     * markdown内容，最长不超过4096个字节，必须是utf8编码
      */
     private String content;
-
 }

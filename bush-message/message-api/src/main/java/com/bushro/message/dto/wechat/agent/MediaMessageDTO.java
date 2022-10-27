@@ -5,9 +5,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import com.bushro.message.base.BaseMessage;
-
-import java.util.List;
 
 /**
  * 图片、文件消息DTO

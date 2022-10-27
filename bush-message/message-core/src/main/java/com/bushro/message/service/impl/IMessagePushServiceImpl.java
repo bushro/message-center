@@ -2,6 +2,7 @@ package com.bushro.message.service.impl;
 
 import cn.hutool.json.JSONArray;
 import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.bushro.message.consumer.DisruptorConsumerService;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +32,7 @@ public class IMessagePushServiceImpl implements IMessagePushService {
 
     @Override
     public R<String> push(String param) {
+        param = param.replaceAll("[\b\r\n\t]*", "");
         MessagePushDTO messagePushDTO = new MessagePushDTO();
         JSONObject json = new JSONObject(param);
         String requestNo = json.getStr("requestNo");
