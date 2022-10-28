@@ -31,6 +31,7 @@ public class AgentTextCardMessageHandler extends AbstractWechatAgentHandler<Text
     @Override
     public void setBaseMessage(Object object) {
         this.param = (TextCardMessageDTO) object;
+        this.commonDTO = this.param;
     }
 
     @Override
@@ -47,24 +48,22 @@ public class AgentTextCardMessageHandler extends AbstractWechatAgentHandler<Text
 
     @Override
     public void run() {
-        List<WechatWorkAgentConfig> configs = messageConfigService.queryConfigOrDefault(param, WechatWorkAgentConfig.class);
-        for (WechatWorkAgentConfig config : configs) {
-            this.config = config;
-            this.checkAndSetUsers(param);
-            WxCpMessage message = WxCpMessage.TEXTCARD()
-                    // 企业号应用ID
-                    .agentId(config.getAgentId())
-                    .toUser(param.getToUser())
-                    .toParty(param.getToParty())
-                    .toTag(param.getToTag())
-                    .title(param.getTitle())
-                    .description(param.getDescription())
-                    .url(param.getUrl())
-                    .btnTxt(param.getBtntxt())
-                    .build();
+        this.handleMessage(messageConfigService, messageRequestDetailService);
+    }
 
-            MessageRequestDetail requestDetail = this.execute(param, message);
-            messageRequestDetailService.logDetail(requestDetail);
-        }
+    @Override
+    protected WxCpMessage buildMsg() {
+        WxCpMessage message = WxCpMessage.TEXTCARD()
+                // 企业号应用ID
+                .agentId(config.getAgentId())
+                .toUser(param.getToUser())
+                .toParty(param.getToParty())
+                .toTag(param.getToTag())
+                .title(param.getTitle())
+                .description(param.getDescription())
+                .url(param.getUrl())
+                .btnTxt(param.getBtntxt())
+                .build();
+        return message;
     }
 }

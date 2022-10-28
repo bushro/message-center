@@ -33,6 +33,7 @@ public class AgentTextMessageHandler extends AbstractWechatAgentHandler<TextMess
     @Override
     public void setBaseMessage(Object object) {
         this.param = (TextMessageDTO) object;
+        this.commonDTO = this.param;
     }
 
     @Override
@@ -48,21 +49,18 @@ public class AgentTextMessageHandler extends AbstractWechatAgentHandler<TextMess
 
     @Override
     public void run() {
-        List<WechatWorkAgentConfig> configs = messageConfigService.queryConfigOrDefault(param, WechatWorkAgentConfig.class);
-        for (WechatWorkAgentConfig config : configs) {
-            this.config = config;
-            this.checkAndSetUsers(param);
+        this.handleMessage(messageConfigService, messageRequestDetailService);
+    }
 
-            WxCpMessage message = WxCpMessage.TEXT()
-                    .agentId(config.getAgentId())
-                    .toUser(param.getToUser())
-                    .content(param.getContent())
-                    .toParty(param.getToParty())
-                    .toTag(param.getToTag())
-                    .build();
-
-            MessageRequestDetail requestDetail = this.execute(param, message);
-            messageRequestDetailService.logDetail(requestDetail);
-        }
+    @Override
+    protected WxCpMessage buildMsg() {
+        WxCpMessage message = WxCpMessage.TEXT()
+                .agentId(config.getAgentId())
+                .toUser(param.getToUser())
+                .content(param.getContent())
+                .toParty(param.getToParty())
+                .toTag(param.getToTag())
+                .build();
+        return message;
     }
 }

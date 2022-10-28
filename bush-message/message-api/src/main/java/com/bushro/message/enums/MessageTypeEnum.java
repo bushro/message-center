@@ -44,13 +44,18 @@ public enum MessageTypeEnum {
      * 通过设置to_all_user参数全员推送消息，一天最多3次。且企业发送消息单次最多只能给5000人发送，ISV发送消息单次最多能给1000人发送。
      * 超出以上限制次数后，接口返回成功，但用户无法接收到。详细的限制说明，请参考工作通知消息限制。
      */
-    DING_TALK_COPR_TEXT("钉钉文本", MessagePlatformEnum.DING_TALK_CORP),
-    DING_TALK_COPR_MARKDOWN("钉钉Markdown", MessagePlatformEnum.DING_TALK_CORP),
-    DING_TALK_COPR_LINK("钉钉链接消息", MessagePlatformEnum.DING_TALK_CORP),
-    DING_TALK_COPR_IMAGE("钉钉图片消息", MessagePlatformEnum.DING_TALK_CORP),
-    DING_TALK_COPR_FILE("钉钉文件消息", MessagePlatformEnum.DING_TALK_CORP),
-    DING_TALK_COPR_ACTION_CARD_SINGLE("钉钉卡片-单按钮", MessagePlatformEnum.DING_TALK_CORP),
-    DING_TALK_COPR_ACTION_CARD_MULTI("钉钉卡片-多按钮", MessagePlatformEnum.DING_TALK_CORP),
+    DING_TALK_COPR_TEXT("钉钉工作通知文本", MessagePlatformEnum.DING_TALK_CORP),
+    DING_TALK_COPR_MARKDOWN("钉钉工作通知Markdown", MessagePlatformEnum.DING_TALK_CORP),
+    DING_TALK_COPR_LINK("钉钉工作通知链接消息", MessagePlatformEnum.DING_TALK_CORP),
+    DING_TALK_COPR_IMAGE("钉钉工作通知图片消息", MessagePlatformEnum.DING_TALK_CORP),
+    DING_TALK_COPR_FILE("钉钉工作通知文件消息", MessagePlatformEnum.DING_TALK_CORP),
+    DING_TALK_COPR_ACTION_CARD_SINGLE("钉钉工作通知卡片-单按钮", MessagePlatformEnum.DING_TALK_CORP),
+    DING_TALK_COPR_ACTION_CARD_MULTI("钉钉工作通知卡片-多按钮", MessagePlatformEnum.DING_TALK_CORP),
+
+    // ================================钉钉-自定义机器人====================================
+    DING_TALK_ROBOT_TEXT("钉钉自定义机器人文本", MessagePlatformEnum.DING_TALK_ROBOT),
+    DING_TALK_ROBOT_MARKDOWN("钉钉自定义机器人Markdown", MessagePlatformEnum.DING_TALK_ROBOT),
+    DING_TALK_ROBOT_LINK("钉钉自定义机器人链接消息", MessagePlatformEnum.DING_TALK_ROBOT),
     ;
     /**
      * 类型名称

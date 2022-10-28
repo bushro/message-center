@@ -31,6 +31,7 @@ public class AgentVideoMessageHandler  extends AbstractWechatAgentHandler<VideoM
     @Override
     public void setBaseMessage(Object object) {
         this.param = (VideoMessageDTO) object;
+        this.commonDTO = this.param;
     }
 
     @Override
@@ -47,24 +48,21 @@ public class AgentVideoMessageHandler  extends AbstractWechatAgentHandler<VideoM
 
     @Override
     public void run() {
-        List<WechatWorkAgentConfig> configs = messageConfigService.queryConfigOrDefault(param, WechatWorkAgentConfig.class);
-        for (WechatWorkAgentConfig config : configs) {
-            this.config = config;
-            this.checkAndSetUsers(param);
+        this.handleMessage(messageConfigService, messageRequestDetailService);
+    }
 
-            WxCpMessage message = WxCpMessage.VIDEO()
-                    // 企业号应用ID
-                    .agentId(config.getAgentId())
-                    .toUser(param.getToUser())
-                    .toParty(param.getToParty())
-                    .toTag(param.getToTag())
-                    .mediaId(param.getMediaId())
-                    .description(param.getDescription())
-                    .title(param.getTitle())
-                    .build();
-
-            MessageRequestDetail requestDetail = this.execute(param, message);
-            messageRequestDetailService.logDetail(requestDetail);
-        }
+    @Override
+    protected WxCpMessage buildMsg() {
+        WxCpMessage message = WxCpMessage.VIDEO()
+                // 企业号应用ID
+                .agentId(config.getAgentId())
+                .toUser(param.getToUser())
+                .toParty(param.getToParty())
+                .toTag(param.getToTag())
+                .mediaId(param.getMediaId())
+                .description(param.getDescription())
+                .title(param.getTitle())
+                .build();
+        return message;
     }
 }

@@ -1,13 +1,13 @@
-package com.bushro.message.handle.dingtalk.corp;
+package com.bushro.message.handle.dingtalk.robot;
 
-import com.bushro.message.dto.dingtalk.corp.TextMessageDTO;
+
+import com.bushro.message.dto.dingtalk.robot.TextMessageDTO;
 import com.bushro.message.enums.MessageTypeEnum;
-import com.bushro.message.enums.MsgTypeEnum;
 import com.bushro.message.handle.IMessageHandler;
-import com.bushro.message.handle.dingtalk.AbstractDingHandler;
+import com.bushro.message.handle.dingtalk.AbstractDingRobotHandler;
 import com.bushro.message.service.IMessageConfigService;
 import com.bushro.message.service.IMessageRequestDetailService;
-import com.dingtalk.api.request.OapiMessageCorpconversationAsyncsendV2Request;
+import com.dingtalk.api.request.OapiRobotSendRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -18,7 +18,7 @@ import javax.annotation.Resource;
  **/
 @Component
 @Slf4j
-public class CorpTextMessageHandler extends AbstractDingHandler<TextMessageDTO> implements IMessageHandler, Runnable {
+public class DingTalkRobotTextMessageHandler extends AbstractDingRobotHandler<TextMessageDTO> implements IMessageHandler, Runnable {
 
 
     private TextMessageDTO param;
@@ -42,8 +42,8 @@ public class CorpTextMessageHandler extends AbstractDingHandler<TextMessageDTO> 
 
     @Override
     public MessageTypeEnum messageType() {
-        this.messageTypeEnum = MessageTypeEnum.DING_TALK_COPR_TEXT;
-        return MessageTypeEnum.DING_TALK_COPR_TEXT;
+        this.messageTypeEnum = MessageTypeEnum.DING_TALK_ROBOT_TEXT;
+        return MessageTypeEnum.DING_TALK_ROBOT_TEXT;
     }
 
     @Override
@@ -51,13 +51,14 @@ public class CorpTextMessageHandler extends AbstractDingHandler<TextMessageDTO> 
         this.handleMessage(messageConfigService, messageRequestDetailService);
     }
 
-    @Override
-    protected OapiMessageCorpconversationAsyncsendV2Request.Msg buildMsg() {
-        OapiMessageCorpconversationAsyncsendV2Request.Msg msg = new OapiMessageCorpconversationAsyncsendV2Request.Msg();
 
-        msg.setMsgtype(MsgTypeEnum.TEXT.getValue());
-        msg.setText(new OapiMessageCorpconversationAsyncsendV2Request.Text());
-        msg.getText().setContent(param.getContent());
-        return msg;
+    @Override
+    protected OapiRobotSendRequest buildRequest() {
+        OapiRobotSendRequest request = new OapiRobotSendRequest();
+        request.setMsgtype("text");
+        OapiRobotSendRequest.Text text = new OapiRobotSendRequest.Text();
+        text.setContent(param.getContent());
+        request.setText(text);
+        return request;
     }
 }

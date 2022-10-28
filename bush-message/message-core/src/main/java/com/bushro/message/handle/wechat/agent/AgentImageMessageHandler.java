@@ -31,6 +31,7 @@ public class AgentImageMessageHandler extends AbstractWechatAgentHandler<MediaMe
     @Override
     public void setBaseMessage(Object object) {
         this.param = (MediaMessageDTO) object;
+        this.commonDTO = this.param;
     }
 
     @Override
@@ -47,22 +48,20 @@ public class AgentImageMessageHandler extends AbstractWechatAgentHandler<MediaMe
 
     @Override
     public void run() {
-        List<WechatWorkAgentConfig> configs = messageConfigService.queryConfigOrDefault(param, WechatWorkAgentConfig.class);
-        for (WechatWorkAgentConfig config : configs) {
-            this.config = config;
-            this.checkAndSetUsers(param);
-            WxCpMessage message = WxCpMessage.IMAGE()
-                    // 企业号应用ID
-                    .agentId(config.getAgentId())
-                    .toUser(param.getToUser())
-                    .toParty(param.getToParty())
-                    .toTag(param.getToTag())
-                    .mediaId(param.getMediaId())
-                    .build();
+        this.handleMessage(messageConfigService, messageRequestDetailService);
+    }
 
-            MessageRequestDetail requestDetail = this.execute(param, message);
-            messageRequestDetailService.logDetail(requestDetail);
-        }
+    @Override
+    protected WxCpMessage buildMsg() {
+        WxCpMessage message = WxCpMessage.IMAGE()
+                // 企业号应用ID
+                .agentId(config.getAgentId())
+                .toUser(param.getToUser())
+                .toParty(param.getToParty())
+                .toTag(param.getToTag())
+                .mediaId(param.getMediaId())
+                .build();
+        return message;
     }
 
 }

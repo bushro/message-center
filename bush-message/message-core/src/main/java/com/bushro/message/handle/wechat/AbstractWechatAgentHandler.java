@@ -2,14 +2,19 @@ package com.bushro.message.handle.wechat;
 
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.json.JSONUtil;
 import com.bushro.message.base.BaseMessage;
 import com.bushro.message.dto.wechat.agent.AgentCommonDTO;
 import com.bushro.message.entity.MessageRequestDetail;
 import com.bushro.message.enums.MessageTypeEnum;
 import com.bushro.message.enums.SendStatusEnum;
 import com.bushro.message.handle.IMessageHandler;
+import com.bushro.message.properties.DingTalkCorpConfig;
 import com.bushro.message.properties.WechatWorkAgentConfig;
+import com.bushro.message.service.IMessageConfigService;
+import com.bushro.message.service.IMessageRequestDetailService;
 import com.bushro.message.utils.SingletonUtil;
+import com.dingtalk.api.request.OapiMessageCorpconversationAsyncsendV2Request;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.cp.api.impl.WxCpServiceImpl;
 import me.chanjar.weixin.cp.bean.message.WxCpMessage;
@@ -17,13 +22,15 @@ import me.chanjar.weixin.cp.bean.message.WxCpMessageSendResult;
 import me.chanjar.weixin.cp.config.impl.WxCpDefaultConfigImpl;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.List;
+
 @Slf4j
 public abstract class AbstractWechatAgentHandler<T extends BaseMessage> implements IMessageHandler {
 
     /**
      * 参数
      */
-    public AgentCommonDTO agentCommonDTO;
+    public AgentCommonDTO commonDTO;
 
     /**
      * 配置
@@ -47,7 +54,6 @@ public abstract class AbstractWechatAgentHandler<T extends BaseMessage> implemen
         if (StrUtil.isEmpty(param.getToUser()) && StrUtil.isEmpty(param.getToParty())) {
             log.warn("请求号：{}，消息配置：{}。没有检测到接收用户", param.getRequestNo(), config.getConfigName());
         }
-        this.agentCommonDTO = param;
         return;
     }
 
@@ -101,4 +107,32 @@ public abstract class AbstractWechatAgentHandler<T extends BaseMessage> implemen
         }
         return requestDetail;
     }
+
+    /**
+     * 处理消息
+     *
+     * @param messageConfigService        消息配置服务
+     * @param messageRequestDetailService 消息请求细节服务
+     */
+    public void handleMessage(IMessageConfigService messageConfigService, IMessageRequestDetailService messageRequestDetailService) {
+        log.info("发送{}消息开始: 参数-{}-------------------------------", messageTypeEnum.getName(), JSONUtil.toJsonStr(commonDTO));
+        List<WechatWorkAgentConfig> configs = messageConfigService.queryConfigOrDefault(commonDTO, WechatWorkAgentConfig.class);
+        for (WechatWorkAgentConfig config : configs) {
+            this.config = config;
+            //校验用户
+            this.checkAndSetUsers(commonDTO);
+            WxCpMessage message = buildMsg();
+            MessageRequestDetail requestDetail = this.execute(commonDTO, message);
+            messageRequestDetailService.logDetail(requestDetail);
+        }
+        log.info("发送{}消息结束-------------------------------", messageType().getName());
+    }
+
+    /**
+     * 构建消息
+     *
+     * @return {@link WxCpMessage}
+     */
+    protected abstract WxCpMessage buildMsg();
+
 }
