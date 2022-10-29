@@ -24,6 +24,7 @@ import org.apache.commons.lang3.StringUtils;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.net.URLEncoder;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -54,6 +55,19 @@ public abstract class AbstractDingRobotHandler<T extends BaseMessage> implements
      * 拼接到webhook后面的加签信息
      */
     private static final String URL = "&timestamp=%s&sign=%s";
+
+    /**
+     * 设置提醒的人
+     *
+     * @param request
+     */
+    protected void setAt(OapiRobotSendRequest request) {
+        OapiRobotSendRequest.At at = new OapiRobotSendRequest.At();
+        at.setAtMobiles(commonDTO.getAtMobiles());
+        at.setIsAtAll(commonDTO.getIsAtAll());
+        at.setAtUserIds(commonDTO.getAtUserIds());
+        request.setAt(at);
+    }
 
 
     /**

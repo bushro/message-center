@@ -1,7 +1,7 @@
 package com.bushro.message.handle.dingtalk.robot;
 
 
-import com.bushro.message.dto.dingtalk.robot.TextMessageDTO;
+import com.bushro.message.dto.dingtalk.robot.MarkdownMessageDTO;
 import com.bushro.message.enums.MessageTypeEnum;
 import com.bushro.message.handle.IMessageHandler;
 import com.bushro.message.handle.dingtalk.AbstractDingRobotHandler;
@@ -14,14 +14,14 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 
 /**
- * 钉钉工作通知-文本类型消息处理器
+ * 钉钉工作通知-Markdown类型消息处理器
  **/
 @Component
 @Slf4j
-public class DingTalkRobotTextMessageHandler extends AbstractDingRobotHandler<TextMessageDTO> implements IMessageHandler, Runnable {
+public class DingTalkRobotMarkdownMessageHandler extends AbstractDingRobotHandler<MarkdownMessageDTO> implements IMessageHandler, Runnable {
 
 
-    private TextMessageDTO param;
+    private MarkdownMessageDTO param;
 
     @Resource
     private IMessageConfigService messageConfigService;
@@ -31,7 +31,7 @@ public class DingTalkRobotTextMessageHandler extends AbstractDingRobotHandler<Te
 
     @Override
     public void setBaseMessage(Object object) {
-        this.param = (TextMessageDTO) object;
+        this.param = (MarkdownMessageDTO) object;
         this.commonDTO = this.param;
     }
 
@@ -42,8 +42,8 @@ public class DingTalkRobotTextMessageHandler extends AbstractDingRobotHandler<Te
 
     @Override
     public MessageTypeEnum messageType() {
-        this.messageTypeEnum = MessageTypeEnum.DING_TALK_ROBOT_TEXT;
-        return MessageTypeEnum.DING_TALK_ROBOT_TEXT;
+        this.messageTypeEnum = MessageTypeEnum.DING_TALK_ROBOT_MARKDOWN;
+        return MessageTypeEnum.DING_TALK_ROBOT_MARKDOWN;
     }
 
     @Override
@@ -55,10 +55,11 @@ public class DingTalkRobotTextMessageHandler extends AbstractDingRobotHandler<Te
     @Override
     protected OapiRobotSendRequest buildRequest() {
         OapiRobotSendRequest request = new OapiRobotSendRequest();
-        request.setMsgtype("text");
-        OapiRobotSendRequest.Text text = new OapiRobotSendRequest.Text();
-        text.setContent(param.getContent());
-        request.setText(text);
+        request.setMsgtype("markdown");
+        OapiRobotSendRequest.Markdown markdown = new OapiRobotSendRequest.Markdown();
+        markdown.setTitle(param.getTitle());
+        markdown.setText(param.getText());
+        request.setMarkdown(markdown);
         this.setAt(request);
         return request;
     }

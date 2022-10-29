@@ -1,7 +1,7 @@
 package com.bushro.message.handle.dingtalk.robot;
 
 
-import com.bushro.message.dto.dingtalk.robot.TextMessageDTO;
+import com.bushro.message.dto.dingtalk.robot.LinkMessageDTO;
 import com.bushro.message.enums.MessageTypeEnum;
 import com.bushro.message.handle.IMessageHandler;
 import com.bushro.message.handle.dingtalk.AbstractDingRobotHandler;
@@ -12,16 +12,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 
 /**
- * 钉钉工作通知-文本类型消息处理器
+ * 钉钉工作通知-链接类型消息处理器
  **/
 @Component
 @Slf4j
-public class DingTalkRobotTextMessageHandler extends AbstractDingRobotHandler<TextMessageDTO> implements IMessageHandler, Runnable {
+public class DingTalkRobotLinkMessageHandler extends AbstractDingRobotHandler<LinkMessageDTO> implements IMessageHandler, Runnable {
 
 
-    private TextMessageDTO param;
+    private LinkMessageDTO param;
 
     @Resource
     private IMessageConfigService messageConfigService;
@@ -31,7 +32,7 @@ public class DingTalkRobotTextMessageHandler extends AbstractDingRobotHandler<Te
 
     @Override
     public void setBaseMessage(Object object) {
-        this.param = (TextMessageDTO) object;
+        this.param = (LinkMessageDTO) object;
         this.commonDTO = this.param;
     }
 
@@ -42,8 +43,8 @@ public class DingTalkRobotTextMessageHandler extends AbstractDingRobotHandler<Te
 
     @Override
     public MessageTypeEnum messageType() {
-        this.messageTypeEnum = MessageTypeEnum.DING_TALK_ROBOT_TEXT;
-        return MessageTypeEnum.DING_TALK_ROBOT_TEXT;
+        this.messageTypeEnum = MessageTypeEnum.DING_TALK_ROBOT_LINK;
+        return MessageTypeEnum.DING_TALK_ROBOT_LINK;
     }
 
     @Override
@@ -55,10 +56,13 @@ public class DingTalkRobotTextMessageHandler extends AbstractDingRobotHandler<Te
     @Override
     protected OapiRobotSendRequest buildRequest() {
         OapiRobotSendRequest request = new OapiRobotSendRequest();
-        request.setMsgtype("text");
-        OapiRobotSendRequest.Text text = new OapiRobotSendRequest.Text();
-        text.setContent(param.getContent());
-        request.setText(text);
+        request.setMsgtype("link");
+        OapiRobotSendRequest.Link link = new OapiRobotSendRequest.Link();
+        link.setMessageUrl(param.getMessageUrl());
+        link.setPicUrl(param.getPicUrl());
+        link.setTitle(param.getTitle());
+        link.setText(param.getText());
+        request.setLink(link);
         this.setAt(request);
         return request;
     }
