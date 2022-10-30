@@ -1,15 +1,12 @@
 package com.bushro.message.service.impl;
 
-import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.lang.Assert;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bushro.common.core.exception.BusinessException;
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
-import org.springframework.util.ObjectUtils;
 import com.bushro.message.base.BaseMessage;
 import com.bushro.message.base.Config;
 import com.bushro.message.entity.MessageConfig;
@@ -21,6 +18,10 @@ import com.bushro.message.mapper.MessageConfigMapper;
 import com.bushro.message.service.IMessageConfigService;
 import com.bushro.message.service.IMessageConfigValueService;
 import com.bushro.message.utils.MessageHandlerUtils;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
@@ -36,8 +37,9 @@ import java.util.stream.Collectors;
  * </p>
  *
  * @author bushro
- * @since 2021-10-09
+ * @since 2022-10-09
  */
+@Transactional(rollbackFor = Throwable.class)
 @Service
 public class MessageConfigServiceImpl extends ServiceImpl<MessageConfigMapper, MessageConfig> implements IMessageConfigService {
 
@@ -52,7 +54,7 @@ public class MessageConfigServiceImpl extends ServiceImpl<MessageConfigMapper, M
     public int addOrUpdateConfig(UpdateConfigForm updateConfigForm) {
 
         Map<String, String> config = updateConfigForm.getConfig();
-        if (config == null || config.size() <= 0 ) {
+        if (config == null || config.size() <= 0) {
             throw new BusinessException(MessageErrorEnum.CONFIG_NOT_NULL);
         }
         if (config != null) {
@@ -70,7 +72,7 @@ public class MessageConfigServiceImpl extends ServiceImpl<MessageConfigMapper, M
         boolean isAdd = configId == null;
 
         if (isAdd) {
-            if(config != null && config.size() == 0){
+            if (config != null && config.size() == 0) {
                 throw new BusinessException(MessageErrorEnum.CONFIG_PARAM_NOT_NULL);
             }
             if (StringUtils.isEmpty(configName)) {
@@ -80,13 +82,13 @@ public class MessageConfigServiceImpl extends ServiceImpl<MessageConfigMapper, M
 
         if (StringUtils.isNotBlank(configName)) {
             // 名称判重
-            QueryWrapper<MessageConfig> configNameQw = new QueryWrapper<>();
-            configNameQw.eq("platform", platform);
-            configNameQw.eq("config_name", configName);
+            LambdaQueryWrapper<MessageConfig> queryWrapper = Wrappers.<MessageConfig>lambdaQuery()
+                    .eq(MessageConfig::getPlatform, platform)
+                    .eq(MessageConfig::getConfigName, configName);
             if (configId != null) {
-                configNameQw.ne("id", configId);
+                queryWrapper = queryWrapper.ne(MessageConfig::getConfigId, configId);
             }
-            MessageConfig existsConfig = getOne(configNameQw);
+            MessageConfig existsConfig = getOne(queryWrapper);
             if (!ObjectUtils.isEmpty(existsConfig)) {
                 throw new BusinessException(MessageErrorEnum.CONFIG_NAME_REPEAT);
             }
@@ -128,10 +130,10 @@ public class MessageConfigServiceImpl extends ServiceImpl<MessageConfigMapper, M
     }
 
     /**
-     * @descript :
-     * @date : 2021-10-11
      * @param configIds : 配置id
      * @return : key:配置id Map<String, Object>：配置的所有属性值
+     * @descript :
+     * @date : 2022-10-11
      */
     @Override
     public Map<Long, Map<String, Object>> queryConfig(List<Long> configIds) {
@@ -141,36 +143,37 @@ public class MessageConfigServiceImpl extends ServiceImpl<MessageConfigMapper, M
         //查找所有配置
         List<MessageConfigValue> valueList = messageConfigValueService.listByConfidIds(configIds);
         Map<Long, List<MessageConfigValue>> listMap = valueList.stream()
-            .collect(Collectors.groupingBy(MessageConfigValue::getConfigId));
+                .collect(Collectors.groupingBy(MessageConfigValue::getConfigId));
         Map<Long, Map<String, Object>> configMap = new HashMap<>();
-        listMap.forEach((k,v) -> {
+        listMap.forEach((k, v) -> {
             Map<String, Object> valueMap = new HashMap<>();
             for (MessageConfigValue messageConfigValue : v) {
-                valueMap.put(messageConfigValue.getKeyName(),messageConfigValue.getValue());
+                valueMap.put(messageConfigValue.getKeyName(), messageConfigValue.getValue());
             }
-            configMap.put(k,valueMap);
+            configMap.put(k, valueMap);
         });
         return configMap;
     }
 
     /**
-     * @descript : 查询配置
-     * @date : 2021-10-09
-     * @param message : 要发送的信息
+     * @param message    : 要发送的信息
      * @param configType : 配置类
      * @return : java.util.List<T>
+     * @descript : 查询配置
+     * @date : 2022-10-09
      */
 
     @Override
     public <T> List<T> queryConfigOrDefault(BaseMessage message, Class<T> configType) {
         return queryConfigOrDefault(message.getConfigIds(), configType);
     }
+
     /**
-     * @descript : 查询配置
-     * @date : 2021-10-15
-     * @param configIds : 配置id
+     * @param configIds  : 配置id
      * @param configType : 配置类
      * @return : java.util.List<T>
+     * @descript : 查询配置
+     * @date : 2022-10-15
      */
     @Override
     public <T> List<T> queryConfigOrDefault(List<Long> configIds, Class<T> configType) {

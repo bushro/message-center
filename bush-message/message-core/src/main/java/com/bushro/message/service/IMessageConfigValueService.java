@@ -11,7 +11,7 @@ import java.util.List;
  * </p>
  *
  * @author bushro
- * @since 2021-10-09
+ * @since 2022-10-09
  */
 public interface IMessageConfigValueService extends IService<MessageConfigValue> {
 

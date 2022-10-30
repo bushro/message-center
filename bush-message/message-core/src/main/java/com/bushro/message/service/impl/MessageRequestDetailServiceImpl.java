@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * </p>
  *
  * @author bushro
- * @since 2021-10-09
+ * @since 2022-10-09
  */
 @Service
 public class MessageRequestDetailServiceImpl extends ServiceImpl<MessageRequestDetailMapper, MessageRequestDetail> implements IMessageRequestDetailService {

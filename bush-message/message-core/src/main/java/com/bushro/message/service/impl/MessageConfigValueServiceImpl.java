@@ -15,7 +15,7 @@ import java.util.List;
  * </p>
  *
  * @author bushro
- * @since 2021-10-09
+ * @since 2022-10-09
  */
 @Service
 public class MessageConfigValueServiceImpl extends ServiceImpl<MessageConfigValueMapper, MessageConfigValue> implements IMessageConfigValueService {

@@ -32,7 +32,7 @@ public class DisruptorFactory<T> {
 
     /**
      * @descript :把消息放到队列里面
-     * @date : 2021-10-28
+     * @date : 2022-10-28
      * @param message : 消息
      * @param eventFactory : 事件工厂
      * @param messageHandler : 处理器

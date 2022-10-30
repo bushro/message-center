@@ -18,7 +18,7 @@ import javax.annotation.Resource;
  * </p>
  *
  * @author bushro
- * @since 2021-10-09
+ * @since 2022-10-09
  */
 @RestController
 @RequestMapping("/config")

@@ -21,7 +21,7 @@ package com.alibaba.nacos.enums;
  * Custom namespace.
  *
  * @author chenglu
- * @date 2021-05-25 17:01
+ * @date 2022-05-25 17:01
  */
 public enum NamespaceTypeEnum {
 

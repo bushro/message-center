@@ -9,7 +9,7 @@ import com.bushro.message.entity.MessageRequestDetail;
  * </p>
  *
  * @author bushro
- * @since 2021-10-09
+ * @since 2022-10-09
  */
 public interface IMessageRequestDetailService extends IService<MessageRequestDetail> {
 

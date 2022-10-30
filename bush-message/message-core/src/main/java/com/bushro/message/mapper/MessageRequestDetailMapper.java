@@ -10,7 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
  * </p>
  *
  * @author bushro
- * @since 2021-10-09
+ * @since 2022-10-09
  */
 @Mapper
 public interface MessageRequestDetailMapper extends BaseMapper<MessageRequestDetail> {
