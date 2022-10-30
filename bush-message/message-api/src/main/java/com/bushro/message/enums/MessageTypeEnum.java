@@ -6,7 +6,7 @@ import lombok.Getter;
 /**
  * @description: 消息类型枚举
  * @author bushro
- * @date: 2021/9/29
+ * @date: 2022/9/29
  */
 @Getter
 @AllArgsConstructor

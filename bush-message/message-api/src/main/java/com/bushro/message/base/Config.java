@@ -7,7 +7,7 @@ import java.io.Serializable;
 /**
  * @description: DOTO
  * @author bushro
- * @date: 2021/9/29
+ * @date: 2022/9/29
  */
 @Data
 public abstract class Config implements Serializable {

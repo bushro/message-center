@@ -9,7 +9,7 @@ import com.bushro.message.base.Config;
 /**
  * @description: 消息平台枚举
  * @author bushro
- * @date: 2021/9/29
+ * @date: 2022/9/29
  */
 @Getter
 @AllArgsConstructor

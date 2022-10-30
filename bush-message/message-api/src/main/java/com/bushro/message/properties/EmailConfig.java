@@ -6,7 +6,7 @@ import com.bushro.message.base.Config;
 /**
  * @description: 邮箱配置类
  * @author bushro
- * @date: 2021/9/29
+ * @date: 2022/9/29
  */
 @EqualsAndHashCode(callSuper = true)
 @Data

@@ -5,7 +5,7 @@ import com.bushro.common.core.enums.IMessagePairs;
 /**
  * @description: DOTO
  * @author bushro
- * @date: 2021/10/12
+ * @date: 2022/10/12
  */
 public enum MessageErrorEnum implements IMessagePairs<Integer, String> {
     //消息推送 31xxxxx
