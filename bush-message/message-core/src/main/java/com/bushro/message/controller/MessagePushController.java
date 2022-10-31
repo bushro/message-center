@@ -1,14 +1,10 @@
 package com.bushro.message.controller;
 
-import com.bushro.common.core.util.SpringContextHolder;
+import com.bushro.common.core.util.R;
 import com.bushro.common.idempotent.annotation.Idempotent;
 import com.bushro.message.dto.MessagePushDTO;
-import com.bushro.message.dto.dingtalk.corp.LinkMessageDTO;
-import com.bushro.message.handle.dingtalk.corp.CorpLinkMessageHandler;
-import com.bushro.message.utils.ThreadPoolUtil;
-import org.springframework.web.bind.annotation.*;
-import com.bushro.common.core.util.R;
 import com.bushro.message.service.IMessagePushService;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -31,12 +27,7 @@ public class MessagePushController {
 
 
     @GetMapping("/get")
-    public String push() {
-//        CorpLinkMessageHandler bean = SpringContextHolder.getBean(CorpLinkMessageHandler.class);
-//        LinkMessageDTO messageDTO = new LinkMessageDTO();
-//        messageDTO.setTitle("测试");
-//        bean.setBaseMessage(messageDTO);
-//        ThreadPoolUtil.getThreadPool().submit(bean);
+    public String get() {
         return "success";
     }
 
