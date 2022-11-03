@@ -12,7 +12,7 @@ import javax.annotation.Resource;
  * 统一发送消息接口
  */
 @RestController
-@RequestMapping("/message")
+@RequestMapping("/msg")
 public class MessagePushController {
 
 
@@ -20,7 +20,7 @@ public class MessagePushController {
     private IMessagePushService messagePushService;
 
 
-    @PostMapping("/_push")
+    @PostMapping("/push")
     public R<String> push(@RequestBody String param) {
         return messagePushService.push(param);
     }

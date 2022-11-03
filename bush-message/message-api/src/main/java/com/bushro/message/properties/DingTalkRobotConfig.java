@@ -1,6 +1,7 @@
 package com.bushro.message.properties;
 
 
+import com.bushro.message.annotation.ConfigValue;
 import com.bushro.message.base.Config;
 import lombok.*;
 
@@ -16,13 +17,11 @@ import lombok.*;
 public class DingTalkRobotConfig extends Config {
     private static final long serialVersionUID = -6726902816158196669L;
 
-    /**
-     * 加签
-     */
+
+    @ConfigValue(value = "加签")
     private String secret;
-    /**
-     * webhook 自定义机器人 https://oapi.dingtalk.com/robot/send?access_token=xxx 格式
-     */
+
+    @ConfigValue(value = "webhook", description = "https://oapi.dingtalk.com/robot/send?access_token=xxx")
     private String webhook;
 
 }

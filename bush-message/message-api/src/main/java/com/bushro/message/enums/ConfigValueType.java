@@ -10,11 +10,5 @@ public enum ConfigValueType {
     INTEGER,
     DECIMAL,
     STRING,
-    /**
-     * 模板类型
-     */
-    RPUSH_TEMPLATE,
-    BOOLEAN,
-    ;
-
+    BOOLEAN;
 }

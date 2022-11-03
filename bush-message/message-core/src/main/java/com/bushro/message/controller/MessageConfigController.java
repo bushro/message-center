@@ -1,16 +1,16 @@
 package com.bushro.message.controller;
 
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.bushro.message.enums.MessagePlatformEnum;
+import com.bushro.message.vo.ConfigFieldVO;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
 import com.bushro.common.core.util.R;
 import com.bushro.message.form.UpdateConfigForm;
 import com.bushro.message.service.IMessageConfigService;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * <p>
@@ -31,6 +31,11 @@ public class MessageConfigController {
     public R addOrUpdated(@RequestBody UpdateConfigForm updateConfigForm) {
         messageConfigService.addOrUpdateConfig(updateConfigForm);
         return R.ok("保存成功");
+    }
+
+    @GetMapping("/{platform}/getFields")
+    public R<List<ConfigFieldVO>> getFields(@PathVariable("platform") MessagePlatformEnum platform) {
+        return R.ok(messageConfigService.getFields(platform));
     }
 
 }

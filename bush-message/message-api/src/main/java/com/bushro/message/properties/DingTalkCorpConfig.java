@@ -1,6 +1,7 @@
 package com.bushro.message.properties;
 
 
+import com.bushro.message.annotation.ConfigValue;
 import lombok.*;
 import com.bushro.message.base.Config;
 
@@ -16,17 +17,13 @@ import com.bushro.message.base.Config;
 public class DingTalkCorpConfig extends Config {
     private static final long serialVersionUID = -9206902816158196669L;
 
-    /**
-     * 应用appKey
-     */
+    @ConfigValue(value = "应用appKey")
     private String appKey;
-    /**
-     * 应用Secret
-     */
+
+    @ConfigValue(value = "应用Secret")
     private String appSecret;
-    /**
-     * 应用agentId
-     */
+
+    @ConfigValue(value = "应用agentId")
     private Long agentId;
 
 }

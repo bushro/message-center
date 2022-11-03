@@ -18,6 +18,7 @@ import com.bushro.message.mapper.MessageConfigMapper;
 import com.bushro.message.service.IMessageConfigService;
 import com.bushro.message.service.IMessageConfigValueService;
 import com.bushro.message.utils.MessageHandlerUtils;
+import com.bushro.message.vo.ConfigFieldVO;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -127,6 +128,11 @@ public class MessageConfigServiceImpl extends ServiceImpl<MessageConfigMapper, M
         }
         messageConfigValueService.saveBatch(configValues);
         return 1;
+    }
+
+    @Override
+    public List<ConfigFieldVO> getFields(MessagePlatformEnum platform) {
+        return MessageHandlerUtils.listConfigFieldName(platform);
     }
 
     /**

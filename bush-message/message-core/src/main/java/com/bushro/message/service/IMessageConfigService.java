@@ -3,7 +3,9 @@ package com.bushro.message.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.bushro.message.base.BaseMessage;
 import com.bushro.message.entity.MessageConfig;
+import com.bushro.message.enums.MessagePlatformEnum;
 import com.bushro.message.form.UpdateConfigForm;
+import com.bushro.message.vo.ConfigFieldVO;
 
 import java.util.List;
 import java.util.Map;
@@ -22,6 +24,14 @@ public interface IMessageConfigService extends IService<MessageConfig> {
      * 添加或者修改配置
      */
     int addOrUpdateConfig(UpdateConfigForm updateConfigForm);
+
+    /**
+     * 获取字段
+     *
+     * @param platform 平台
+     * @return {@link List}<{@link ConfigFieldVO}>
+     */
+    List<ConfigFieldVO> getFields(MessagePlatformEnum platform);
 
     /**
      * 批量查询配置

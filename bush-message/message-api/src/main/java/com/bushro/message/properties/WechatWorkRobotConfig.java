@@ -1,6 +1,7 @@
 package com.bushro.message.properties;
 
 
+import com.bushro.message.annotation.ConfigValue;
 import com.bushro.message.base.Config;
 import lombok.*;
 
@@ -18,9 +19,7 @@ import lombok.*;
 public class WechatWorkRobotConfig extends Config {
     private static final long serialVersionUID = -9206902816158196669L;
 
-    /**
-     * 群机器人的webhook的key
-     */
+    @ConfigValue(value = "webhook", description = "群机器人的webhook的key")
     private String webhookKey;
 
 }
