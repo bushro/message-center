@@ -5,6 +5,7 @@ import cn.hutool.core.bean.copier.CopyOptions;
 import cn.hutool.core.util.ReflectUtil;
 import com.bushro.message.annotation.ConfigValue;
 import com.bushro.message.base.Config;
+import com.bushro.message.base.IdStrAndName;
 import com.bushro.message.enums.ConfigValueType;
 import com.bushro.message.enums.MessagePlatformEnum;
 import com.bushro.message.vo.ConfigFieldVO;
@@ -89,6 +90,7 @@ public final class MessageHandlerUtils {
                 ConfigValueType type = null;
                 String name = "";
                 String description = "";
+                List<IdStrAndName> options = new ArrayList<>();
                 if (annotation != null) {
                     type = annotation.type();
                     name = annotation.value();
@@ -97,6 +99,11 @@ public final class MessageHandlerUtils {
                         case AUTO:
                             type = JAVA_TYPE_CONFIG_MAP.get(field.getType());
                             break;
+                    }
+                    if (ConfigValueType.BOOLEAN.equals(type)) {
+
+                        options.add(IdStrAndName.builder().id("true").name("true").build());
+                        options.add(IdStrAndName.builder().id("false").name("false").build());
                     }
                 }
                 if (annotation == null) {
@@ -109,6 +116,7 @@ public final class MessageHandlerUtils {
                         .description(description)
                         .type(type)
                         .key(field.getName())
+                        .options(options)
                         .build());
             }
             return fieldNames;

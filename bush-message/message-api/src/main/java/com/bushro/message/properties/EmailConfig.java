@@ -1,6 +1,7 @@
 package com.bushro.message.properties;
 
 import com.bushro.message.annotation.ConfigValue;
+import com.bushro.message.enums.ConfigValueType;
 import lombok.*;
 import com.bushro.message.base.Config;
 
@@ -32,6 +33,6 @@ public class EmailConfig extends Config {
     @ConfigValue(value = "密码")
     private String password;
 
-    @ConfigValue(value = "SSL安全连接", description = "发送方，遵循RFC-822标准")
+    @ConfigValue(value = "SSL安全连接", description = "SSL安全连接 true/false")
     private Boolean sslEnable;
 }
