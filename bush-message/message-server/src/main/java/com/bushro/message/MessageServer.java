@@ -4,6 +4,8 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScans;
 
 /**
  * @description: DOTO
@@ -11,6 +13,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @date: 2022/9/27
  */
 @MapperScan("com.bushro.*.mapper")
+@ComponentScan(basePackages = "com.bushro.*")
 @EnableDiscoveryClient
 @SpringBootApplication
 public class MessageServer {

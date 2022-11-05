@@ -23,8 +23,11 @@ public class MessageConfigValueServiceImpl extends ServiceImpl<MessageConfigValu
     @Resource
     private MessageConfigValueMapper configValueMapper;
 
+
     @Override
     public List<MessageConfigValue> listByConfidIds(List<Long> configIds) {
         return configValueMapper.listByConfidIds(configIds);
     }
+
+
 }

@@ -14,7 +14,6 @@ import java.util.Map;
 
 /**
  * 更新配置DTO
- *
  **/
 @Data
 @NoArgsConstructor

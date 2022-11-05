@@ -1,11 +1,14 @@
 package com.bushro.message.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.bushro.message.base.BaseMessage;
 import com.bushro.message.entity.MessageConfig;
 import com.bushro.message.enums.MessagePlatformEnum;
+import com.bushro.message.form.QueryConfigForm;
 import com.bushro.message.form.UpdateConfigForm;
 import com.bushro.message.vo.ConfigFieldVO;
+import com.bushro.message.vo.ConfigPageVo;
 
 import java.util.List;
 import java.util.Map;
@@ -24,6 +27,8 @@ public interface IMessageConfigService extends IService<MessageConfig> {
      * 添加或者修改配置
      */
     int addOrUpdateConfig(UpdateConfigForm updateConfigForm);
+
+
 
     /**
      * 获取字段
@@ -44,7 +49,7 @@ public interface IMessageConfigService extends IService<MessageConfig> {
     /**
      * 批量查询配置
      *
-     * @param message  具体的消息
+     * @param message    具体的消息
      * @param configType 配置DTO类型
      */
     <T> List<T> queryConfigOrDefault(BaseMessage message, Class<T> configType);
@@ -56,5 +61,14 @@ public interface IMessageConfigService extends IService<MessageConfig> {
      * @param configType 配置DTO类型
      */
     <T> List<T> queryConfigOrDefault(List<Long> configIds, Class<T> configType);
+
+
+    /**
+     * 分页
+     *
+     * @param queryConfigForm 查询配置形式
+     * @return {@link IPage}<>
+     */
+    ConfigPageVo page(QueryConfigForm queryConfigForm);
 
 }

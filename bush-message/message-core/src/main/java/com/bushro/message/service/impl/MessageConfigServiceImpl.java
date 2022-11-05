@@ -1,24 +1,32 @@
 package com.bushro.message.service.impl;
 
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bushro.common.core.exception.BusinessException;
+import com.bushro.common.core.util.MessagePage;
 import com.bushro.message.base.BaseMessage;
 import com.bushro.message.base.Config;
 import com.bushro.message.entity.MessageConfig;
 import com.bushro.message.entity.MessageConfigValue;
 import com.bushro.message.enums.MessageErrorEnum;
 import com.bushro.message.enums.MessagePlatformEnum;
+import com.bushro.message.form.QueryConfigForm;
 import com.bushro.message.form.UpdateConfigForm;
 import com.bushro.message.mapper.MessageConfigMapper;
+import com.bushro.message.mapper.MessageConfigValueMapper;
 import com.bushro.message.service.IMessageConfigService;
 import com.bushro.message.service.IMessageConfigValueService;
 import com.bushro.message.utils.MessageHandlerUtils;
 import com.bushro.message.vo.ConfigFieldVO;
+import com.bushro.message.vo.ConfigPageVo;
+import com.bushro.message.vo.ConfigVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,6 +54,9 @@ public class MessageConfigServiceImpl extends ServiceImpl<MessageConfigMapper, M
 
     @Resource
     private IMessageConfigValueService messageConfigValueService;
+
+    @Resource
+    private MessageConfigValueMapper configValueMapper;
 
 
     /**
@@ -191,5 +202,38 @@ public class MessageConfigServiceImpl extends ServiceImpl<MessageConfigMapper, M
         // 转成具体的配置实体类
         List<Config> configs = MessageHandlerUtils.convertConfig(configType, configMap);
         return (List<T>) configs;
+    }
+
+
+    @Override
+    public ConfigPageVo page(QueryConfigForm queryConfigForm) {
+        Page page = new Page(queryConfigForm.getPageIndex(), queryConfigForm.getPageSize());
+        LambdaQueryWrapper<MessageConfig> queryWrapper = Wrappers.<MessageConfig>lambdaQuery()
+                .eq(MessageConfig::getPlatform, queryConfigForm.getPlatform());
+        if (!StrUtil.isEmpty(queryConfigForm.getConfigName())) {
+            queryWrapper = queryWrapper.eq(MessageConfig::getConfigName, queryConfigForm.getConfigName());
+        }
+        Page configPage = this.page(page, queryWrapper);
+        List<ConfigVo> configList = configValueMapper.pageConfig(queryConfigForm);
+        Map<Long, List<ConfigVo>> listMap = configList.stream().collect(Collectors.groupingBy(ConfigVo::getConfigId));
+        List<Map> configListMap = new ArrayList<>();
+        listMap.forEach((k, v) -> {
+            Map map = new HashMap<>();
+            map.put("configId", k);
+            for (ConfigVo configVo : v) {
+                map.put(configVo.getKey(), configVo.getValue());
+                map.put("configName", configVo.getConfigName());
+            }
+            configListMap.add(map);
+        });
+        ConfigPageVo pageVo = new ConfigPageVo();
+        pageVo.setColumnList(getFields(queryConfigForm.getPlatform()));
+        MessagePage<Map> messagePage = new MessagePage<>();
+        messagePage.setDataList(configListMap);
+        messagePage.setTotal(configPage.getRecords().size());
+        messagePage.setPageSize(queryConfigForm.getPageSize());
+        messagePage.setPageIndex(queryConfigForm.getPageIndex());
+        pageVo.setPage(messagePage);
+        return pageVo;
     }
 }

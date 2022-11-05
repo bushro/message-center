@@ -51,7 +51,7 @@ public class R<T> implements Serializable {
 	@Getter
 	@Setter
 	@ApiModelProperty(value = "返回信息")
-	private String msg;
+	private String message;
 
 	@Getter
 	@Setter
@@ -90,7 +90,7 @@ public class R<T> implements Serializable {
 		R<T> apiResult = new R<>();
 		apiResult.setCode(code);
 		apiResult.setData(data);
-		apiResult.setMsg(msg);
+		apiResult.setMessage(msg);
 		return apiResult;
 	}
 

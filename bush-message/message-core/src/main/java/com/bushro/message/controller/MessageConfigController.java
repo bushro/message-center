@@ -1,8 +1,12 @@
 package com.bushro.message.controller;
 
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.bushro.message.enums.MessagePlatformEnum;
+import com.bushro.message.form.QueryConfigForm;
+import com.bushro.message.service.IMessageConfigValueService;
 import com.bushro.message.vo.ConfigFieldVO;
+import com.bushro.message.vo.ConfigPageVo;
 import org.springframework.web.bind.annotation.*;
 
 import com.bushro.common.core.util.R;
@@ -10,7 +14,9 @@ import com.bushro.message.form.UpdateConfigForm;
 import com.bushro.message.service.IMessageConfigService;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -26,6 +32,13 @@ public class MessageConfigController {
 
     @Resource
     private IMessageConfigService messageConfigService;
+
+
+
+    @PostMapping("/page")
+    public R<ConfigPageVo> page(@Valid @RequestBody QueryConfigForm queryConfigForm) {
+        return R.ok(messageConfigService.page(queryConfigForm));
+    }
 
     @PostMapping("/addOrUpdated")
     public R addOrUpdated(@RequestBody UpdateConfigForm updateConfigForm) {
