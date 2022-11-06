@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bushro.oauth2.server.mapper.OauthUserMapper">
+
+    <select id="getUserByName" resultType="com.bushro.oauth2.server.model.dto.UserDto">
+        select ID as id,
+               USERNAME as username,
+               PASSWORD as password,
+               NICKNAME as nickname,
+               PHONE as phone,
+               AVATAR_URL as avatarUrl,
+               ROLES as roles,
+               IS_VALID as isValid
+
+        from sys_user
+        where USERNAME = #{username}
+    </select>
+
+</mapper>
