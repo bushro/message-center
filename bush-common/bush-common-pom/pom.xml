@@ -42,6 +42,8 @@
         <disruptor.version>3.4.2</disruptor.version>
         <commons.email.version>1.4</commons.email.version>
         <dingtalk.version>2.0.0</dingtalk.version>
+        <loadbalancer.version>3.1.1</loadbalancer.version>
+        <guava.version>29.0-jre</guava.version>
     </properties>
 
     <dependencyManagement>
@@ -58,20 +60,24 @@
                 <artifactId>bush-common-idempotent</artifactId>
                 <version>${bush.version}</version>
             </dependency>
+            <!--swagger接口文档-->
+            <dependency>
+                <groupId>com.bushro</groupId>
+                <artifactId>bush-common-swagger</artifactId>
+                <version>${bush.version}</version>
+            </dependency>
             <!--消息api-->
             <dependency>
                 <groupId>com.bushro</groupId>
                 <artifactId>message-api</artifactId>
                 <version>${bush.version}</version>
             </dependency>
-
-            <!--消息api-->
+            <!--系统模块-->
             <dependency>
                 <groupId>com.bushro</groupId>
-                <artifactId>message-core</artifactId>
+                <artifactId>user-api</artifactId>
                 <version>${bush.version}</version>
             </dependency>
-
             <!--mybatis plus extension,包含了mybatis plus core-->
             <dependency>
                 <groupId>com.baomidou</groupId>
@@ -210,9 +216,22 @@
             </dependency>
             <!--发送邮件需要的包-->
             <dependency>
-               <groupId>org.apache.commons</groupId>
-               <artifactId>commons-email</artifactId>
-               <version>${commons.email.version}</version>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-email</artifactId>
+                <version>${commons.email.version}</version>
+            </dependency>
+            <!--负载均衡-->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-loadbalancer</artifactId>
+                <version>${loadbalancer.version}</version>
+            </dependency>
+            <!-- google-guava工具包 -->
+            <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

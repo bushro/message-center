@@ -17,6 +17,7 @@
         <module>bush-common-pom</module>
         <module>bush-common-core</module>
         <module>bush-common-idempotent</module>
+        <module>bush-common-swagger</module>
     </modules>
 
 

@@ -1,0 +1,18 @@
+${AnsiColor.BRIGHT_GREEN}
+
+${AnsiColor.BRIGHT_CYAN}                                             ${AnsiColor.BRIGHT_GREEN}                  _
+${AnsiColor.BRIGHT_CYAN}                                             ${AnsiColor.BRIGHT_GREEN}                 | |
+${AnsiColor.BRIGHT_CYAN}  _ __ ___   ___  ___ ___  __ _  __ _  ___   ${AnsiColor.BRIGHT_GREEN}  _ __  _   _ ___| |__
+${AnsiColor.BRIGHT_CYAN} | '_ ` _ \ / _ \/ __/ __|/ _` |/ _` |/ _ \  ${AnsiColor.BRIGHT_GREEN} | '_ \| | | / __| '_ \
+${AnsiColor.BRIGHT_CYAN} | | | | | |  __/\__ \__ \ (_| | (_| |  __/  ${AnsiColor.BRIGHT_GREEN} | |_) | |_| \__ \ | | |
+${AnsiColor.BRIGHT_CYAN} |_| |_| |_|\___||___/___/\__,_|\__, |\___|  ${AnsiColor.BRIGHT_GREEN} | .__/ \__,_|___/_| |_|
+${AnsiColor.BRIGHT_CYAN}                                 __/ |       ${AnsiColor.BRIGHT_GREEN} | |
+${AnsiColor.BRIGHT_CYAN}                                |___/        ${AnsiColor.BRIGHT_GREEN} |_|
+
+
+${AnsiColor.BLUE}
+Application Name: ${spring.application.name}
+Application Profile: ${AnsiColor.RED}${spring.profiles.active}${AnsiColor.BLUE}
+Server Port: ${server.port}
+Server Doc: http://127.0.0.1:${server.port}/doc.html
+Spring Boot Version: ${spring-boot.version}${spring-boot.formatted-version}
