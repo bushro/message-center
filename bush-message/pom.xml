@@ -14,9 +14,7 @@
 
     <modules>
         <module>message-api</module>
-        <module>message-core</module>
         <module>message-server</module>
     </modules>
-
 
 </project>
