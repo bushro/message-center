@@ -31,7 +31,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 // 放行的请求
-                .antMatchers( "/oauth/**", "/actuator/**").permitAll()
+                //.antMatchers( "/oauth/**", "/actuator/**").permitAll()
+                .antMatchers( "/**").permitAll()
                 .and()
                 .authorizeRequests()
                 // 其他请求必须认证才能访问
