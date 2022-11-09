@@ -22,13 +22,20 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         // 配置放行的资源
         http.authorizeRequests()
-                .antMatchers("/user/login").permitAll()
+                .antMatchers(
+                        "/doc.html**",
+                        "/v2/api-docs",
+                        "/swagger-resources/**",
+                        "/swagger-ui.html",
+                        "/webjars/**" ,
+                        /*Probably not needed*/ "/swagger.json")
+                .permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
-                .requestMatchers()
-                .antMatchers("/user/**");
+                .httpBasic();
     }
+
 
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {

@@ -1,32 +1,37 @@
 package com.bushro.oauth2.server.config;
 
 
-import com.bushro.oauth2.server.model.domain.UserResource;
+import com.bushro.oauth2.server.component.JwtTokenEnhancer;
 import com.bushro.oauth2.server.service.UserService;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerEndpointsConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+import org.springframework.security.rsa.crypto.KeyStoreKeyFactory;
 
 import javax.annotation.Resource;
-import java.util.LinkedHashMap;
+import java.security.KeyPair;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 授权服务
  */
 @Configuration
 @EnableAuthorizationServer
+
 public class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
-    // RedisTokenSore
-    @Resource
-    private RedisTokenStore redisTokenStore;
     // 认证管理对象
     @Resource
     private AuthenticationManager authenticationManager;
@@ -39,6 +44,12 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
     // 登录校验
     @Resource
     private UserService userService;
+
+    @Resource
+    private JwtTokenEnhancer jwtTokenEnhancer;
+
+    @Resource
+    private RedisTokenStore redisTokenStore;
 
 
     /**
@@ -80,23 +91,34 @@ public class AuthorizationServerConfiguration extends AuthorizationServerConfigu
      */
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+        TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
+        List<TokenEnhancer> delegates = new ArrayList<>();
+        delegates.add(jwtTokenEnhancer);
+        delegates.add(accessTokenConverter());
+        //配置JWT的内容增强器
+        enhancerChain.setTokenEnhancers(delegates);
         // 认证器
         endpoints.authenticationManager(authenticationManager)
                 // 具体登录的方法
                 .userDetailsService(userService)
-                // token 存储的方式：Redis
                 .tokenStore(redisTokenStore)
                 // 令牌增强对象，增强返回的结果
-                .tokenEnhancer((accessToken, authentication) -> {
-                    // 获取登录用户的信息，然后设置
-                    UserResource userResource = (UserResource) authentication.getPrincipal();
-                    LinkedHashMap<String, Object> map = new LinkedHashMap<>();
-                    map.put("nickname", userResource.getNickname());
-                    map.put("avatarUrl", userResource.getAvatarUrl());
-                    DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) accessToken;
-                    token.setAdditionalInformation(map);
-                    return token;
-                });
+                .tokenEnhancer(enhancerChain);
+    }
+
+    @Bean
+    public JwtAccessTokenConverter accessTokenConverter() {
+        JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
+        jwtAccessTokenConverter.setKeyPair(keyPair());
+        return jwtAccessTokenConverter;
+    }
+
+    @Bean
+    public KeyPair keyPair() {
+        // 导入证书
+        KeyStoreKeyFactory keyStoreKeyFactory =
+                new KeyStoreKeyFactory(new ClassPathResource("keystore.jks"), "mypass".toCharArray());
+        return keyStoreKeyFactory.getKeyPair("mytest");
     }
 
 }

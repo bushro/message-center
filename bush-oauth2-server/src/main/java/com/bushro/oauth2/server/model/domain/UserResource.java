@@ -21,6 +21,7 @@ import java.util.stream.Stream;
 @Setter
 public class UserResource implements UserDetails {
 
+    private static final long serialVersionUID = 1658435491496270439L;
     // 主键
     private Integer id;
     // 用户名
@@ -59,6 +60,14 @@ public class UserResource implements UserDetails {
         return this.authorities;
     }
 
+    /**
+     * 判断用户是否被禁用
+     */
+    @Override
+    public boolean isEnabled() {
+        return this.isValid == 0 ? false : true;
+    }
+
     @Override
     public String getPassword() {
         return this.password;
@@ -79,12 +88,6 @@ public class UserResource implements UserDetails {
         return true;
     }
 
-    /**
-     * 判断用户是否被禁用
-     */
-    @Override
-    public boolean isEnabled() {
-        return this.isValid == 0 ? false : true;
-    }
+
 
 }

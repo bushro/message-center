@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,11 +19,33 @@ import javax.annotation.Resource;
  */
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    // 注入 Redis 连接工厂
+//    // 注入 Redis 连接工厂
     @Resource
     private RedisConnectionFactory redisConnectionFactory;
+
+    // 放行和认证规则
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable()
+                .authorizeRequests()
+                // 放行的请求
+                .antMatchers( "/oauth/**", "/actuator/**").permitAll()
+                .and()
+                .authorizeRequests()
+                // 其他请求必须认证才能访问
+                .anyRequest().authenticated();
+    }
+
+    /**
+     * 不拦截静态资源
+     * @param web
+     */
+    @Override
+    public void configure(WebSecurity web) {
+        web.ignoring().antMatchers("/favicon.ico", "/css/**", "/error");
+    }
 
     // 初始化 RedisTokenStore 用于将 token 存储至 Redis
     @Bean
@@ -66,17 +89,5 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    // 放行和认证规则
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .authorizeRequests()
-                // 放行的请求
-                .antMatchers("/oauth/**", "/actuator/**").permitAll()
-                .and()
-                .authorizeRequests()
-                // 其他请求必须认证才能访问
-                .anyRequest().authenticated();
-    }
 
 }

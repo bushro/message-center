@@ -1,5 +1,6 @@
 package com.bushro.oauth2.server.mapper;
 
+import com.bushro.oauth2.server.model.domain.UserResource;
 import com.bushro.oauth2.server.model.dto.UserDto;
 import com.bushro.oauth2.server.model.vo.UserVo;
 import org.apache.ibatis.annotations.Mapper;
@@ -13,5 +14,5 @@ public interface OauthUserMapper {
      * @param username 用户名
      * @return {@link UserVo}
      */
-    UserDto getUserByName(@Param("username") String username);
+    UserResource getUserByName(@Param("username") String username);
 }

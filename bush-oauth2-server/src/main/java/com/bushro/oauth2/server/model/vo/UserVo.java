@@ -5,6 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 /**
  * 用户签证官
  *
@@ -14,7 +16,10 @@ import lombok.Setter;
 @Getter
 @Setter
 @ApiModel(value = "UserVo", description = "登录用户信息")
-public class UserVo {
+public class UserVo implements Serializable {
+
+    private static final long serialVersionUID = 5755979742321783589L;
+
     @ApiModelProperty("主键")
     private Integer id;
     @ApiModelProperty("用户名")

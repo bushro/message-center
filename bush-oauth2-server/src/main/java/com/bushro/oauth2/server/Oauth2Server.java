@@ -6,14 +6,20 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 
+/**
+ * oauth2服务器
+ *
+ * @author luo.qiang
+ * @date 2022/11/07
+ */
 @MapperScan("com.bushro.oauth2.server.mapper")
 @ComponentScan(basePackages = "com.bushro.*")
 @EnableDiscoveryClient
 @SpringBootApplication
-public class Oauth2ServerApplication {
+public class Oauth2Server {
 
     public static void main(String[] args) {
-        SpringApplication.run(Oauth2ServerApplication.class, args);
+        SpringApplication.run(Oauth2Server.class, args);
     }
 
 }

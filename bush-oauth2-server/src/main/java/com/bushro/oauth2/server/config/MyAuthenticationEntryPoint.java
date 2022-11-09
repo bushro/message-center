@@ -3,6 +3,7 @@ package com.bushro.oauth2.server.config;
 import cn.hutool.core.util.StrUtil;
 import com.bushro.common.core.util.R;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
@@ -26,7 +27,7 @@ public class MyAuthenticationEntryPoint implements AuthenticationEntryPoint {
     public void commence(HttpServletRequest request, HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
         // 返回 JSON
-        response.setContentType("application/json;charset=utf-8");
+        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         // 状态码 401
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         // 写出

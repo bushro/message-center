@@ -10,6 +10,7 @@ import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -19,13 +20,14 @@ import javax.servlet.http.HttpServletRequest;
  * 用户中心
  */
 @RestController
+@RequestMapping("/user")
 public class UserController {
 
     @Resource
     private RedisTokenStore redisTokenStore;
 
 
-    @GetMapping("/user/me")
+    @GetMapping("/me")
     public R<UserVo> getCurrentUser(HttpServletRequest request, Authentication authentication) {
         // 获取登录用户的信息，然后设置
         UserResource userResource = (UserResource) authentication.getPrincipal();
@@ -42,7 +44,7 @@ public class UserController {
      * @param authorization
      * @return
      */
-    @GetMapping("/user/logout")
+    @GetMapping("/logout")
     public R logout(String access_token, String authorization) {
         // 判断 access_token 是否为空，为空将 authorization 赋值给 access_token
         if (StrUtil.isBlank(access_token)) {
