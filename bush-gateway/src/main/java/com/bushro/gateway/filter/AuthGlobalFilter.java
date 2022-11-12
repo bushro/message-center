@@ -2,6 +2,7 @@ package com.bushro.gateway.filter;
 
 
 import cn.hutool.core.util.StrUtil;
+import com.bushro.common.core.enums.MessageEnum;
 import com.bushro.gateway.component.HandleException;
 import com.bushro.gateway.config.GatewayProperty;
 import com.bushro.gateway.config.IgnoreUrlsConfig;
@@ -73,16 +74,16 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
             ResponseEntity<String> entity = restTemplate.getForEntity(checkTokenUrl, String.class);
             // token 无效的业务逻辑处理
             if (entity.getStatusCode() != HttpStatus.OK) {
-                return handleException.writeError(exchange,
-                        "Token was not recognised, token: ".concat(realToken));
+                log.error("Token was not recognised, token: {}", realToken);
+                return handleException.writeError(exchange, "token失效");
             }
             if (StrUtil.isBlank(entity.getBody())) {
-                return handleException.writeError(exchange,
-                        "This token is invalid: ".concat(realToken));
+                log.error("This token is invalid: {}", realToken);
+                return handleException.writeError(exchange, "token失效");
             }
         } catch (Exception e) {
-            return handleException.writeError(exchange,
-                    "Token was not recognised, token: ".concat(realToken));
+            log.error(e.getMessage(), e);
+            return handleException.writeError(exchange, "token失效");
         }
         // 放行
         return chain.filter(exchange);

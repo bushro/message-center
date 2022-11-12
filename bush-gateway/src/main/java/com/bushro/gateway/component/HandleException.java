@@ -33,12 +33,7 @@ public class HandleException {
         ServerHttpResponse response = exchange.getResponse();
         response.setStatusCode(HttpStatus.OK);
         response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        R resultInfo = null;
-        if (StrUtil.isEmpty(error)) {
-            resultInfo = R.failed(MessageEnum.UN_AUTHORIZED.message());
-        } else {
-            resultInfo = R.failed(error);
-        }
+        R resultInfo = R.unAuthorized(error);
         String resultInfoJson = null;
         DataBuffer buffer = null;
         try {
