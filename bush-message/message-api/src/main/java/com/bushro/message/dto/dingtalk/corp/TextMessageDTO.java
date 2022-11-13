@@ -1,6 +1,7 @@
 package com.bushro.message.dto.dingtalk.corp;
 
 
+import com.bushro.message.annotation.SchemeValue;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,6 +21,7 @@ public class TextMessageDTO extends DingCommonDTO {
     /**
      * 请输入内容...
      */
+    @SchemeValue("请输入内容...")
     private String content;
 
 }

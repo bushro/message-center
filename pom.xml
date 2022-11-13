@@ -10,7 +10,7 @@
 
 	<properties>
 		<bush.version>1.0.0-SNAPSHOT</bush.version>
-		<spring-boot.version>2.6.8</spring-boot.version>
+		<spring-boot.version>2.7.4</spring-boot.version>
 		<spring-cloud.version>2021.0.1</spring-cloud.version>
 		<spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -39,7 +39,10 @@
 		<module>bush-register</module>
 		<module>bush-message</module>
 		<module>bush-common</module>
-	</modules>
+        <module>bush-oauth2-server</module>
+		<module>bush-user</module>
+        <module>bush-gateway</module>
+    </modules>
 
 	<dependencies>
 		<!--bootstrap 启动器-->

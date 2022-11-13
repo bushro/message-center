@@ -1,11 +1,12 @@
 package com.bushro.message.dto.email;
 
+import com.bushro.message.annotation.SchemeValue;
+import com.bushro.message.enums.SchemeValueType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-import com.bushro.message.base.BaseMessage;
 
 import java.util.List;
 
@@ -19,23 +20,27 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmailMessageDTO extends EmailCommonDTO {
-    private static final long serialVersionUID = 2692273549631779696L;
 
+    private static final long serialVersionUID = 8283191910294934673L;
     /**
      * 文件id列表
      */
+    @SchemeValue(value = "文件id列表", type = SchemeValueType.EMAIL_FILE,  order = 5)
     private List<Long> fileIds;
     /**
      * 抄送人列表
      */
-    private List<String> ccs;
+    @SchemeValue(value = "抄送人列表,多个人用,分隔", order = 2)
+    private String ccs;
     /**
      * 请输入邮箱标题
      */
+    @SchemeValue(value = "请输入邮箱标题", order = 3)
     private String title;
     /**
      * 请输入邮箱内容
      */
+    @SchemeValue(value = "请输入邮箱内容", order = 4, type = SchemeValueType.TEXTAREA)
     private String content;
 
 }

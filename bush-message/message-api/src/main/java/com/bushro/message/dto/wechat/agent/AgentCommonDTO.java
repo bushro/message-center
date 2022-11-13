@@ -1,5 +1,6 @@
 package com.bushro.message.dto.wechat.agent;
 
+import com.bushro.message.annotation.SchemeValue;
 import com.bushro.message.base.BaseMessage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,17 +25,20 @@ public class AgentCommonDTO extends BaseMessage {
     /**
      * 成员ID列表（消息接收者，多个接收者用‘|’分隔，最多支持1000个）。特殊情况：指定为@all，则向关注该企业应用的全部成员发送
      */
+    @SchemeValue(value = "成员ID列表（消息接收者，多个接收者用‘|’分隔，最多支持1000个）。特殊情况：指定为@all，则向关注该企业应用的全部成员发送", order = 1)
     private String toUser;
 
     /**
      * PartyID列表，非必填，多个接受者用‘|’分隔。当touser为@all时忽略本参数
      */
+    @SchemeValue(value = "PartyID列表，非必填，多个接受者用‘|’分隔。当touser为@all时忽略本参数", order = 2)
     private String toParty;
 
     /**
      * TagID列表，非必填，指定接收消息的标签，标签ID列表，多个接收者用‘|’分隔，最多支持100个。
      * 当touser为"@all"时忽略本参数
      */
+    @SchemeValue(value = "TagID列表，非必填，指定接收消息的标签，标签ID列表，多个接收者用‘|’分隔，最多支持100个。", order = 3)
     private String toTag;
 
     /**

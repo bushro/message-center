@@ -1,5 +1,6 @@
 package com.bushro.message.dto.wechat.agent;
 
+import com.bushro.message.annotation.SchemeValue;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,6 +22,7 @@ public class MediaMessageDTO extends AgentCommonDTO {
     /**
      * 素材id
      */
+    @SchemeValue("素材id")
     private String mediaId;
 
 }

@@ -1,6 +1,7 @@
 package com.bushro.message.vo;
 
 import com.bushro.common.core.util.MessagePage;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.List;
@@ -15,8 +16,10 @@ import java.util.Map;
 @Data
 public class ConfigPageVo {
 
+    @ApiModelProperty("分页数据")
     private MessagePage<Map> page;
 
+    @ApiModelProperty("表头")
     private List<ConfigFieldVO> columnList;
 
 }

@@ -1,5 +1,6 @@
 package com.bushro.message.dto.wechat.agent;
 
+import com.bushro.message.annotation.SchemeValue;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -21,6 +22,7 @@ public class TextCardMessageDTO extends AgentCommonDTO {
     /**
      * 点击后跳转的链接。最长2048字节，请确保包含了协议头(http/https)
      */
+    @SchemeValue("点击后跳转的链接。最长2048字节，请确保包含了协议头(http/https)")
     private String url;
 
     /**

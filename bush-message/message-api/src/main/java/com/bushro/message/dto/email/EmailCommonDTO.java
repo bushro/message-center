@@ -1,5 +1,6 @@
 package com.bushro.message.dto.email;
 
+import com.bushro.message.annotation.SchemeValue;
 import com.bushro.message.base.BaseMessage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,9 +23,8 @@ public class EmailCommonDTO extends BaseMessage {
      */
     private List<Long> receiverGroupIds;
 
-    /**
-     * 接收人列表
-     */
-    private List<String> receiverIds;
+
+    @SchemeValue(value = "接收人邮箱，多个接收人用,分割", order = 1)
+    private String toUser;
 
 }

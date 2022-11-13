@@ -1,5 +1,6 @@
 package com.bushro.message.vo;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 /**
@@ -10,8 +11,16 @@ import lombok.Data;
  */
 @Data
 public class ConfigVo {
+
+    @ApiModelProperty("配置id")
     private Long configId;
+
+    @ApiModelProperty("配置名称")
     private String configName;
+
+    @ApiModelProperty("key")
     private String key;
+
+    @ApiModelProperty("value")
     private String value;
 }

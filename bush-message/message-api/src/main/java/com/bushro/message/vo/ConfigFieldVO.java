@@ -1,5 +1,6 @@
 package com.bushro.message.vo;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,25 +23,19 @@ import java.util.List;
 public class ConfigFieldVO implements Serializable {
     private static final long serialVersionUID = -1203229844327500120L;
 
-    /**
-     * 字段名称
-     */
+    @ApiModelProperty("字段名称")
     private String name;
-    /**
-     * 字段key
-     */
+
+    @ApiModelProperty("字段key")
     private String key;
-    /**
-     * 字段描述
-     */
+
+    @ApiModelProperty("字段描述")
     private String description;
-    /**
-     * 字段类型
-     */
+
+    @ApiModelProperty("字段类型")
     private ConfigValueType type;
-    /**
-     * 选项（如果是选择型字段）
-     */
+
+    @ApiModelProperty("选项（如果是选择型字段）")
     private List<IdStrAndName> options = new ArrayList<>();
 
 }

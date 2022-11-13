@@ -1,6 +1,8 @@
 package com.bushro.message.dto.wechat.robot;
 
+import com.bushro.message.annotation.SchemeValue;
 import com.bushro.message.base.BaseMessage;
+import com.bushro.message.enums.SchemeValueType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -25,5 +27,6 @@ public class NewsMessageDTO extends RobotCommonDTO {
     /**
      * 图文消息，一个图文消息支持1到8条图文
      */
+    @SchemeValue(type = SchemeValueType.MULTI_OBJ_INPUT, value = "图文消息，一个图文消息支持1到8条图文")
     private List<ArticleDTO> articles;
 }

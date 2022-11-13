@@ -1,7 +1,10 @@
 package com.bushro.message.dto.dingtalk.corp;
 
+import com.bushro.message.annotation.SchemeValue;
+import com.bushro.message.annotation.SchemeValueOption;
 import com.bushro.message.base.BaseMessage;
 import com.bushro.message.base.BaseParam;
+import com.bushro.message.enums.SchemeValueType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -28,11 +31,16 @@ public class DingCommonDTO extends BaseMessage {
      * 当设置为false时必须指定userid_list或dept_id_list其中一个参数的值。
      *
      */
+    @SchemeValue(type = SchemeValueType.SELECT, value = "是否发送给企业全部用户，注意钉钉限制只能发3次全员消息", description = "是否发送给企业全部用户，注意钉钉限制只能发3次全员消息", options = {
+            @SchemeValueOption(key = "true", label = "true"),
+            @SchemeValueOption(key = "false", label = "false")
+    }, order = 1)
     private boolean toAllUser;
 
     /**
      * 接收者的用户userid列表, user123,user456 接收者的userid列表，最大用户列表长度100。
      */
+    @SchemeValue(value = "接收者的用户userid列表, user123,user456 接收者的userid列表，最大用户列表长度100。", order = 2)
     private String useridList;
 
     /**
@@ -40,5 +48,6 @@ public class DingCommonDTO extends BaseMessage {
      * 接收者是部门ID时，包括子部门下的所有用户。
      *
      */
+    @SchemeValue(value = "接收者的部门id列表，最大列表长度20。多个用,隔开 接收者是部门ID时，包括子部门下的所有用户。", order = 3)
     private String deptIdList;
 }

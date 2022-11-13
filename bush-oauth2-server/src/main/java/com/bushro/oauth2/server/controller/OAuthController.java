@@ -1,37 +1,43 @@
 package com.bushro.oauth2.server.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.bushro.common.core.util.R;
 import com.bushro.oauth2.server.model.domain.Oauth2TokenDto;
-import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
+import com.bushro.oauth2.server.model.domain.UserResource;
+import com.bushro.oauth2.server.model.vo.UserVo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
+import org.springframework.beans.BeanUtils;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
  * Oauth2 控制器
  */
+@Api(tags = "认证中心")
 @RestController
+@AllArgsConstructor
 @RequestMapping("/oauth")
 public class OAuthController {
 
-    @Resource
-    private TokenEndpoint tokenEndpoint;
+    private final TokenEndpoint tokenEndpoint;
+
+    private final RedisTokenStore redisTokenStore;
 
 
-    /**
-     * Oauth2登录认证
-     */
+    @ApiOperation("Oauth2登录认证")
     @RequestMapping(value = "/token", method = RequestMethod.POST)
-    public R<Oauth2TokenDto> postAccessToken(Principal principal, @RequestParam Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
+    public R<Oauth2TokenDto> postAccessToken(HttpServletRequest request, Principal principal, @RequestParam Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
         OAuth2AccessToken oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
         Oauth2TokenDto oauth2TokenDto = Oauth2TokenDto.builder()
                 .token(oAuth2AccessToken.getValue())
@@ -41,28 +47,49 @@ public class OAuthController {
         return R.ok(oauth2TokenDto);
     }
 
-//    @PostMapping("/token")
-//    public R postAccessToken(Principal principal, @RequestParam Map<String, String> parameters)
-//            throws HttpRequestMethodNotSupportedException {
-//        return custom(tokenEndpoint.postAccessToken(principal, parameters).getBody());
-//    }
+    /**
+     * 获取当前用户
+     *
+     * @param request        请求
+     * @param authentication 身份验证
+     * @return {@link R}<{@link UserVo}>
+     */
+    @ApiOperation("获取当前用户")
+    @GetMapping("/userInfo")
+    public R<UserVo> getCurrentUser(HttpServletRequest request, Authentication authentication) {
+        // 获取登录用户的信息，然后设置
+        UserResource userResource = (UserResource) authentication.getPrincipal();
+        // 转为前端可用的视图对象
+        UserVo userVo = new UserVo();
+        BeanUtils.copyProperties(userResource, userVo);
+        return R.ok(userVo);
+    }
 
     /**
-     * 自定义 Token 返回对象
+     * 退出
      *
-     * @param accessToken
+     * @param access_token
      * @return
      */
-    private R custom(OAuth2AccessToken accessToken) {
-        DefaultOAuth2AccessToken token = (DefaultOAuth2AccessToken) accessToken;
-        Map<String, Object> data = new LinkedHashMap(token.getAdditionalInformation());
-        data.put("accessToken", token.getValue());
-        data.put("expireIn", token.getExpiresIn());
-        data.put("scopes", token.getScope());
-        if (token.getRefreshToken() != null) {
-            data.put("refreshToken", token.getRefreshToken().getValue());
+    @ApiOperation("退出")
+    @GetMapping("/logout")
+    public R logout(String access_token) {
+        // 判断 authorization 是否为空
+        if (StrUtil.isBlank(access_token)) {
+            return R.ok("退出成功");
         }
-        return R.ok(data);
+        // 判断 bearer token 是否为空
+        if (access_token.toLowerCase().contains("bearer ".toLowerCase())) {
+            access_token = access_token.toLowerCase().replace("bearer ", "");
+        }
+        // 清除 redis token 信息
+        OAuth2AccessToken oAuth2AccessToken = redisTokenStore.readAccessToken(access_token);
+        if (oAuth2AccessToken != null) {
+            redisTokenStore.removeAccessToken(oAuth2AccessToken);
+            OAuth2RefreshToken refreshToken = oAuth2AccessToken.getRefreshToken();
+            redisTokenStore.removeRefreshToken(refreshToken);
+        }
+        return R.ok("退出成功");
     }
 
 }

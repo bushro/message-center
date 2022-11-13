@@ -1,18 +1,17 @@
 package com.bushro.message.dto.dingtalk.robot;
 
-import com.bushro.message.base.BaseMessage;
+import com.bushro.message.annotation.SchemeValue;
+import com.bushro.message.enums.SchemeValueType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
-import java.util.List;
-
 /**
  * 钉钉群消息markdown类型DTO
  *
- * @author 钟宝林
+ * @author bushro
  **/
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -25,11 +24,13 @@ public class MarkdownMessageDTO extends RobotCommonDTO {
     /**
      * 首屏会话透出的展示内容
      */
+    @SchemeValue(value = "首屏会话透出的展示内容", type = SchemeValueType.STRING)
     private String title;
 
     /**
      * markdown格式的消息
      */
+    @SchemeValue(value = "markdown格式的消息", type = SchemeValueType.TEXTAREA)
     private String text;
 
 }

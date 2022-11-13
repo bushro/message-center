@@ -1,5 +1,7 @@
 package com.bushro.message.dto.dingtalk.robot;
 
+import com.bushro.message.annotation.SchemeValue;
+import com.bushro.message.enums.SchemeValueType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -19,5 +21,6 @@ public class TextMessageDTO extends RobotCommonDTO {
     /**
      * 请输入内容...
      */
+    @SchemeValue(value = "请输入内容...", type = SchemeValueType.TEXTAREA)
     private String content;
 }

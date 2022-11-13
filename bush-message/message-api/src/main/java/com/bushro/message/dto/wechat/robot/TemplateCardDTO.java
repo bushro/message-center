@@ -1,5 +1,6 @@
 package com.bushro.message.dto.wechat.robot;
 
+import com.bushro.message.annotation.SchemeValue;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -16,5 +17,6 @@ public class TemplateCardDTO extends RobotCommonDTO {
     /**
      * 具体的模版卡片参数
      */
+    @SchemeValue("具体的模版卡片参数")
     private String templateCard;
 }

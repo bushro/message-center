@@ -106,11 +106,10 @@
 <!--            <artifactId>dingtalk</artifactId>-->
 <!--            <version>1.2.15</version>-->
 <!--        </dependency>-->
-        <!-- oss https://gitee.com/bushro/oss-spring-boot-start 需要install到本地-->
+        <!-- oss https://gitee.com/bushro/oss-spring-boot-start 迁移-->
         <dependency>
             <groupId>com.bushro</groupId>
-            <artifactId>oss-spring-boot-start</artifactId>
-            <version>1.0.0</version>
+            <artifactId>bush-common-oss</artifactId>
         </dependency>
         <!--发送邮件需要的包-->
         <dependency>

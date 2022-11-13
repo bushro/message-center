@@ -1,5 +1,6 @@
 package com.bushro.message.dto.dingtalk.robot;
 
+import com.bushro.message.annotation.SchemeValue;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -9,7 +10,7 @@ import lombok.experimental.SuperBuilder;
 /**
  * 钉钉群消息link类型DTO
  *
- * @author 钟宝林
+ * @author bushro
  **/
 @EqualsAndHashCode(callSuper = true)
 @Data
@@ -22,11 +23,13 @@ public class LinkMessageDTO extends RobotCommonDTO {
     /**
      * 消息标题
      */
+    @SchemeValue("消息标题")
     private String title;
 
     /**
      * 消息内容。如果太长只会部分展示
      */
+    @SchemeValue("消息内容。如果太长只会部分展示")
     private String text;
 
     /**
@@ -36,11 +39,13 @@ public class LinkMessageDTO extends RobotCommonDTO {
      * 默认侧边栏打开
      * 希望在外部浏览器打开，请参考消息链接说明
      */
+    @SchemeValue("点击消息跳转的URL")
     private String messageUrl;
 
     /**
      * 图片URL。
      */
+    @SchemeValue("图片URL")
     private String picUrl;
 
 }

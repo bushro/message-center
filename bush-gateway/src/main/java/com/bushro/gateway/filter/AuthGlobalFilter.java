@@ -60,7 +60,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
         }
         String token = exchange.getRequest().getHeaders().getFirst("Authorization");
         if (StrUtil.isBlank(token)) {
-            return handleException.writeError(exchange, "请登录");
+            return handleException.writeError(exchange, "登录信息过期，请重新登录");
         }
         //从token中解析用户信息并设置到Header中去
         String realToken = token.replace("Bearer ", "");
@@ -75,15 +75,15 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
             // token 无效的业务逻辑处理
             if (entity.getStatusCode() != HttpStatus.OK) {
                 log.error("Token was not recognised, token: {}", realToken);
-                return handleException.writeError(exchange, "token失效");
+                return handleException.writeError(exchange, "登录信息过期，请重新登录");
             }
             if (StrUtil.isBlank(entity.getBody())) {
                 log.error("This token is invalid: {}", realToken);
-                return handleException.writeError(exchange, "token失效");
+                return handleException.writeError(exchange, "登录信息过期，请重新登录");
             }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            return handleException.writeError(exchange, "token失效");
+            return handleException.writeError(exchange, "登录信息过期，请重新登录");
         }
         // 放行
         return chain.filter(exchange);
