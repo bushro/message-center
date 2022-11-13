@@ -74,11 +74,20 @@ public interface CommonConstants {
      * 成功标记
      */
     Integer SUCCESS = 200;
+    /**
+     * 操作成功
+     */
+    String SUCCESS_MESSAGE = "操作成功";
 
     /**
      * 失败标记
      */
     Integer FAIL = 500;
+
+    /**
+     * 操作失败
+     */
+    String FAIL_MESSAGE = "操作失败";
 
     /**
      * 滑块验证码

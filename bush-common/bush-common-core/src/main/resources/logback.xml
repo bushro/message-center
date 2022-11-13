@@ -101,14 +101,8 @@
 
     <!-- 减少部分日志 -->
     <!-- 业务日志 -->
-    <logger name="com.zhengqing" level="DEBUG"/>
-    <logger name="com.zhengqing.demo.mapper" level="INFO"/>
-    <logger name="com.zhengqing.tool.generator.mapper" level="INFO"/>
-    <logger name="com.zhengqing.tool.crawler.mapper" level="INFO"/>
-    <logger name="com.zhengqing.tool.db.mapper" level="INFO"/>
-    <logger name="com.zhengqing.tool.other.mapper" level="INFO"/>
-    <logger name="com.zhengqing.system.mapper" level="INFO"/>
-    <logger name="com.zhengqing.common.config.mybatis" level="INFO"/>
+    <logger name="com.bushro" level="DEBUG"/>
+    <logger name="com.bushro.**.mapper" level="INFO"/>
 
     <!-- other -->
     <logger name="com.alibaba" level="WARN"/>

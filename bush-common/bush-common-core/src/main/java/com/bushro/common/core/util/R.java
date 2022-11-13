@@ -19,7 +19,9 @@
 
 package com.bushro.common.core.util;
 
+import cn.hutool.core.util.StrUtil;
 import com.bushro.common.core.constant.CommonConstants;
+import com.bushro.common.core.enums.MessageEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -41,57 +43,62 @@ import java.io.Serializable;
 @ApiModel(value = "响应信息主体")
 public class R<T> implements Serializable {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Getter
-	@Setter
-	@ApiModelProperty(value = "返回标记：成功标记=200，失败标记=500")
-	private int code;
+    @Getter
+    @Setter
+    @ApiModelProperty(value = "返回标记：成功标记=200，失败标记=500")
+    private int code;
 
-	@Getter
-	@Setter
-	@ApiModelProperty(value = "返回信息")
-	private String message;
+    @Getter
+    @Setter
+    @ApiModelProperty(value = "返回信息")
+    private String message;
 
-	@Getter
-	@Setter
-	@ApiModelProperty(value = "数据")
-	private T data;
+    @Getter
+    @Setter
+    @ApiModelProperty(value = "数据")
+    private T data;
 
-	public static <T> R<T> ok() {
-		return restResult(null, CommonConstants.SUCCESS, null);
-	}
+    public static <T> R<T> ok() {
+        return restResult(null, CommonConstants.SUCCESS, CommonConstants.SUCCESS_MESSAGE);
+    }
 
-	public static <T> R<T> ok(T data) {
-		return restResult(data, CommonConstants.SUCCESS, null);
-	}
+    public static <T> R<T> ok(T data) {
+        return restResult(data, CommonConstants.SUCCESS, CommonConstants.SUCCESS_MESSAGE);
+    }
 
-	public static <T> R<T> ok(T data, String msg) {
-		return restResult(data, CommonConstants.SUCCESS, msg);
-	}
+    public static <T> R<T> ok(T data, String msg) {
+        return restResult(data, CommonConstants.SUCCESS, msg);
+    }
 
-	public static <T> R<T> failed() {
-		return restResult(null, CommonConstants.FAIL, null);
-	}
+    public static <T> R<T> failed() {
+        return restResult(null, CommonConstants.FAIL, CommonConstants.FAIL_MESSAGE);
+    }
 
-	public static <T> R<T> failed(String msg) {
-		return restResult(null, CommonConstants.FAIL, msg);
-	}
+    public static <T> R<T> failed(String msg) {
+        return restResult(null, CommonConstants.FAIL, msg);
+    }
 
-	public static <T> R<T> failed(T data) {
-		return restResult(data, CommonConstants.FAIL, null);
-	}
+    public static <T> R<T> unAuthorized(String error) {
+        return restResult(null, MessageEnum.UN_AUTHORIZED.code(),
+                StrUtil.isEmpty(error) ? MessageEnum.UN_AUTHORIZED.message(): error);
+    }
 
-	public static <T> R<T> failed(T data, String msg) {
-		return restResult(data, CommonConstants.FAIL, msg);
-	}
+    public static <T> R<T> failed(T data) {
+        return restResult(data, CommonConstants.FAIL, CommonConstants.FAIL_MESSAGE);
+    }
 
-	private static <T> R<T> restResult(T data, int code, String msg) {
-		R<T> apiResult = new R<>();
-		apiResult.setCode(code);
-		apiResult.setData(data);
-		apiResult.setMessage(msg);
-		return apiResult;
-	}
+    public static <T> R<T> failed(T data, String msg) {
+        return restResult(data, CommonConstants.FAIL, msg);
+    }
+
+    private static <T> R<T> restResult(T data, int code, String msg) {
+        R<T> apiResult = new R<>();
+        apiResult.setCode(code);
+        apiResult.setData(data);
+        apiResult.setMessage(msg);
+        return apiResult;
+    }
 
 }

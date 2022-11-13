@@ -24,12 +24,12 @@ import java.time.format.DateTimeFormatter;
  * @author L.cm
  * @author lishanbu
  */
-public class SsaJavaTimeModule extends SimpleModule {
+public class MyJavaTimeModule extends SimpleModule {
 
 	/**
 	 * 指定序列化规则
 	 */
-	public SsaJavaTimeModule() {
+	public MyJavaTimeModule() {
 		super(PackageVersion.VERSION);
 
 		// ======================= 时间序列化规则 ===============================

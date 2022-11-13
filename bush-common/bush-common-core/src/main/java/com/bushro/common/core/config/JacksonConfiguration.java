@@ -3,7 +3,7 @@ package com.bushro.common.core.config;
 import cn.hutool.core.date.DatePattern;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import com.bushro.common.core.jackson.SsaJavaTimeModule;
+import com.bushro.common.core.jackson.MyJavaTimeModule;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -14,10 +14,13 @@ import org.springframework.boot.web.servlet.filter.OrderedCharacterEncodingFilte
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.format.datetime.standard.DateTimeFormatterRegistrar;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.time.format.DateTimeFormatter;
 import java.util.Locale;
@@ -25,11 +28,9 @@ import java.util.TimeZone;
 
 /**
  * JacksonConfig 配置时间转换规则
- * {@link SsaJavaTimeModule}、默认时区等
+ * {@link MyJavaTimeModule}、默认时区等
  *
- * @author L.cm
  * @author bushro
- * @author lishangbu
  * @date 2020-06-15
  */
 @Configuration
@@ -40,20 +41,28 @@ public class JacksonConfiguration implements WebMvcConfigurer {
 
 	private static final String ASIA_SHANGHAI = "Asia/Shanghai";
 
+
+	/**
+	 * 自定义json转换器，解决Long以及时间的序列化问题
+	 */
 	@Bean
 	@ConditionalOnMissingBean
+	@Order(Integer.MIN_VALUE)
 	public Jackson2ObjectMapperBuilderCustomizer customizer() {
 		return builder -> {
 			builder.locale(Locale.CHINA);
 			builder.timeZone(TimeZone.getTimeZone(ASIA_SHANGHAI));
 			builder.simpleDateFormat(DatePattern.NORM_DATETIME_PATTERN);
 			builder.serializerByType(Long.class, ToStringSerializer.instance);
-			builder.modules(new SsaJavaTimeModule());
+			builder.serializerByType(Long.TYPE, ToStringSerializer.instance);
+			builder.serializerByType(BigInteger.class, ToStringSerializer.instance);
+			builder.serializerByType(BigDecimal.class, ToStringSerializer.instance);
+			builder.modules(new MyJavaTimeModule());
 		};
 	}
 
 	/**
-	 * 增加GET请求参数中时间类型转换 {@link SsaJavaTimeModule}
+	 * 增加GET请求参数中时间类型转换 {@link MyJavaTimeModule}
 	 * <ul>
 	 * <li>HH:mm:ss -> LocalTime</li>
 	 * <li>yyyy-MM-dd -> LocalDate</li>

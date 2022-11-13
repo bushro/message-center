@@ -44,6 +44,7 @@
         <dingtalk.version>2.0.0</dingtalk.version>
         <loadbalancer.version>3.1.1</loadbalancer.version>
         <guava.version>29.0-jre</guava.version>
+        <nimbus-jose-jwt.version>9.23</nimbus-jose-jwt.version>
     </properties>
 
     <dependencyManagement>
@@ -64,6 +65,12 @@
             <dependency>
                 <groupId>com.bushro</groupId>
                 <artifactId>bush-common-swagger</artifactId>
+                <version>${bush.version}</version>
+            </dependency>
+            <!--oss 存储包-->
+            <dependency>
+                <groupId>com.bushro</groupId>
+                <artifactId>bush-common-oss</artifactId>
                 <version>${bush.version}</version>
             </dependency>
             <!--消息api-->
@@ -232,6 +239,12 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+            <!--jwt-->
+            <dependency>
+                <groupId>com.nimbusds</groupId>
+                <artifactId>nimbus-jose-jwt</artifactId>
+                <version>${nimbus-jose-jwt.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -18,6 +18,7 @@
         <module>bush-common-core</module>
         <module>bush-common-idempotent</module>
         <module>bush-common-swagger</module>
+        <module>bush-common-oss</module>
     </modules>
 
 
