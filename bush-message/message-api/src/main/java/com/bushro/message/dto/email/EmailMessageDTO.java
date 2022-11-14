@@ -23,10 +23,10 @@ public class EmailMessageDTO extends EmailCommonDTO {
 
     private static final long serialVersionUID = 8283191910294934673L;
     /**
-     * 文件id列表
+     * 文件列表
      */
-    @SchemeValue(value = "文件id列表", type = SchemeValueType.EMAIL_FILE,  order = 5)
-    private List<Long> fileIds;
+    @SchemeValue(value = "文件列表", type = SchemeValueType.EMAIL_FILE,  order = 5)
+    private List<String> fileNames;
     /**
      * 抄送人列表
      */

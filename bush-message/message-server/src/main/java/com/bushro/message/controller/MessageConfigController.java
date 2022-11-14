@@ -9,13 +9,16 @@ import com.bushro.message.service.IMessageConfigService;
 import com.bushro.message.vo.ConfigFieldVO;
 import com.bushro.message.vo.ConfigPageVo;
 import com.bushro.message.vo.ConfigVo;
+import com.bushro.message.vo.PlatformVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,6 +61,25 @@ public class MessageConfigController {
     @GetMapping("/{platform}/getFields")
     public R<List<ConfigFieldVO>> getFields(@PathVariable("platform") MessagePlatformEnum platform) {
         return R.ok(messageConfigService.getFields(platform));
+    }
+
+    /**
+     * 后期可以配置到数据库种
+     */
+    @ApiOperation(value = "获取所有平台")
+    @GetMapping("/platform")
+    public R<List<PlatformVo>> platforms() {
+        List<PlatformVo> platformList = new ArrayList<>();
+        for (MessagePlatformEnum platformEnum : MessagePlatformEnum.values()) {
+            platformList.add(PlatformVo.builder()
+                    .id(platformEnum.name())
+                    .name(platformEnum.getName())
+                    .description("")
+                    .validateReg("")
+                    .enable(true)
+                    .build());
+        }
+        return R.ok(platformList);
     }
 
 }

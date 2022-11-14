@@ -9,6 +9,7 @@ import cn.hutool.extra.mail.Mail;
 import cn.hutool.extra.mail.MailAccount;
 import com.amazonaws.services.s3.model.S3Object;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.bushro.common.core.exception.BusinessException;
 import com.bushro.common.oss.service.OssTemplate;
 import com.bushro.message.dto.email.EmailMessageDTO;
@@ -91,11 +92,11 @@ public class EmailMessageHandler extends AbstractEmailHandler<EmailMessageDTO> i
                 }
                 List<File> files = new ArrayList<>();
                 //文件处理
-                if (!CollectionUtil.isEmpty(param.getFileIds())) {
-                    for (Long fileId : param.getFileIds()) {
-                        SysFile sysFile = sysFileService.getById(fileId);
+                if (!CollectionUtil.isEmpty(param.getFileNames())) {
+                    for (String fileName : param.getFileNames()) {
+                        SysFile sysFile = sysFileService.getOne(Wrappers.<SysFile>lambdaQuery().eq(SysFile::getFileName, fileName));
                         if (ObjectUtil.isEmpty(sysFile)) {
-                            log.error("找不到文件-{}", fileId);
+                            log.error("找不到文件-{}", fileName);
                             throw new BusinessException("文件不存在！");
                         }
                         S3Object s3Object = ossTemplate.getObject(sysFile.getBucketName(), sysFile.getFileName());
