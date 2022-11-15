@@ -142,6 +142,11 @@ public class MessageConfigServiceImpl extends ServiceImpl<MessageConfigMapper, M
     }
 
     @Override
+    public void deleteConfigById(Long configId) {
+        this.removeById(configId);
+    }
+
+    @Override
     public List<ConfigFieldVO> getFields(MessagePlatformEnum platform) {
         return MessageHandlerUtils.listConfigFieldName(platform);
     }

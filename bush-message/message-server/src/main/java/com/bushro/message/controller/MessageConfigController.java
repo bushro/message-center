@@ -50,6 +50,13 @@ public class MessageConfigController {
         return R.ok(messageConfigService.list(platform));
     }
 
+    @ApiOperation(value = "删除配置通过id")
+    @GetMapping("/deleteById")
+    public R deleteById(@NotNull Long configId) {
+        messageConfigService.deleteConfigById(configId);
+        return R.ok();
+    }
+
     @ApiOperation(value = "添加/修改配置")
     @PostMapping("/addOrUpdated")
     public R addOrUpdated(@RequestBody UpdateConfigForm updateConfigForm) {

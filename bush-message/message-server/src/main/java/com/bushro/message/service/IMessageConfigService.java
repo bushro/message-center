@@ -24,12 +24,22 @@ import java.util.Map;
  */
 public interface IMessageConfigService extends IService<MessageConfig> {
 
+
     /**
-     * 添加或者修改配置
+     * 添加或更新配置
+     *
+     * @param updateConfigForm 更新配置形式
+     * @return int
      */
     int addOrUpdateConfig(UpdateConfigForm updateConfigForm);
 
 
+    /**
+     * 删除配置通过id
+     *
+     * @param Id id
+     */
+    void deleteConfigById(Long configId);
 
     /**
      * 获取字段
