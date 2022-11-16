@@ -73,6 +73,12 @@
                 <artifactId>bush-common-oss</artifactId>
                 <version>${bush.version}</version>
             </dependency>
+            <!--feign远程调用-->
+            <dependency>
+                <groupId>com.bushro</groupId>
+                <artifactId>bush-common-feign</artifactId>
+                <version>${bush.version}</version>
+            </dependency>
             <!--消息api-->
             <dependency>
                 <groupId>com.bushro</groupId>
@@ -82,7 +88,7 @@
             <!--系统模块-->
             <dependency>
                 <groupId>com.bushro</groupId>
-                <artifactId>user-api</artifactId>
+                <artifactId>system-api</artifactId>
                 <version>${bush.version}</version>
             </dependency>
             <!--mybatis plus extension,包含了mybatis plus core-->

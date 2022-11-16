@@ -47,7 +47,7 @@ spring:
 # oauth2 服务地址
 service:
   name:
-    oauth2: http://bush-oauth2-server/
+    oauth2: http://auth-server/
 
 gateway:
   auth:
@@ -68,7 +68,5 @@ gateway:
       - /**/*.ico
       # 通用接口
       - /common/
-      - /web/api/dict/listFromCacheByCode
-      - /web/api/oauth
-      - /web/api/test
+      - /oauth/token
 

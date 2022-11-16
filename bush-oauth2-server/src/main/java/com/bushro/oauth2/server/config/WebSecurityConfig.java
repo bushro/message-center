@@ -18,18 +18,18 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     // 放行和认证规则
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .authorizeRequests()
-                // 放行的请求
-                .antMatchers( "/oauth/**", "/actuator/**").permitAll()
-                //.antMatchers( "/**").permitAll()
-                .and()
-                .authorizeRequests()
-                // 其他请求必须认证才能访问
-                .anyRequest().authenticated();
-    }
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.csrf().disable()
+//                .authorizeRequests()
+//                // 放行的请求
+////                .antMatchers( "/oauth/**", "/actuator/**").permitAll()
+//                .antMatchers( "/**").permitAll()
+//                .and()
+//                .authorizeRequests()
+//                // 其他请求必须认证才能访问
+//                .anyRequest().authenticated();
+//    }
 
     /**
      * 不拦截静态资源

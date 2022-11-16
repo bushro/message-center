@@ -19,7 +19,7 @@
         <module>bush-common-idempotent</module>
         <module>bush-common-swagger</module>
         <module>bush-common-oss</module>
+        <module>bush-common-feign</module>
     </modules>
-
 
 </project>

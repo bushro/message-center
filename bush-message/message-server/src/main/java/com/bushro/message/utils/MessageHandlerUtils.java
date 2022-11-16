@@ -18,7 +18,6 @@ import com.bushro.message.handle.MessageHandlerHolder;
 import com.bushro.message.vo.ConfigFieldVO;
 import com.bushro.message.vo.MultiObjFieldVO;
 import com.bushro.message.vo.SchemeFieldVO;
-import com.sun.xml.internal.ws.api.handler.MessageHandler;
 import org.apache.commons.lang3.StringUtils;
 
 import java.lang.reflect.Field;

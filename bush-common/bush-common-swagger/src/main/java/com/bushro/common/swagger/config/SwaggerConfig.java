@@ -15,8 +15,10 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.OAuthBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.*;
@@ -62,7 +64,6 @@ public class SwaggerConfig {
         if (swaggerProperties.getBasePath().isEmpty()) {
             swaggerProperties.getBasePath().add(BASE_PATH);
         }
-
         // exclude-path处理
         if (swaggerProperties.getExcludePath().isEmpty()) {
             swaggerProperties.getExcludePath().addAll(DEFAULT_EXCLUDE_PATH);
@@ -74,13 +75,13 @@ public class SwaggerConfig {
                 .groupName(swaggerProperties.getGroupName())
                 .select()
                 //这里指定Controller扫描包路径
-                .apis(RequestHandlerSelectors.basePackage("com.bushro.message.controller"));
+                .apis(RequestHandlerSelectors.basePackage("com.bushro"));
 //        swaggerProperties.getBasePath().forEach(p -> builder.paths(PathSelectors.ant(p)));
 //        swaggerProperties.getExcludePath().forEach(p -> builder.paths(PathSelectors.ant(p).negate()));
 
-        return builder.build();
+        return builder.build().securityContexts(securityContexts())
+                .securitySchemes(securitySchemes());
     }
-
 
     /**
      * swagger-api接口描述信息
@@ -98,17 +99,42 @@ public class SwaggerConfig {
     /**
      * 配置全局token
      */
-    private List<ApiKey> securitySchemes() {
-        List<ApiKey> apiKeyList = Lists.newArrayList();
-        apiKeyList.add(new ApiKey("Token", "ZQ-X-TOKEN", "header"));
-        return apiKeyList;
+    private List<SecurityScheme> securitySchemes() {
+        //schema
+        List<GrantType> grantTypes=new ArrayList<>();
+        String passwordTokenUrl="http://127.0.0.1:6688/auth-server/oauth/token";
+        //密码模式
+        ResourceOwnerPasswordCredentialsGrant resourceOwnerPasswordCredentialsGrant=new ResourceOwnerPasswordCredentialsGrant(passwordTokenUrl);
+        grantTypes.add(resourceOwnerPasswordCredentialsGrant);
+        OAuth oAuth=new OAuthBuilder().name("oauth2")
+                .grantTypes(grantTypes).build();
+        return Lists.newArrayList(oAuth);
     }
 
+    /**
+     * 安全上下文
+     *
+     * @return {@link List}<{@link SecurityContext}>
+     */
     private List<SecurityContext> securityContexts() {
-        List<SecurityContext> contextList = Lists.newArrayList();
-        contextList.add(SecurityContext.builder().securityReferences(defaultAuth())
-                .forPaths(PathSelectors.regex("^(?!auth).*$")).build());
-        return contextList;
+        List<SecurityContext> securityContexts = Lists.newArrayList(
+                SecurityContext.builder()
+                        .securityReferences(
+                                Lists.newArrayList(
+                                        new SecurityReference("oauth2",
+                                                Lists.newArrayList(
+                                                        new AuthorizationScope("read", "read  resources"),
+                                                        new AuthorizationScope("write", "write resources"),
+                                                        new AuthorizationScope("reads", "read all resources"),
+                                                        new AuthorizationScope("writes", "write all resources")
+                                                ).toArray(new AuthorizationScope[]{})
+                                        )
+                                )
+                        )
+                        .forPaths(PathSelectors.ant(BASE_PATH))
+                        .build()
+        );
+        return securityContexts;
     }
 
     private List<SecurityReference> defaultAuth() {

@@ -26,6 +26,11 @@
             <groupId>com.bushro</groupId>
             <artifactId>bush-common-swagger</artifactId>
         </dependency>
+        <!-- 系统api -->
+        <dependency>
+            <groupId>com.bushro</groupId>
+            <artifactId>system-api</artifactId>
+        </dependency>
         <!--注册中心客户端-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

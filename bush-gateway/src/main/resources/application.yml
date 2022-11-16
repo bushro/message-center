@@ -16,10 +16,10 @@ spring:
           filters:
             - StripPrefix=1 # 重定向 去掉message前缀
 
-        - id: user-server
-          uri: lb://user-server
+        - id: system-server
+          uri: lb://system-server
           predicates:
-            - Path=/user-server/**
+            - Path=/system-server/**
           filters:
             - StripPrefix=1
 
@@ -54,17 +54,3 @@ management:
     web:
       exposure:
         include: "*"
-
-#gateway:
-#  swagger:
-#    enabled: true # 开启swagger，默认关闭
-#    title: 项目API接口文档
-#    description: 项目API接口文档
-#    version: 1.0.0
-#    termsOfServiceUrl: 127.0.0.1:5000
-#    license:
-#    licenseUrl:
-#    contact:
-#      name: zhengqingya
-#      url: www.zhengqingya.com
-#      email: 960869719@qq.com

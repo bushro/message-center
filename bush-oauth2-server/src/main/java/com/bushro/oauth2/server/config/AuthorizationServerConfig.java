@@ -2,11 +2,14 @@ package com.bushro.oauth2.server.config;
 
 
 import com.bushro.oauth2.server.component.JwtTokenEnhancer;
+import com.bushro.oauth2.server.core.ClientDetailsServiceImpl;
 import com.bushro.oauth2.server.properties.ClientOAuth2DataProperties;
 import com.bushro.oauth2.server.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -29,28 +32,23 @@ import java.util.List;
  * 授权服务
  */
 @Configuration
+@RequiredArgsConstructor
 @EnableAuthorizationServer
-
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
+    /**
+     * 认证管理对象
+     */
+    private final AuthenticationManager authenticationManager;
+    /**
+     * 登录校验
+     */
+    private final UserService userService;
 
-    // 认证管理对象
-    @Resource
-    private AuthenticationManager authenticationManager;
-    // 密码编码器
-    @Resource
-    private PasswordEncoder passwordEncoder;
-    // 客户端配置类
-    @Resource
-    private ClientOAuth2DataProperties clientOAuth2DataProperties;
-    // 登录校验
-    @Resource
-    private UserService userService;
+    private final JwtTokenEnhancer jwtTokenEnhancer;
 
-    @Resource
-    private JwtTokenEnhancer jwtTokenEnhancer;
+    private final RedisTokenStore redisTokenStore;
 
-    @Resource
-    private RedisTokenStore redisTokenStore;
+    private final ClientDetailsServiceImpl clientDetailsService;
 
 
     /**
@@ -77,13 +75,20 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
      */
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
-        clients.inMemory()
-                .withClient(clientOAuth2DataProperties.getClientId()) // 客户端标识 ID
-                .secret(passwordEncoder.encode(clientOAuth2DataProperties.getSecret())) // 客户端安全码
-                .authorizedGrantTypes(clientOAuth2DataProperties.getGrantTypes()) // 授权类型
-                .accessTokenValiditySeconds(clientOAuth2DataProperties.getTokenValidityTime()) // token 有效期
-                .refreshTokenValiditySeconds(clientOAuth2DataProperties.getRefreshTokenValidityTime()) // 刷新 token 的有效期
-                .scopes(clientOAuth2DataProperties.getScopes()); // 客户端访问范围
+        clients.withClientDetails(clientDetailsService);
+//        clients.inMemory()
+//                // 客户端标识 ID
+//                .withClient(clientOAuth2DataProperties.getClientId())
+//                // 客户端安全码
+//                .secret(passwordEncoder.encode(clientOAuth2DataProperties.getSecret()))
+//                // 授权类型
+//                .authorizedGrantTypes(clientOAuth2DataProperties.getGrantTypes())
+//                // token 有效期
+//                .accessTokenValiditySeconds(clientOAuth2DataProperties.getTokenValidityTime())
+//                // 刷新 token 的有效期
+//                .refreshTokenValiditySeconds(clientOAuth2DataProperties.getRefreshTokenValidityTime())
+//                // 客户端访问范围
+//                .scopes(clientOAuth2DataProperties.getScopes());
     }
 
     /**
@@ -104,6 +109,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         endpoints.authenticationManager(authenticationManager)
                 // 具体登录的方法
                 .userDetailsService(userService)
+                // 默认只有POST,这里要加入需要的请求方式
+                .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST, HttpMethod.PUT,HttpMethod.DELETE)
                 .tokenStore(redisTokenStore)
                 // 令牌增强对象，增强返回的结果
                 .tokenEnhancer(enhancerChain);

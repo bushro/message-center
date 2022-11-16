@@ -90,6 +90,11 @@ public interface CommonConstants {
     String FAIL_MESSAGE = "操作失败";
 
     /**
+     * 服务器繁忙
+     */
+    String BUSY_MESSAGE = "服务器繁忙";
+
+    /**
      * 滑块验证码
      */
     String IMAGE_CODE_TYPE = "blockPuzzle";

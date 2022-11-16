@@ -1,10 +1,14 @@
 package com.bushro.oauth2.server.controller;
 
 import cn.hutool.core.util.StrUtil;
+import com.bushro.common.core.model.dto.AuthDto;
+import com.bushro.common.core.util.MyBeanUtil;
 import com.bushro.common.core.util.R;
 import com.bushro.oauth2.server.model.domain.Oauth2TokenDto;
 import com.bushro.oauth2.server.model.domain.UserResource;
 import com.bushro.oauth2.server.model.vo.UserVo;
+import com.bushro.system.feign.ISysOauthClientFeignApi;
+import com.bushro.system.vo.SysOauthClientVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -16,9 +20,11 @@ import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -34,17 +40,43 @@ public class OAuthController {
 
     private final RedisTokenStore redisTokenStore;
 
+    private final ISysOauthClientFeignApi sysOauthClientFeignApi;
 
-    @ApiOperation("Oauth2登录认证")
-    @RequestMapping(value = "/token", method = RequestMethod.POST)
-    public R<Oauth2TokenDto> postAccessToken(HttpServletRequest request, Principal principal, @RequestParam Map<String, String> parameters) throws HttpRequestMethodNotSupportedException {
-        OAuth2AccessToken oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
+
+    /**
+     * headers: Authorization: "Basic d2ViOjEyMzQ1Ng=="   [ base64解密后为web/123456 ]
+     * auth服务直接调用登录 =》 http://127.0.0.1:6100/oauth/token?client_id=web&client_secret=123456&grant_type=password&username=admin&password=123456
+     * 刷新令牌 =》 http://127.0.0.1:6100/auth/oauth/token?client_id=web&client_secret=123456&grant_type=refresh_token&refresh_token=xxx
+     * 验证码模式 =》 http://127.0.0.1:6100/auth/oauth/token?client_id=web&client_secret=123456&username=admin&password=123456&grant_type=captcha&code=xxx&uuid=xxx
+     */
+
+    /**
+     * 前端在请求的时候需要 添加请求头表名是哪个客户端 Authorization: "Basic d2ViOjEyMzQ1Ng=="
+     */
+    @ApiOperation("Oauth2 (系统登录使用)")
+    @GetMapping("/token")
+    public R<Oauth2TokenDto> getAccessToken(@ApiIgnore Principal principal, @ModelAttribute AuthDto authDto) throws HttpRequestMethodNotSupportedException {
+        OAuth2AccessToken oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, MyBeanUtil.objToMapStr(authDto)).getBody();
         Oauth2TokenDto oauth2TokenDto = Oauth2TokenDto.builder()
                 .token(oAuth2AccessToken.getValue())
                 .refreshToken(oAuth2AccessToken.getRefreshToken().getValue())
                 .expiresIn(oAuth2AccessToken.getExpiresIn())
                 .tokenHead("Bearer ").build();
         return R.ok(oauth2TokenDto);
+    }
+
+    /**
+     * knife4j在请求的时候 会自己带上请求头
+     * headers: Authorization: "Basic d2ViOjEyMzQ1Ng=="   [ base64解密后为web:123456 ]
+     */
+    @ApiOperation("Oauth2 (knife4j页面授权使用)")
+    @PostMapping("/token")
+    public Map postAccessToken(@ApiIgnore Principal principal,@ModelAttribute AuthDto authDto) throws HttpRequestMethodNotSupportedException {
+        OAuth2AccessToken oAuth2AccessToken = tokenEndpoint.postAccessToken(principal, MyBeanUtil.objToMapStr(authDto)).getBody();
+        return new HashMap<String, String>(2) {{
+            this.put("token_type", oAuth2AccessToken.getTokenType());
+            this.put("access_token", oAuth2AccessToken.getValue());
+        }};
     }
 
     /**
