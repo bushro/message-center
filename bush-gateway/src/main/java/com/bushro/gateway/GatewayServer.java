@@ -7,6 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @EnableDiscoveryClient
+@ComponentScan(basePackages = {"com.bushro"})
 public class GatewayServer {
 
     public static void main(String[] args) {

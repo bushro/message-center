@@ -1,6 +1,6 @@
 package com.bushro.oauth2.server.controller;
 
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.bushro.common.core.constant.SecurityConstants;
@@ -10,11 +10,11 @@ import com.bushro.common.core.model.dto.JwtCustomUserDto;
 import com.bushro.common.core.util.MyBeanUtil;
 import com.bushro.common.core.util.MyDateUtil;
 import com.bushro.common.core.util.R;
+import com.bushro.common.redis.util.RedisUtil;
 import com.bushro.common.security.util.JwtUtil;
-import com.bushro.oauth2.server.model.domain.Oauth2TokenDto;
 import com.bushro.oauth2.server.core.userdetails.b.SysUserDetails;
+import com.bushro.oauth2.server.model.domain.Oauth2TokenDto;
 import com.bushro.oauth2.server.model.vo.UserVo;
-import com.bushro.system.feign.ISysOauthClientFeignApi;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import io.swagger.annotations.Api;
@@ -25,13 +25,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.common.OAuth2RefreshToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
-import com.bushro.common.redis.util.RedisUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.KeyPair;
@@ -52,8 +50,6 @@ import java.util.concurrent.TimeUnit;
 public class OAuthController {
 
     private final TokenEndpoint tokenEndpoint;
-
-    private final RedisTokenStore redisTokenStore;
 
     private final KeyPair keyPair;
 
@@ -130,31 +126,19 @@ public class OAuthController {
         return R.ok(userVo);
     }
 
+
     /**
-     * 退出
+     * 注销
      *
-     * @param access_token
-     * @return
+     * @return {@link R}
      */
     @ApiOperation("退出")
     @GetMapping("/logout")
-    public R logout(String access_token) {
-        // 判断 authorization 是否为空
-        if (StrUtil.isBlank(access_token)) {
-            return R.ok("退出成功");
-        }
-        // 判断 bearer token 是否为空
-        if (access_token.toLowerCase().contains("bearer ".toLowerCase())) {
-            access_token = access_token.toLowerCase().replace("bearer ", "");
-        }
-        // 清除 redis token 信息
-        OAuth2AccessToken oAuth2AccessToken = redisTokenStore.readAccessToken(access_token);
-        if (oAuth2AccessToken != null) {
-            redisTokenStore.removeAccessToken(oAuth2AccessToken);
-            OAuth2RefreshToken refreshToken = oAuth2AccessToken.getRefreshToken();
-            redisTokenStore.removeRefreshToken(refreshToken);
-        }
+    public R logout() {
         JwtCustomUserDto jwtUserBO = JwtCustomUserContext.get();
+        if (ObjectUtil.isEmpty(jwtUserBO)) {
+            return R.failed("未登陆, 不需要退出");
+        }
         String jti = jwtUserBO.getJti();
         RedisUtil.delete(SecurityConstants.JWT_CUSTOM_USER + jti);
         return R.ok("退出成功");
