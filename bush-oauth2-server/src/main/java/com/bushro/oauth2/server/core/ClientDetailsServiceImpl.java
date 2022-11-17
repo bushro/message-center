@@ -1,6 +1,7 @@
 package com.bushro.oauth2.server.core;
 
 
+import com.bushro.common.core.constant.CommonConstants;
 import com.bushro.common.core.util.R;
 import com.bushro.oauth2.server.constant.PasswordEncoderTypeEnum;
 import com.bushro.system.feign.ISysOauthClientFeignApi;
@@ -19,6 +20,8 @@ import org.springframework.stereotype.Service;
 /**
  * OAuth2 客户端信息
  *
+ * 根据请求的clientId找对应的客户端，判断是否支持
+ *
  * @author luo.qiang
  * @date 2022/11/17
  */
@@ -35,7 +38,7 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
     public ClientDetails loadClientByClientId(String clientId) {
         try {
             R<SysOauthClientVO> result = this.sysOauthClientFeignApi.getClient(clientId);
-            if (200 == result.getCode()) {
+            if (CommonConstants.SUCCESS.equals(result.getCode())) {
                 SysOauthClientVO client = result.getData();
                 BaseClientDetails clientDetails = new BaseClientDetails(
                         client.getClientId(),
@@ -45,7 +48,7 @@ public class ClientDetailsServiceImpl implements ClientDetailsService {
                         client.getAuthorities(),
                         client.getWebServerRedirectUri()
                 );
-                clientDetails.setClientSecret(PasswordEncoderTypeEnum.NOOP.getPrefix() + client.getClientSecret());
+                clientDetails.setClientSecret(passwordEncoder.encode(client.getClientSecret()));
                 clientDetails.setAccessTokenValiditySeconds(client.getAccessTokenValidity());
                 clientDetails.setRefreshTokenValiditySeconds(client.getRefreshTokenValidity());
                 return clientDetails;

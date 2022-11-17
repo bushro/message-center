@@ -1,8 +1,11 @@
 package com.bushro.oauth2.server.constant;
 
+
 /**
  * 消息常量
- * Created by macro on 2020/6/19.
+ *
+ * @author bushro
+ * @date 2022/11/17
  */
 public class MessageConstant {
 

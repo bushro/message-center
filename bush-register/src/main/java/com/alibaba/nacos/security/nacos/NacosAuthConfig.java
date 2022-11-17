@@ -38,7 +38,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsUtils;
 
 /**
- * Spring security config.
+ * Spring security com.bushro.common.redis.config.
  *
  * @author Nacos
  */

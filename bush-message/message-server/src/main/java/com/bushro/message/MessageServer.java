@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @author: luoq
  * @date: 2022/9/27
  */
-@MapperScan("com.bushro.*.mapper")
+@MapperScan("com.bushro.**.mapper")
 @ComponentScan(basePackages = "com.bushro.*")
 @EnableDiscoveryClient
 @SpringBootApplication

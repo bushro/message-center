@@ -180,7 +180,7 @@ public class MessageConfigServiceImpl extends ServiceImpl<MessageConfigMapper, M
     /**
      * @param message    : 要发送的信息
      * @param configType : 配置类
-     * @return : java.util.List<T>
+     * @return : java.com.bushro.common.redis.util.List<T>
      * @descript : 查询配置
      * @date : 2022-10-09
      */
@@ -193,7 +193,7 @@ public class MessageConfigServiceImpl extends ServiceImpl<MessageConfigMapper, M
     /**
      * @param configIds  : 配置id
      * @param configType : 配置类
-     * @return : java.util.List<T>
+     * @return : java.com.bushro.common.redis.util.List<T>
      * @descript : 查询配置
      * @date : 2022-10-15
      */

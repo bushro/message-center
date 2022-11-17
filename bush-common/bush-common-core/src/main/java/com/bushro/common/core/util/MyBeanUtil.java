@@ -34,7 +34,7 @@ public class MyBeanUtil {
      * @param target 目标对象
      * @return void
      * @author luo.qiang
-     * @date 2020/9/5 23:22
+     * @date 2022/9/5 23:22
      */
     public static void copyProperties(Object source, Object target) {
         BeanUtils.copyProperties(source, target);

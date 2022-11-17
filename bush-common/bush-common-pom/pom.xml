@@ -43,8 +43,8 @@
         <commons.email.version>1.4</commons.email.version>
         <dingtalk.version>2.0.0</dingtalk.version>
         <loadbalancer.version>3.1.1</loadbalancer.version>
-        <guava.version>29.0-jre</guava.version>
         <nimbus-jose-jwt.version>9.23</nimbus-jose-jwt.version>
+        <redisson.version>3.17.6</redisson.version>
     </properties>
 
     <dependencyManagement>
@@ -77,6 +77,18 @@
             <dependency>
                 <groupId>com.bushro</groupId>
                 <artifactId>bush-common-feign</artifactId>
+                <version>${bush.version}</version>
+            </dependency>
+            <!--redis组件-->
+            <dependency>
+                <groupId>com.bushro</groupId>
+                <artifactId>bush-common-redis</artifactId>
+                <version>${bush.version}</version>
+            </dependency>
+            <!--security-->
+            <dependency>
+                <groupId>com.bushro</groupId>
+                <artifactId>bush-common-security</artifactId>
                 <version>${bush.version}</version>
             </dependency>
             <!--消息api-->
@@ -239,18 +251,18 @@
                 <artifactId>spring-cloud-loadbalancer</artifactId>
                 <version>${loadbalancer.version}</version>
             </dependency>
-            <!-- google-guava工具包 -->
-            <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
-            </dependency>
             <!--jwt-->
             <dependency>
                 <groupId>com.nimbusds</groupId>
                 <artifactId>nimbus-jose-jwt</artifactId>
                 <version>${nimbus-jose-jwt.version}</version>
+            </dependency>
+            <!-- redisson-spring-boot-starter -->
+            <!-- https://mvnrepository.com/artifact/org.redisson/redisson-spring-boot-starter -->
+            <dependency>
+               <groupId>org.redisson</groupId>
+               <artifactId>redisson-spring-boot-starter</artifactId>
+                <version>${redisson.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

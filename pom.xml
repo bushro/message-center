@@ -33,6 +33,8 @@
 		<aws.version>1.11.543</aws.version>
 		<xxl.job.version>2.3.0</xxl.job.version>
 		<activiti.version>5.22.0</activiti.version>
+		<fastjson.version>2.0.19</fastjson.version>
+		<guava.version>29.0-jre</guava.version>
 	</properties>
 
 	<modules>
@@ -45,6 +47,7 @@
     </modules>
 
 	<dependencies>
+		<!-- ========================= 常用库依赖 ========================== -->
 		<!--bootstrap 启动器-->
         <dependency>
 			<groupId>org.springframework.cloud</groupId>
@@ -85,6 +88,27 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+		<!-- 阿里FastJson转换工具依赖 -->
+		<!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+		<dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+
+		<!-- google-guava工具包 -->
+		<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+		<dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
 	</dependencies>
 
 	<dependencyManagement>

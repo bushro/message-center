@@ -16,15 +16,20 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
     <dependencies>
-        <!--公用包-->
+        <!--security-->
         <dependency>
             <groupId>com.bushro</groupId>
-            <artifactId>bush-common-core</artifactId>
+            <artifactId>bush-common-security</artifactId>
         </dependency>
         <!--swagger接口文档-->
         <dependency>
             <groupId>com.bushro</groupId>
             <artifactId>bush-common-swagger</artifactId>
+        </dependency>
+        <!--redis-->
+        <dependency>
+            <groupId>com.bushro</groupId>
+            <artifactId>bush-common-redis</artifactId>
         </dependency>
         <!-- 系统api -->
         <dependency>
@@ -50,11 +55,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
-        </dependency>
-        <!-- spring data redis -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
         <!-- mysql -->
         <dependency>
@@ -88,6 +88,11 @@
         <dependency>
             <groupId>com.nimbusds</groupId>
             <artifactId>nimbus-jose-jwt</artifactId>
+        </dependency>
+        <!-- 测试 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
     </dependencies>
 

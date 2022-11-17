@@ -17,6 +17,21 @@
     </properties>
 
     <dependencies>
+        <!--swagger接口文档-->
+        <dependency>
+            <groupId>com.bushro</groupId>
+            <artifactId>bush-common-swagger</artifactId>
+        </dependency>
+        <!--security-->
+        <dependency>
+            <groupId>com.bushro</groupId>
+            <artifactId>bush-common-security</artifactId>
+        </dependency>
+        <!--redis-->
+        <dependency>
+            <groupId>com.bushro</groupId>
+            <artifactId>bush-common-redis</artifactId>
+        </dependency>
         <!-- spring cloud gateway -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -36,11 +51,6 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
         </dependency>
-        <!--公用包-->
-        <dependency>
-            <groupId>com.bushro</groupId>
-            <artifactId>bush-common-core</artifactId>
-        </dependency>
         <!--注册中心客户端-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
@@ -56,19 +66,22 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-undertow</artifactId>
         </dependency>
-        <!-- spring data redis -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-        <!--swagger接口文档-->
-        <dependency>
-            <groupId>com.bushro</groupId>
-            <artifactId>bush-common-swagger</artifactId>
-        </dependency>
+        <!--认证相关-->
         <dependency>
             <groupId>com.nimbusds</groupId>
             <artifactId>nimbus-jose-jwt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-resource-server</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-oauth2-jose</artifactId>
         </dependency>
     </dependencies>
 

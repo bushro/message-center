@@ -5,7 +5,7 @@ import lombok.Getter;
 
 /**
  * @author bushro
- * @date 2020-01-19
+ * @date 2022-01-19
  * <p>
  * 前端类型类型
  */

@@ -13,7 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @author luo.qiang
  * @date 2022/11/07
  */
-@MapperScan("com.bushro.oauth2.server.mapper")
+@MapperScan("com.bushro.**.mapper")
 @ComponentScan(basePackages = {"com.bushro"})
 @EnableDiscoveryClient
 @SpringBootApplication

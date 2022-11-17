@@ -47,7 +47,7 @@ spring:
 # oauth2 服务地址
 service:
   name:
-    oauth2: http://auth-server/
+    oauth2: http://bush-oauth2-server/
 
 gateway:
   auth:
@@ -56,17 +56,18 @@ gateway:
       # 登陆、登出
       - /login
       - /logout
+      - /oauth/token
+      - /oauth/logout
       # swagger
       - /doc.html
       - /v2/api-docs
       - /swagger-resources
       - /swagger
       # 静态资源
-      - /**/*.js
-      - /**/*.css
-      - /**/*.png
-      - /**/*.ico
+      - /*/*.js
+      - /*/*.css
+      - /*/*.png
+      - /*/*.ico
       # 通用接口
-      - /common/
-      - /oauth/token
+      - /common
 

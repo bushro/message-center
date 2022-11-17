@@ -1,4 +1,4 @@
-package com.bushro.oauth2.server.model.domain;
+package com.bushro.oauth2.server.core.userdetails.b;
 
 import cn.hutool.core.util.StrUtil;
 import com.google.common.collect.Lists;
@@ -15,35 +15,59 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * 登录认证对象
+ * web端 认证对象
  */
 @Getter
 @Setter
-public class UserResource implements UserDetails {
+public class SysUserDetails implements UserDetails {
 
     private static final long serialVersionUID = 1658435491496270439L;
-    // 主键
-    private Integer id;
-    // 用户名
+
+    /**
+     * 用户id
+     */
+    private Integer sysUserId;
+    /**
+     * 用户名
+     */
     private String username;
-    // 昵称
-    private String nickname;
-    // 密码
+    /**
+     * 密码
+     */
     private String password;
-    // 手机号
+    /**
+     * 昵称
+     */
+    private String nickname;
+    /**
+     * 手机号
+     */
     private String phone;
-    // 邮箱
-    private String email;
-    // 头像
+    /**
+     * 认证身份标识
+     * {@link com.bushro.common.security.enums.AuthGrantTypeEnum}
+     */
+    private String authenticationIdentity;
+    /**
+     * 头像
+     */
     private String avatarUrl;
-    // 角色
+    /**
+     * 角色
+     */
     private String roles;
-    // 是否有效 0=无效 1=有效
+    /**
+     * 是否有效 0=无效 1=有效
+     */
     private int isValid;
-    // 角色集合, 不能为空
+    /**
+     * 角色集合, 不能为空
+     */
     private List<GrantedAuthority> authorities;
 
-    // 获取角色信息
+    /**
+     * 获取角色信息
+     */
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (StrUtil.isNotBlank(this.roles)) {

@@ -5,7 +5,7 @@ import lombok.Getter;
 
 /**
  * @author bushro
- * @date 2020-11-18
+ * @date 2022-11-18
  * <p>
  * 密码是否加密传输
  */

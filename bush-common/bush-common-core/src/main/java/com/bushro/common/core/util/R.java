@@ -93,6 +93,10 @@ public class R<T> implements Serializable {
         return restResult(data, CommonConstants.FAIL, CommonConstants.FAIL_MESSAGE);
     }
 
+    public static <T> R<T> failed(MessageEnum messageEnum) {
+        return restResult(null, messageEnum.code(), messageEnum.message());
+    }
+
     public static <T> R<T> failed(T data, String msg) {
         return restResult(data, CommonConstants.FAIL, msg);
     }

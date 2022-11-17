@@ -20,6 +20,8 @@
         <module>bush-common-swagger</module>
         <module>bush-common-oss</module>
         <module>bush-common-feign</module>
+        <module>bush-common-redis</module>
+        <module>bush-common-security</module>
     </modules>
 
 </project>

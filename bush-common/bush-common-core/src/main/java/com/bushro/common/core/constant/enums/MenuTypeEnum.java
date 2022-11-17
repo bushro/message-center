@@ -5,7 +5,7 @@ import lombok.Getter;
 
 /**
  * @author bushro
- * @date 2020-02-17
+ * @date 2022-02-17
  * <p>
  * 菜单类型
  */

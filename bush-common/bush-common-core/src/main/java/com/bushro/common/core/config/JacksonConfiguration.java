@@ -31,7 +31,7 @@ import java.util.TimeZone;
  * {@link MyJavaTimeModule}、默认时区等
  *
  * @author bushro
- * @date 2020-06-15
+ * @date 2022-06-15
  */
 @Configuration
 @ConditionalOnClass(ObjectMapper.class)

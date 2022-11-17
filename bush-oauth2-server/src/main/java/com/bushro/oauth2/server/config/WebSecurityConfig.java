@@ -1,21 +1,32 @@
 package com.bushro.oauth2.server.config;
 
 import cn.hutool.crypto.digest.DigestUtil;
+import com.bushro.oauth2.server.core.userdetails.b.SysUserServiceImpl;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
+import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
 
 /**
  * Security 配置类
  */
 @Configuration
+@AllArgsConstructor
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final SysUserServiceImpl sysUserDetailsService;
 
     // 放行和认证规则
 //    @Override
@@ -67,12 +78,47 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         };
     }
 
-    // 初始化认证管理对象
+    /**
+     * 初始化认证管理对象
+     */
     @Bean
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+    /**
+     * 用户名密码认证授权提供者
+     */
+    @Bean
+    public DaoAuthenticationProvider passwordAuthenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(this.sysUserDetailsService);
+        provider.setPasswordEncoder(this.passwordEncoder());
+        // 是否隐藏用户不存在异常，默认:true-隐藏；false-抛出异常；
+        provider.setHideUserNotFoundExceptions(false);
+        return provider;
+    }
+
+    /**
+     * 配置用户 -- 校验用户
+     * 校验客户端见 {@link AuthorizationServerConfig#configure(ClientDetailsServiceConfigurer)}
+     */
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) {
+        // 用户名密码认证
+        auth.authenticationProvider(this.passwordAuthenticationProvider());
+    }
+
+//    /**
+//     * 初始化 RedisTokenStore 用于将 token 存储至 Redis
+//     */
+//    @Bean
+//    @SuppressWarnings("all")
+//    public RedisTokenStore redisTokenStore(RedisConnectionFactory redisConnectionFactory) {
+//        RedisTokenStore redisTokenStore = new RedisTokenStore(redisConnectionFactory);
+//        redisTokenStore.setPrefix("TOKEN:"); // 设置key的层级前缀，方便查询
+//        return redisTokenStore;
+//    }
 
 
 }
