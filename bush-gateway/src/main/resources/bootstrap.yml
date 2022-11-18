@@ -53,11 +53,8 @@ gateway:
   auth:
     # 忽略安全认证的url
     ignoreUrls:
-      # 登陆、登出
-      - /login
-      - /logout
+      # 登陆
       - /oauth/token
-      - /oauth/logout
       # swagger
       - /doc.html
       - /v2/api-docs
@@ -69,5 +66,4 @@ gateway:
       - /*/*.png
       - /*/*.ico
       # 通用接口
-      - /common
-
+      - /commons

@@ -35,11 +35,11 @@ public class ExceptionHandleConfig {
         return R.failed(e.getMessage());
     }
 
-    @ExceptionHandler(NoHandlerFoundException.class)
-    public R handlerNoFoundException(Exception e) {
-        log.error("404:", e);
-        return R.failed(404, "路径不存在，请检查路径是否正确");
-    }
+//    @ExceptionHandler(NoHandlerFoundException.class)
+//    public R handlerNoFoundException(Exception e) {
+//        log.error("404:", e);
+//        return R.failed(MessageEnum.NOT_FOUND);
+//    }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public R<String> handleRuntimeException(IllegalArgumentException e) {

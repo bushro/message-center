@@ -13,10 +13,13 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.provider.token.store.redis.RedisTokenStore;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * Security 配置类
@@ -28,19 +31,22 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final SysUserServiceImpl sysUserDetailsService;
 
-    // 放行和认证规则
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.csrf().disable()
-//                .authorizeRequests()
-//                // 放行的请求
-////                .antMatchers( "/oauth/**", "/actuator/**").permitAll()
+    /**
+     * 放行和认证规则
+     */
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable()
+                .authorizeRequests()
+                // 放行的请求
+                .antMatchers("/oauth/**", "actuator/**").permitAll()
+                .antMatchers("/doc.html**", "/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**").permitAll()
 //                .antMatchers( "/**").permitAll()
-//                .and()
-//                .authorizeRequests()
-//                // 其他请求必须认证才能访问
-//                .anyRequest().authenticated();
-//    }
+                .and()
+                .authorizeRequests()
+                // 其他请求必须认证才能访问
+                .anyRequest().authenticated();
+    }
 
     /**
      * 不拦截静态资源

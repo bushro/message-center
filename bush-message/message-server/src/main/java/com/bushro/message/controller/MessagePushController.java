@@ -9,7 +9,6 @@ import com.bushro.message.enums.MessageTypeEnum;
 import com.bushro.message.service.IMessagePushService;
 import com.bushro.message.utils.MessageHandlerUtils;
 import com.bushro.message.vo.SchemeFieldVO;
-import com.google.common.collect.Lists;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
