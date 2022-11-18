@@ -246,6 +246,7 @@ public final class MessageHandlerUtils {
                     .key(field.getName())
                     .options(idStrAndNames)
                     .multiObjFields(multiObjFields)
+                    .value(field.getName()+ "Value")
                     .build());
         }
     }

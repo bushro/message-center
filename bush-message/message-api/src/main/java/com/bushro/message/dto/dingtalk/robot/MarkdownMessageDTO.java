@@ -24,13 +24,13 @@ public class MarkdownMessageDTO extends RobotCommonDTO {
     /**
      * 首屏会话透出的展示内容
      */
-    @SchemeValue(value = "首屏会话透出的展示内容", type = SchemeValueType.STRING)
+    @SchemeValue(value = "首屏会话透出的展示内容", type = SchemeValueType.STRING, order = 4)
     private String title;
 
     /**
      * markdown格式的消息
      */
-    @SchemeValue(value = "markdown格式的消息", type = SchemeValueType.TEXTAREA)
+    @SchemeValue(value = "markdown格式的消息", type = SchemeValueType.TEXTAREA, order = 5)
     private String text;
 
 }

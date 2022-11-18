@@ -22,12 +22,12 @@ public class RobotCommonDTO extends BaseMessage {
      * <p>
      * 注意 在text内容里要有@人的手机号，只有在群内的成员才可被@，非群内成员手机号会被脱敏。
      */
-    @SchemeValue(value = "被@人的手机号", order = 1)
+    @SchemeValue(value = "被@人的手机号,输入并回车补充...", order = 1, type = SchemeValueType.RECEIVER)
     private List<String> atMobiles;
     /**
      * 被@人的用户userid。
      */
-    @SchemeValue(value = "被@人的用户userid", order = 2)
+    @SchemeValue(value = "被@人的用户userid,输入并回车补充...", order = 2, type = SchemeValueType.RECEIVER)
     private List<String> atUserIds;
     /**
      * 是否@所有人。

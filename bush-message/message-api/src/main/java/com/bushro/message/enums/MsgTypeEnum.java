@@ -5,6 +5,9 @@ import lombok.Getter;
 
 /**
  * 钉钉消息枚举类
+ *
+ * @author luo.qiang
+ * @date 2022/11/18
  */
 @Getter
 @AllArgsConstructor
@@ -13,6 +16,7 @@ public enum  MsgTypeEnum {
     IMAGE("image"),
     LINK("link"),
     TEXT("text"),
-    FILE("file");
+    FILE("file"),
+    MARKDOWN("markdown");
     private String value;
 }

@@ -23,13 +23,13 @@ public class LinkMessageDTO extends RobotCommonDTO {
     /**
      * 消息标题
      */
-    @SchemeValue("消息标题")
+    @SchemeValue(value = "消息标题", order = 4)
     private String title;
 
     /**
      * 消息内容。如果太长只会部分展示
      */
-    @SchemeValue("消息内容。如果太长只会部分展示")
+    @SchemeValue(value = "消息内容。如果太长只会部分展示", order = 5)
     private String text;
 
     /**
@@ -39,13 +39,13 @@ public class LinkMessageDTO extends RobotCommonDTO {
      * 默认侧边栏打开
      * 希望在外部浏览器打开，请参考消息链接说明
      */
-    @SchemeValue("点击消息跳转的URL")
+    @SchemeValue(value = "点击消息跳转的URL", order = 6)
     private String messageUrl;
 
     /**
      * 图片URL。
      */
-    @SchemeValue("图片URL")
+    @SchemeValue(value = "图片URL", order = 7)
     private String picUrl;
 
 }

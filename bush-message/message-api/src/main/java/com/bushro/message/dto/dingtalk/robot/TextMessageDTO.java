@@ -21,6 +21,6 @@ public class TextMessageDTO extends RobotCommonDTO {
     /**
      * 请输入内容...
      */
-    @SchemeValue(value = "请输入内容...", type = SchemeValueType.TEXTAREA)
+    @SchemeValue(value = "请输入内容...", type = SchemeValueType.TEXTAREA, order = 4)
     private String content;
 }

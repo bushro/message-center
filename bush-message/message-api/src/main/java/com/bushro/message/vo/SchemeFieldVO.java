@@ -26,13 +26,19 @@ public class SchemeFieldVO implements Serializable {
     private static final long serialVersionUID = -4546007323930142286L;
 
     /**
-     * 字段名称
+     * 字段中文名称
      */
     private String name;
+
     /**
      * 字段key
      */
     private String key;
+
+    /**
+     * RECEIVER类型前端使用
+     */
+    private String value;
 
     /**
      * 字段描述
