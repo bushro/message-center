@@ -1,20 +1,30 @@
-# message-center
+## message-push
 
-#### 介绍
+#### 项目文档
+
+文档地址： https://message-push.pages.dev/
+
+#### 项目介绍
+
 消息推送平台、消息中心。实现对企业微信、钉钉、邮箱等发送消息，一个接口触及多平台。
 
+核心依赖
 
-#### 软件架构
-软件架构说明
+| 依赖名称               | 版本   |
+| ---------------------- | ------ |
+| Spring Cloud Alibaba   | 2021.1 |
+| Spring Boot            | 2.7.4  |
+| Spring-security-oauth2 | 2.3.6  |
+| swagger2               | 3.0.0  |
+| mybatis-plus           | 3.5.1  |
 
 
-#### 安装教程
 
+#### 系统架构
 
+项目的核心流程：所有的消息都由统一的消息接入层处理，封装成一致的数据结构然后放到Mq中。消费者根据不同的消息类型找到对应的消息处理器然后放到线程池中去执行（一种消息处理器就是一个线程）。
 
-#### 使用说明
-
-
+![image-20221119183220475](C:\Users\Hasee\AppData\Roaming\Typora\typora-user-images\image-20221119183220475.png)
 
 #### 前端界面展示
 
@@ -25,12 +35,3 @@
 消息发送页面
 ![在这里插入图片描述](https://img-blog.csdnimg.cn/a6d1a9c578514c24a4406be2eb125e23.png)
 
-
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)

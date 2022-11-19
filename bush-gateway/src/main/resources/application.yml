@@ -23,8 +23,8 @@ spring:
           filters:
             - StripPrefix=1
 
-        - id: bush-oauth2-server
-          uri: lb://bush-oauth2-server
+        - id: bush-auth-server
+          uri: lb://bush-auth-server
           predicates:
             - Path=/auth-server/**
           filters:

@@ -29,24 +29,21 @@ import javax.annotation.Resource;
 import java.net.URLEncoder;
 import java.util.List;
 
+
 /**
  * 网关全局过滤器
+ *
+ * @author luo.qiang
+ * @date 2022/11/19
  */
 @Component
 @Slf4j
 public class AuthGlobalFilter implements GlobalFilter, Ordered {
 
-    @Resource
-    private RestTemplate restTemplate;
 
     @Resource
     private GatewayProperty gatewayProperty;
 
-    @Resource
-    private HandleException handleException;
-
-    @Value("${service.name.oauth2}")
-    private String oauthServerName;
 
     /**
      * 身份校验处理
@@ -67,7 +64,7 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
         }
         String token = exchange.getRequest().getHeaders().getFirst(SecurityConstants.AUTHORIZATION_KEY);
         if (StrUtil.isBlank(token)) {
-            return handleException.writeError(exchange, "登录信息过期，请重新登录");
+            return ResponseUtil.writeErrorInfo(response, MessageEnum.TOKEN_EXPIRED);
         }
         try {
             //从token中解析用户信息并设置到Header中去
@@ -85,23 +82,6 @@ public class AuthGlobalFilter implements GlobalFilter, Ordered {
             ServerHttpRequest nowRequest = request.mutate().headers(header -> header.addAll(headers)).build();
             // 将现在的request 变成 change对象
             ServerWebExchange build = exchange.mutate().request(nowRequest).build();
-
-//            JWSObject jwsObject = JWSObject.parse(realToken);
-//            String userStr = jwsObject.getPayload().toString();
-//            log.info("AuthGlobalFilter.filter() user:{}", userStr);
-//            // 校验 token 是否有效
-//            String checkTokenUrl = oauthServerName + "/oauth/check_token?token=".concat(realToken);
-//            // 发送远程请求，验证 token
-//            ResponseEntity<String> entity = restTemplate.getForEntity(checkTokenUrl, String.class);
-//            // token 无效的业务逻辑处理
-//            if (entity.getStatusCode() != HttpStatus.OK) {
-//                log.error("Token was not recognised, token: {}", realToken);
-//                return handleException.writeError(exchange, "登录信息过期，请重新登录");
-//            }
-//            if (StrUtil.isBlank(entity.getBody())) {
-//                log.error("This token is invalid: {}", realToken);
-//                return handleException.writeError(exchange, "登录信息过期，请重新登录");
-//            }
             // 放行
             return chain.filter(build);
         } catch (Exception e) {

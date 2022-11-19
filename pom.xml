@@ -41,7 +41,7 @@
 		<module>bush-register</module>
 		<module>bush-message</module>
 		<module>bush-common</module>
-        <module>bush-oauth2-server</module>
+        <module>bush-auth-server</module>
 		<module>bush-system</module>
         <module>bush-gateway</module>
     </modules>

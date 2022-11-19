@@ -20,34 +20,8 @@ spring:
         locator:
           enabled: true # 开启配置注册中心进行路由功能
           lower-case-service-id: true # 将服务名称转小写
-#      routes:
-#        - id: bush-oauth2-server
-#          uri: lb://bush-oauth2-server
-#          predicates:
-#            - Path=/oauth2/**
-#          filters:
-#            - StripPrefix=1
-#
-#        - id: message-server
-#          uri: lb://message-server
-#          predicates:
-#            - Path=/message/**
-#          filters:
-#            - StripPrefix=1
-#
-#        - id: user-server
-#          uri: lb://user-server
-#          predicates:
-#            - Path=/user/**
-#          filters:
-#            - StripPrefix=1
 
 
-
-# oauth2 服务地址
-service:
-  name:
-    oauth2: http://bush-oauth2-server/
 
 gateway:
   auth:
