@@ -24,7 +24,7 @@
 
 项目的核心流程：所有的消息都由统一的消息接入层处理，封装成一致的数据结构然后放到Mq中。消费者根据不同的消息类型找到对应的消息处理器然后放到线程池中去执行（一种消息处理器就是一个线程）。
 
-![image-20221119183220475](C:\Users\Hasee\AppData\Roaming\Typora\typora-user-images\image-20221119183220475.png)
+![在这里插入图片描述](https://img-blog.csdnimg.cn/e5e27065bff14778bb30a7ee376b0edc.png)
 
 #### 前端界面展示
 
