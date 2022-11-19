@@ -17,6 +17,6 @@ public class TemplateCardDTO extends RobotCommonDTO {
     /**
      * 具体的模版卡片参数
      */
-    @SchemeValue("具体的模版卡片参数")
+    @SchemeValue(value = "具体的模版卡片参数", order = 1)
     private String templateCard;
 }

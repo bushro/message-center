@@ -17,12 +17,12 @@ public class ImageMessageDTO extends RobotCommonDTO {
     /**
      * 图片内容的base64编码
      */
-    @SchemeValue("图片内容的base64编码")
+    @SchemeValue(value = "图片内容的base64编码", order = 1)
     private String base64;
 
     /**
      * 图片内容（base64编码前）的md5值
      */
-    @SchemeValue("图片内容（base64编码前）的md5值")
+    @SchemeValue(value = "图片内容（base64编码前）的md5值", order = 2)
     private String md5;
 }

@@ -109,7 +109,7 @@ public final class MessageHandlerUtils {
      * 获取消息处理的的配置的所有字段名称
      */
     public static List<ConfigFieldVO> listConfigFieldName(MessagePlatformEnum platform) {
-        return SingletonUtil.get("com.bushro.common.redis.config-field-names-" + platform.name(), () -> {
+        return SingletonUtil.get("config-field-names-" + platform.name(), () -> {
             Class<? extends Config> configType = platform.getConfigType();
             Field[] fields = ReflectUtil.getFieldsDirectly(configType, false);
             if (fields == null || fields.length <= 0) {
@@ -140,7 +140,6 @@ public final class MessageHandlerUtils {
                             break;
                     }
                     if (ConfigValueType.BOOLEAN.equals(type)) {
-
                         options.add(IdStrAndName.builder().id("true").name("true").build());
                         options.add(IdStrAndName.builder().id("false").name("false").build());
                     }
