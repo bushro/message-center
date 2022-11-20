@@ -23,6 +23,7 @@ spring:
 
 
 
+
 gateway:
   auth:
     # 忽略安全认证的url

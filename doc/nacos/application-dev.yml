@@ -1,0 +1,79 @@
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  redis:
+    database: 1
+    host: 127.0.0.1
+    port: 6379
+    password: 123456
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 100MB
+# 数据源
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: ${MYSQL_USER:root}
+      password: ${MYSQL_PWD:671354}
+      url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/message_core?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowMultiQueries=true&allowPublicKeyRetrieval=true
+      stat-view-servlet:
+        enabled: true
+        allow: ""
+        url-pattern: /druid/*
+      filter:
+        stat:
+          enabled: true
+          log-slow-sql: true
+          slow-sql-millis: 10000
+          merge-sql: false
+        wall:
+          config:
+            multi-statement-allow: true
+
+# 端点对外暴露
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    restart:
+      enabled: true
+    health:
+      show-details: ALWAYS
+
+# mybatis-plus 配置
+mybatis-plus:
+  tenant-enable: ture
+  mapper-locations: classpath*:/mapper/*.xml
+  global-config:
+    capitalMode: true
+    banner: false
+    db-config:
+      id-type: auto
+      select-strategy: not_empty
+      insert-strategy: not_empty
+      update-strategy: not_empty
+  configuration:
+    jdbc-type-for-null: 'null'
+    call-setters-on-nulls: true
+
+# swagger 全局配置
+knife4j:
+  enable: true
+swagger:
+  enabled: true
+  title: Swagger API
+  groupName: ${spring.application.name}
+  description: API接口文档 - ${swagger.groupName}
+  version: 1.0.0
+  termsOfServiceUrl: 127.0.0.1:${server.port}
+  license: Powered By bushro
+  licenseUrl:
+  contact:
+    name: bushro
+    url: xxxx
+    email: xxxx@qq.com

@@ -36,10 +36,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/oauth/**", "actuator/**").permitAll()
                 .antMatchers("/doc.html**", "/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**").permitAll()
 //                .antMatchers( "/**").permitAll()
-                .and()
-                .authorizeRequests()
                 // 其他请求必须认证才能访问
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                // 禁用CSRF
+                .and().cors().disable();
     }
 
     /**

@@ -23,6 +23,11 @@
             <groupId>com.bushro</groupId>
             <artifactId>bush-common-idempotent</artifactId>
         </dependency>
+        <!--redis-->
+        <dependency>
+            <groupId>com.bushro</groupId>
+            <artifactId>bush-common-redis</artifactId>
+        </dependency>
         <!--swagger接口文档-->
         <dependency>
             <groupId>com.bushro</groupId>

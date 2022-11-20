@@ -15,21 +15,3 @@ spring:
           - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
   profiles:
     active: @profiles.active@
-
-# Oauth2
-client:
-  oauth2:
-    client-id: appId # 客户端标识 ID
-    secret: 123456 # 客户端安全码
-    # 支持授权类型
-    grant_types:
-      - authorization_code
-      - password
-      - refresh_token
-    # token 有效时间，单位秒
-    token-validity-time: 3600 # token有效期为一个小时
-    refresh-token-validity-time: 864000 # refresh-token有效期
-    # 客户端访问范围
-    scopes:
-      - api
-      - all

@@ -1,0 +1,15 @@
+# Logger Config
+logging:
+  level:
+    com.bushro.message.mapper: debug
+
+# 阿里云配置
+oss:
+  path-style-access: false #使用云OSS 需要关闭
+  endpoint: oss-cn-beijing.aliyuncs.com #对应上图 ③ 处配置
+  access-key: xxxx # 上文创建的AK
+  secret-key: xxxx # 上文创建的SK
+  bucketName: xxxx # 上文创建的桶名称
+
+file:
+  prefix: xxxx
