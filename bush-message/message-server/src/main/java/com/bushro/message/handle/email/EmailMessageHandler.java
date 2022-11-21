@@ -3,24 +3,24 @@ package com.bushro.message.handle.email;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.io.IoUtil;
-import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.extra.mail.Mail;
 import cn.hutool.extra.mail.MailAccount;
 import com.amazonaws.services.s3.model.S3Object;
-import com.amazonaws.services.s3.model.S3ObjectInputStream;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.bushro.common.core.enums.MessageEnum;
 import com.bushro.common.core.exception.BusinessException;
+import com.bushro.common.core.util.R;
 import com.bushro.common.oss.service.OssTemplate;
 import com.bushro.message.dto.email.EmailMessageDTO;
 import com.bushro.message.entity.MessageRequestDetail;
-import com.bushro.message.entity.SysFile;
 import com.bushro.message.enums.MessageTypeEnum;
 import com.bushro.message.enums.SendStatusEnum;
 import com.bushro.message.properties.EmailConfig;
 import com.bushro.message.service.IMessageConfigService;
 import com.bushro.message.service.IMessageRequestDetailService;
-import com.bushro.message.service.SysFileService;
+import com.bushro.system.entity.SysFile;
+import com.bushro.system.feign.ISysFileClientFeignApi;
+import com.bushro.system.vo.RemoteFileVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -28,15 +28,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * 邮件消息处理器
- **/
+ *
+ * @author luo.qiang
+ * @date 2022/11/21
+ */
 @Component
 @Slf4j
 public class EmailMessageHandler extends AbstractEmailHandler<EmailMessageDTO> implements Runnable {
@@ -52,7 +53,7 @@ public class EmailMessageHandler extends AbstractEmailHandler<EmailMessageDTO> i
     private IMessageRequestDetailService messageRequestDetailService;
 
     @Resource
-    private SysFileService sysFileService;
+    private ISysFileClientFeignApi sysFileService;
 
     @Resource
     private OssTemplate ossTemplate;
@@ -94,18 +95,21 @@ public class EmailMessageHandler extends AbstractEmailHandler<EmailMessageDTO> i
                 //文件处理
                 if (!CollectionUtil.isEmpty(param.getFileNames())) {
                     for (String fileName : param.getFileNames()) {
-                        SysFile sysFile = sysFileService.getOne(Wrappers.<SysFile>lambdaQuery().eq(SysFile::getFileName, fileName));
-                        if (ObjectUtil.isEmpty(sysFile)) {
+                        R<SysFile> rpcFile = sysFileService.getOneByFileName(fileName);
+                        if (MessageEnum.ERROR.code().equals(rpcFile.getCode())) {
                             log.error("找不到文件-{}", fileName);
                             throw new BusinessException("文件不存在！");
                         }
+                        SysFile sysFile = rpcFile.getData();
+                        RemoteFileVo fileVo = new RemoteFileVo();
+                        fileVo.setFileName(sysFile.getFileName());
+                        fileVo.setBucket(sysFile.getBucketName());
                         S3Object s3Object = ossTemplate.getObject(sysFile.getBucketName(), sysFile.getFileName());
                         File tempFile = null;
                         try {
                             tempFile = File.createTempFile(String.valueOf(sysFile.getId()), sysFile.getOriginal());
                             FileOutputStream stream = new FileOutputStream(tempFile);
-                            S3ObjectInputStream objectContent = s3Object.getObjectContent();
-                            IoUtil.copy(objectContent, stream);
+                            IoUtil.copy(s3Object.getObjectContent(), stream);
                             files.add(tempFile);
                         } catch (IOException e) {
                             e.printStackTrace();
