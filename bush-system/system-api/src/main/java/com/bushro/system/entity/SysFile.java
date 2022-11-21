@@ -1,4 +1,4 @@
-package com.bushro.message.entity;
+package com.bushro.system.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;

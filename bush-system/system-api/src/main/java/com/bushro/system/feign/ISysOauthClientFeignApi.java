@@ -31,7 +31,7 @@ public interface ISysOauthClientFeignApi {
      * @author luo.qiang
      * @date 2022/11/16 22:35
      */
-    @GetMapping("getClient/{clientId}")
+    @GetMapping("/getClient/{clientId}")
     R<SysOauthClientVO> getClient(@PathVariable(value = "clientId") String clientId);
 
 }

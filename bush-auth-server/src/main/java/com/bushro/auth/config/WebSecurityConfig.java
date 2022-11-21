@@ -30,10 +30,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable()
-                .authorizeRequests()
+        http.authorizeRequests()
                 // 放行的请求
-                .antMatchers("/oauth/**", "actuator/**").permitAll()
+                .antMatchers("/oauth/*", "actuator/*").permitAll()
                 .antMatchers("/doc.html**", "/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html", "/webjars/**").permitAll()
 //                .antMatchers( "/**").permitAll()
                 // 其他请求必须认证才能访问

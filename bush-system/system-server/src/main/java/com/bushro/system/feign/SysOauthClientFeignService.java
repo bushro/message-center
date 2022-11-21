@@ -19,7 +19,7 @@ import javax.annotation.Resource;
  * @date 2021/8/19 11:25
  */
 @ApiIgnore
-@Api(tags = "系统服务-oauth客户端")
+@Api(tags = "RPC远程服务-oauth客户端")
 @RestController
 @RequestMapping("/system-server/oauthClient")
 public class SysOauthClientFeignService implements ISysOauthClientFeignApi {

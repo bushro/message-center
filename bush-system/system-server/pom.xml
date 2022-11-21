@@ -31,6 +31,11 @@
             <groupId>com.bushro</groupId>
             <artifactId>bush-common-swagger</artifactId>
         </dependency>
+        <!-- oss https://gitee.com/bushro/oss-spring-boot-start 迁移-->
+        <dependency>
+            <groupId>com.bushro</groupId>
+            <artifactId>bush-common-oss</artifactId>
+        </dependency>
         <!--注册中心客户端-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>

@@ -1,12 +1,12 @@
-package com.bushro.message.controller;
+package com.bushro.system.controller;
 
 import cn.hutool.core.io.IoUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.bushro.common.core.util.R;
-import com.bushro.message.entity.SysFile;
-import com.bushro.message.service.SysFileService;
-import com.bushro.message.vo.RemoteFileVo;
+import com.bushro.system.entity.SysFile;
+import com.bushro.system.service.ISysFileService;
+import com.bushro.system.vo.RemoteFileVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -30,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
 @Api(value = "file", tags = "文件管理")
 public class SysFileController {
 
-	private final SysFileService sysFileService;
+	private final ISysFileService ISysFileService;
 
 	/**
 	 * 分页查询
@@ -41,7 +41,7 @@ public class SysFileController {
 	@ApiOperation(value = "分页查询", notes = "分页查询")
 	@GetMapping("/page")
 	public R getSysFilePage(Page page, SysFile sysFile) {
-		return R.ok(sysFileService.page(page, Wrappers.query(sysFile)));
+		return R.ok(ISysFileService.page(page, Wrappers.query(sysFile)));
 	}
 
 	/**
@@ -52,7 +52,7 @@ public class SysFileController {
 	@ApiOperation(value = "通过id删除文件管理", notes = "通过id删除文件管理")
 	@DeleteMapping("/{id}")
 	public R removeById(@PathVariable Long id) {
-		return R.ok(sysFileService.deleteFile(id));
+		return R.ok(ISysFileService.deleteFile(id));
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class SysFileController {
 	@ApiOperation(value = "上传文件", notes = "上传文件")
 	@PostMapping(value = "/upload")
 	public R<RemoteFileVo> upload(@RequestPart("file") MultipartFile file) {
-		return sysFileService.uploadFile(file);
+		return ISysFileService.uploadFile(file);
 	}
 
 	/**
@@ -76,7 +76,7 @@ public class SysFileController {
 	@ApiOperation(value = "获取文件", notes = "获取文件")
 	@GetMapping("/{bucket}/{fileName}")
 	public void file(@PathVariable String bucket, @PathVariable String fileName, HttpServletResponse response) {
-		sysFileService.getFile(bucket, fileName, response);
+		ISysFileService.getFile(bucket, fileName, response);
 	}
 
 	/**

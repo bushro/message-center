@@ -1,4 +1,4 @@
-package com.bushro.message.service.impl;
+package com.bushro.system.service.impl;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
@@ -9,10 +9,11 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.bushro.common.core.util.R;
 import com.bushro.common.oss.OssProperties;
 import com.bushro.common.oss.service.OssTemplate;
-import com.bushro.message.entity.SysFile;
-import com.bushro.message.mapper.SysFileMapper;
-import com.bushro.message.service.SysFileService;
-import com.bushro.message.vo.RemoteFileVo;
+
+import com.bushro.system.entity.SysFile;
+import com.bushro.system.mapper.SysFileMapper;
+import com.bushro.system.service.ISysFileService;
+import com.bushro.system.vo.RemoteFileVo;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +34,7 @@ import java.time.LocalDateTime;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> implements SysFileService {
+public class SysFileServiceImpl extends ServiceImpl<SysFileMapper, SysFile> implements ISysFileService {
 
 	private final OssProperties ossProperties;
 

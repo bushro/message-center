@@ -48,6 +48,11 @@
             <groupId>com.bushro</groupId>
             <artifactId>message-api</artifactId>
         </dependency>
+        <!--系统服务api-->
+        <dependency>
+            <groupId>com.bushro</groupId>
+            <artifactId>system-api</artifactId>
+        </dependency>
         <!--aop-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

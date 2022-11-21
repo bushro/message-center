@@ -1,8 +1,8 @@
-package com.bushro.message.mapper;
+package com.bushro.system.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.bushro.message.entity.SysFile;
+import com.bushro.system.entity.SysFile;
 import org.apache.ibatis.annotations.Mapper;
 
 

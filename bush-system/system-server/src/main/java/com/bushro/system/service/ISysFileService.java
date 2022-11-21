@@ -1,9 +1,9 @@
-package com.bushro.message.service;
+package com.bushro.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.bushro.common.core.util.R;
-import com.bushro.message.entity.SysFile;
-import com.bushro.message.vo.RemoteFileVo;
+import com.bushro.system.entity.SysFile;
+import com.bushro.system.vo.RemoteFileVo;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author luo.qiang
  * @date 2022/10/16
  */
-public interface SysFileService extends IService<SysFile> {
+public interface ISysFileService extends IService<SysFile> {
 
 	/**
 	 * 上传文件

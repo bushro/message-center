@@ -1,9 +1,16 @@
-package com.bushro.message.vo;
+package com.bushro.system.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Data;
 
+/**
+ * 上传文件返回对象
+ *
+ * @author luo.qiang
+ * @date 2022/11/21
+ */
 @Data
 @ApiModel(value = "上传文件返回对象")
 public class RemoteFileVo {
