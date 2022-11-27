@@ -14,8 +14,9 @@ db:
 nacos:
   core:
     auth:
+      plugin.nacos.token.secret.key: SecretKey012345678901234567890123456789012345678901234567890123456789
+      enabled: false
       system.type: nacos
-      default.token.secret.key: SecretKey012345678901234567890123456789012345678901234567890123456789
   security:
     ignore:
       urls: /,/error,/**/*.css,/**/*.js,/**/*.html,/**/*.map,/**/*.svg,/**/*.png,/**/*.ico,/console-fe/public/**,/v1/auth/**,/v1/console/health/**,/actuator/**,/v1/console/server/**
@@ -27,6 +28,8 @@ spring:
     enabled: true
   application:
     name: @project.artifactId@
+  main:
+    allow-circular-references: true
 
 useAddressServer: true
 

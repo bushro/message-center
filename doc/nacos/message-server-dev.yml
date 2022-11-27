@@ -7,9 +7,9 @@ logging:
 oss:
   path-style-access: false #使用云OSS 需要关闭
   endpoint: oss-cn-beijing.aliyuncs.com #对应上图 ③ 处配置
-  access-key: xxxx # 上文创建的AK
-  secret-key: xxxx # 上文创建的SK
-  bucketName: xxxx # 上文创建的桶名称
+  access-key: LTAIHjYy6c1WUcyQ # 上文创建的AK
+  secret-key: m2Vd8vxmlQ5tXS8qOClhXHbqWvZGF4 # 上文创建的SK
+  bucketName: bushro-oos # 上文创建的桶名称
 
 file:
-  prefix: xxxx
+  prefix: https://bushro-oos.oss-cn-beijing.aliyuncs.com

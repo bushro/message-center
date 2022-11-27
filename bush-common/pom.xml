@@ -22,6 +22,7 @@
         <module>bush-common-feign</module>
         <module>bush-common-redis</module>
         <module>bush-common-security</module>
+        <module>bush-common-sentinel</module>
     </modules>
 
 </project>

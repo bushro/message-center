@@ -14,7 +14,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import java.util.stream.Collectors;
 
 /**
- * 全局异常处理
+ * 全局异常处理 只捕获Controller层的异常
  *
  * @author luo.qiang
  * @date 2022/10/30

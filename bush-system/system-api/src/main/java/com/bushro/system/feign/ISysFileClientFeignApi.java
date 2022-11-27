@@ -1,5 +1,6 @@
 package com.bushro.system.feign;
 
+import com.bushro.common.core.constant.ServiceNameConstants;
 import com.bushro.common.core.util.R;
 import com.bushro.system.entity.SysFile;
 import com.bushro.system.feign.fallback.ISysFileClientFeignFallback;
@@ -13,9 +14,9 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @author: luoq
  * @date: 2022/11/21
  */
-@FeignClient(value = "system-server",
+@FeignClient(value = ServiceNameConstants.SYSTEM_SERVICE,
         path = "/system-server/sysFileClient",
-        contextId = "ISysFileClientFeignApi",
+        contextId = "iSysFileClientFeignApi",
         fallback = ISysFileClientFeignFallback.class)
 public interface ISysFileClientFeignApi {
 

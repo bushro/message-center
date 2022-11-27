@@ -15,19 +15,28 @@
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
     <dependencies>
-        <!--core 工具类-->
-        <dependency>
-            <groupId>com.bushro</groupId>
-            <artifactId>bush-common-core</artifactId>
-        </dependency>
         <!--mybatis plus extension,包含了mybatis plus core-->
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-extension</artifactId>
         </dependency>
+
+        <!--feign 远程rpc-->
         <dependency>
             <groupId>com.bushro</groupId>
             <artifactId>bush-common-feign</artifactId>
+        </dependency>
+
+        <!--sentinel流量监控，熔断降级-->
+        <dependency>
+            <groupId>com.bushro</groupId>
+            <artifactId>bush-common-sentinel</artifactId>
+        </dependency>
+
+        <!--core 工具类-->
+        <dependency>
+            <groupId>com.bushro</groupId>
+            <artifactId>bush-common-core</artifactId>
         </dependency>
     </dependencies>
 </project>

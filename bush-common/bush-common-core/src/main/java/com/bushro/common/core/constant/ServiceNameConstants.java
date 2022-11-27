@@ -28,16 +28,17 @@ public interface ServiceNameConstants {
 	/**
 	 * 认证中心
 	 */
-	String AUTH_SERVICE = "ssa-auth";
+	String AUTH_SERVICE = "auth-server";
 
 	/**
-	 * UMPS模块
+	 * 系统模块
 	 */
-	String UPMS_SERVICE = "ssa-upms-biz";
+	String SYSTEM_SERVICE = "system-server";
 
 	/**
-	 * 分布式事务协调服务
+	 * 消息模块
 	 */
-	String TX_MANAGER = "ssa-tx-manager";
+	String MESSAGE_SERVICE = "message-server";
+
 
 }

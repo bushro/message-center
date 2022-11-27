@@ -1,4 +1,20 @@
+spring:
+  main:
+    allow-circular-references: true
+
 # Logger Config
 logging:
   level:
     com.bushro.system.mapper: debug
+
+
+# 阿里云配置
+oss:
+  path-style-access: false #使用云OSS 需要关闭
+  endpoint: oss-cn-beijing.aliyuncs.com #对应上图 ③ 处配置
+  access-key: LTAIHjYy6c1WUcyQ # 上文创建的AK
+  secret-key: m2Vd8vxmlQ5tXS8qOClhXHbqWvZGF4 # 上文创建的SK
+  bucketName: bushro-oos # 上文创建的桶名称
+
+file:
+  prefix: https://bushro-oos.oss-cn-beijing.aliyuncs.com

@@ -1,4 +1,6 @@
 spring:
+  # main:
+  #   allow-circular-references: true
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
@@ -11,7 +13,7 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
-# 数据源
+  # 数据源
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
@@ -60,6 +62,19 @@ mybatis-plus:
   configuration:
     jdbc-type-for-null: 'null'
     call-setters-on-nulls: true
+
+
+# feign配置
+feign:
+  # openfeign整合sentinel，开启sentinel监控功能
+  sentinel:
+    enabled: true
+  # 开启Feign的熔断功能 默认是关闭的
+  hystrix:
+    enabled: true
+  circuitbreaker:
+    enabled: true
+  rule-type: WEIGHT # 负载均衡策略
 
 # swagger 全局配置
 knife4j:

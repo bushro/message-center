@@ -1,6 +1,7 @@
 package com.bushro.system.feign;
 
 
+import com.bushro.common.core.constant.ServiceNameConstants;
 import com.bushro.common.core.util.R;
 import com.bushro.system.feign.fallback.ISysOauthClientFeignFallback;
 import com.bushro.system.vo.SysOauthClientVO;
@@ -17,9 +18,9 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @description
  * @date 2021/8/19 11:22
  */
-@FeignClient(value = "system-server",
+@FeignClient(value = ServiceNameConstants.SYSTEM_SERVICE,
         path = "/system-server/oauthClient",
-        contextId = "ISysOauthClientFeignApi",
+        contextId = "iSysOauthClientFeignApi",
         fallback = ISysOauthClientFeignFallback.class)
 public interface ISysOauthClientFeignApi {
 

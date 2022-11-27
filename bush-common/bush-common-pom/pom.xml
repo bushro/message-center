@@ -79,6 +79,12 @@
                 <artifactId>bush-common-feign</artifactId>
                 <version>${bush.version}</version>
             </dependency>
+            <!--sentinel流量监控，熔断降级-->
+            <dependency>
+                <groupId>com.bushro</groupId>
+                <artifactId>bush-common-sentinel</artifactId>
+                <version>${bush.version}</version>
+            </dependency>
             <!--redis组件-->
             <dependency>
                 <groupId>com.bushro</groupId>

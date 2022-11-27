@@ -15,7 +15,7 @@
 	<description>nacos 注册配置中心</description>
 
 	<properties>
-		<nacos.version>2.0.3</nacos.version>
+		<nacos.version>2.1.1</nacos.version>
 	</properties>
 
 	<dependencies>
@@ -40,6 +40,13 @@
 			<artifactId>nacos-istio</artifactId>
 			<version>${nacos.version}</version>
 		</dependency>
+
+		<dependency>
+			<groupId>io.springboot.nacos</groupId>
+			<artifactId>nacos-plugin-default-impl</artifactId>
+			<version>${nacos.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>

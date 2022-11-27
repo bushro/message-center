@@ -29,6 +29,7 @@ public class SysOauthClientFeignService implements ISysOauthClientFeignApi {
 
     @Override
     public R<SysOauthClientVO> getClient(String clientId) {
+//        int aa = 1 / 0;
         return R.ok(this.sysOauthClientService.detail(clientId));
     }
 
