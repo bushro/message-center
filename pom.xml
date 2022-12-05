@@ -102,6 +102,11 @@
             <version>${fastjson.version}</version>
         </dependency>
 
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+		</dependency>
+
 		<!-- google-guava工具包 -->
 		<!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
 		<dependency>

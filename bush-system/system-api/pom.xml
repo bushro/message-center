@@ -28,10 +28,10 @@
         </dependency>
 
         <!--sentinel流量监控，熔断降级-->
-        <dependency>
-            <groupId>com.bushro</groupId>
-            <artifactId>bush-common-sentinel</artifactId>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.bushro</groupId>-->
+<!--            <artifactId>bush-common-sentinel</artifactId>-->
+<!--        </dependency>-->
 
         <!--core 工具类-->
         <dependency>

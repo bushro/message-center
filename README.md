@@ -12,7 +12,7 @@
 
 | 依赖名称               | 版本   |
 | ---------------------- | ------ |
-| Spring Cloud Alibaba   | 2021.1 |
+| Spring Cloud Alibaba   | 2021.0.4.0 |
 | Spring Boot            | 2.7.4  |
 | Spring-security-oauth2 | 2.3.6  |
 | swagger2               | 3.0.0  |

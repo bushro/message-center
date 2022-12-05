@@ -13,6 +13,12 @@
     <artifactId>bush-common-feign</artifactId>
 
     <dependencies>
+        <!--core 工具类-->
+        <dependency>
+            <groupId>com.bushro</groupId>
+            <artifactId>bush-common-core</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <!--注册中心客户端-->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
@@ -23,6 +29,16 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <!--限流、降级-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-sentinel</artifactId>
+        </dependency>
+        <!-- Sentinel规则持久化至Nacos -->
+        <dependency>
+            <groupId>com.alibaba.csp</groupId>
+            <artifactId>sentinel-datasource-nacos</artifactId>
         </dependency>
         <!-- Nacos 2021 放弃ribbon后使用 LoadBalancer + Nacos 做负载均衡 实现同集群优先调用以及权重算法 -->
         <dependency>
