@@ -1,3 +1,4 @@
+# 通用配置 所有应用都会使用这里面的配置
 spring:
   # main:
   #   allow-circular-references: true

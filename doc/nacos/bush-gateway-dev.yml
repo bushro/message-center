@@ -62,12 +62,3 @@ gateway:
       # 通用接口
       - /commons
 
-
-# 监控： http://127.0.0.1:18090/actuator/gateway/routes
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"
-
-
